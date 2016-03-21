@@ -1,3 +1,3 @@
 # GraduationDesign
 GraduationDesign
-branch2
+my_branch2

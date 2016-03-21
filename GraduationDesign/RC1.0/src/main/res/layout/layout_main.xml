@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.muguihai.rc1.view.slidemenu.MyLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/my_layout"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#18B4ED" >
+        <ImageView
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="30dp"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/iv_head"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/my" />
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/main_tv_title"
+            android:text="会话"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp" />
+
+        <TextView
+            android:id="@+id/tv_add"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/selector_add" />
+
+    </RelativeLayout>
+    
+   <FrameLayout
+        android:id="@+id/frame"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:focusable="false"
+        android:clickable="false"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="57dp">
+        <View
+            android:focusable="false"
+            android:clickable="false"
+            android:layout_marginBottom="5dp"
+            android:background="#CCC"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <LinearLayout
+            android:focusable="false"
+            android:orientation="horizontal"
+            android:clickable="false"
+            android:id="@+id/main_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.muguihai.rc1.view.slidemenu.MyLinearLayout>

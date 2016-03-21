@@ -1,0 +1,14 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ListView
+        android:layout_marginRight="0dp"
+        android:id="@+id/pop_add"
+        android:listSelector="@android:color/transparent"
+        android:divider="#ccc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

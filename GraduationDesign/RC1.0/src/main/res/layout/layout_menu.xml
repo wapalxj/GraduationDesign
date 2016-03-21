@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@mipmap/bg"
+    android:paddingLeft="20dp"
+    android:paddingTop="50dp" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/my" />
+        <LinearLayout
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="#FFF"
+                    android:text="账户："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/mine_account"
+                    android:textSize="14sp"
+                    android:textColor="#FFF"
+                    android:text="xxx"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="#FFF"
+                    android:text="昵称："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/mine_nickname"
+                    android:text="xxx"
+                    android:textSize="14sp"
+                    android:textColor="#FFF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/mine_signature"
+        android:layout_marginTop="5dp"
+        android:textColor="#FFF"
+        android:text="xxx"
+        android:singleLine="true"
+        android:textSize="14sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/menu_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:listSelector="@android:color/transparent" >
+
+        <LinearLayout
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="bottom"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/gender"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+            <TextView
+                android:textColor="#FFF"
+                android:text="性别："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/mine_gender"
+                android:text="xxx"
+                android:textSize="18sp"
+                android:textColor="#FFF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="bottom"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/tel"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+            <TextView
+                android:textColor="#FFF"
+                android:text="电话："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/mine_tel"
+                android:text="xxx"
+                android:textSize="18sp"
+                android:textColor="#FFF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="bottom"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/search"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+            <TextView
+                android:textColor="#FFF"
+                android:text="地址："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/mine_addr"
+                android:text="xxx"
+                android:textSize="18sp"
+                android:textColor="#FFF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="bottom"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/mail"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+            <TextView
+                android:textColor="#FFF"
+                android:text="邮箱："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/mine_email"
+                android:text="xxx"
+                android:textSize="18sp"
+                android:textColor="#FFF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <Button
+            android:layout_marginTop="50dp"
+            android:id="@+id/close_cur_account"
+            android:text="退出当前账号"
+            android:background="@drawable/selector_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_weight="1.06"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TextView
+            android:id="@+id/slide_setting"
+            android:textColor="#FFF"
+            android:layout_gravity="bottom"
+            android:text="设置"
+            android:textSize="18sp"
+            android:drawableLeft="@drawable/setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:visibility="gone"
+            android:textColor="#FFF"
+            android:layout_gravity="center_horizontal"
+            android:text="21°"
+            android:textSize="40sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView3"
+            android:layout_alignLeft="@+id/textView3"
+            android:layout_alignStart="@+id/textView3" />
+
+        <TextView
+            android:visibility="gone"
+            android:textColor="#FFF"
+            android:layout_gravity="bottom"
+            android:text="昆明"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="90dp"
+            android:layout_marginEnd="90dp" />
+
+    </RelativeLayout>
+</LinearLayout>
