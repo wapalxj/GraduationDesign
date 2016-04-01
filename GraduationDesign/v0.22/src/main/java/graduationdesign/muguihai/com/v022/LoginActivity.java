@@ -15,12 +15,15 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.XMPPError;
 
+import service.IMService;
+import service.PushService;
 import utils.ThreadUtils;
 import utils.ToastUtils;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String SERVER ="113.55.45.175";//IP
+    private static final String SERVER ="113.55.78.230";//IP
     private static final int PORT=5222;//port
+    public static final String SERVICENAME	= "vero";
     private EditText mEtUsername;
     private EditText mEtPassword;
     private Button mBtnLogin;
@@ -87,7 +90,24 @@ public class LoginActivity extends AppCompatActivity {
             //登录
             conn.login(username, password);
             ToastUtils.myToast(getApplicationContext(), "登录成功");
+
+
+            //保存连接对象
+            IMService.conn=conn;
+            //保存当前登录账户
+            username=username+"@"+LoginActivity.SERVICENAME;
+            IMService.current_account=username;//user@vero
+            //启动IMService
+            Intent intent =new Intent(getApplicationContext(),IMService.class);
+            startService(intent);
+
+            //启动pushService
+            Intent intent2 =new Intent(getApplicationContext(), PushService.class);
+            startService(intent2);
+
+            //跳到主界面
             jeepToMain();
+
         } catch (XMPPException e) {
             e.printStackTrace();
             XMPPError error = e.getXMPPError();
@@ -97,7 +117,9 @@ public class LoginActivity extends AppCompatActivity {
                 case 401:
                     err="账号或者密码不正确";
                     break;
-                case 502:
+                case 502 :
+                case 504 :
+                case 404 :
                     err="服务器连接失败，请检查网络连接";
                     break;
                 case 408:
@@ -111,6 +133,7 @@ public class LoginActivity extends AppCompatActivity {
     public void jeepToMain(){
         Intent intent=new Intent(LoginActivity.this,MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
 }

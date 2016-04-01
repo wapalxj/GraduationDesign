@@ -43,6 +43,37 @@
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
+
+        <provider
+            android:name="provider.ContactsProvider"
+            android:authorities="provider.ContactsProvider"
+            android:enabled="true"
+            android:exported="true" >
+        </provider>
+
+        <service
+            android:name="service.IMService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <activity
+            android:name=".ChatActivity"
+            android:label="@string/title_activity_chat" >
+        </activity>
+
+        <provider
+            android:name="provider.SmsProvider"
+            android:authorities="provider.SmsProvider"
+            android:enabled="true"
+            android:exported="true" >
+        </provider>
+
+        <service
+            android:name="service.PushService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GraduationDesign.iml" filepath="$PROJECT_DIR$/GraduationDesign.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eIM/eIM.iml" filepath="$PROJECT_DIR$/eIM/eIM.iml" />
       <module fileurl="file://$PROJECT_DIR$/v0.22/v0.22.iml" filepath="$PROJECT_DIR$/v0.22/v0.22.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xX/xX.iml" filepath="$PROJECT_DIR$/xX/xX.iml" />
     </modules>
   </component>
 </project>

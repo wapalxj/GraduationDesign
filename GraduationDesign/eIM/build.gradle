@@ -1,0 +1,32 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "csdn.shimiso.eim"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+
+//        testApplicationId "csdn.shimiso.eim"
+//        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    //    compile 'com.android.support:support-v4:18.+'
+    compile files('libs/asmack-jse-buddycloud-2010.12.11.jar')
+    compile files('src/main/java/android-support-v4.jar')
+    compile files('src/main/java/asmack-jse-buddycloud-2010.12.11.jar')
+    compile files('libs/org.apache.http.legacy.jar')
+}
