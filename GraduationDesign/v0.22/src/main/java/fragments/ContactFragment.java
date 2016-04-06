@@ -22,6 +22,7 @@ import dbhelper.ContactOpenHelper;
 import graduationdesign.muguihai.com.v022.ChatActivity;
 import graduationdesign.muguihai.com.v022.R;
 import provider.ContactsProvider;
+import service.IMService;
 import utils.ThreadUtils;
 
 /**
@@ -73,11 +74,11 @@ public class ContactFragment extends Fragment {
                 //获取JID:用于发送消息
                 String account=cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.ACCOUNT));
                 //nickname:用于显示
-                String nicknama= cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.NICKNAME));
+                String nickname= cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.NICKNAME));
 
                 Intent intent =new Intent(getActivity(),ChatActivity.class);
                 intent.putExtra(ChatActivity.CHAT_ACCOUNT,account);
-                intent.putExtra(ChatActivity.CHAT_NICKNAME,nicknama);
+                intent.putExtra(ChatActivity.CHAT_NICKNAME,nickname);
                 startActivity(intent);
             }
         });
@@ -111,7 +112,9 @@ public class ContactFragment extends Fragment {
             @Override
             public void run() {
                 //对应查询记录
-                final Cursor cursor = getActivity().getContentResolver().query(ContactsProvider.URI_CONTACT, null, null, null, null);
+                final Cursor cursor = getActivity().getContentResolver().query(ContactsProvider.URI_CONTACT, null,
+                        "belong_to = ?",
+                        new String[]{IMService.current_account}, null);
 
                 //没有数据
                 if (cursor.getCount() <= 0) {
@@ -164,7 +167,7 @@ public class ContactFragment extends Fragment {
     }
 
     /**
-     * 实时监听器，侦听聊天记录数据库数据的改变
+     * 实时监听器，侦听联系人数据库数据的改变
      */
 
     MyContentObserver myContentObserver=new MyContentObserver(new Handler());

@@ -180,19 +180,19 @@ public class MainActivity extends ActivitySupport {
 	 * @update 2012-5-16 下午7:15:21
 	 */
 	protected void loadMenuList() {
-		list = new ArrayList<MainPageItem>();
+		list = new ArrayList<>();
 		list.add(new MainPageItem("我的联系人", R.drawable.mycontacts));
 		list.add(new MainPageItem("我的消息", R.drawable.mynotice));
-		list.add(new MainPageItem("企业通讯录", R.drawable.e_contact));
-		list.add(new MainPageItem("个人通讯录", R.drawable.p_contact));
-		list.add(new MainPageItem("邮件", R.drawable.email));
-		list.add(new MainPageItem("单点登录", R.drawable.sso));
-		list.add(new MainPageItem("个人文件夹", R.drawable.p_folder));
-		list.add(new MainPageItem("我的笔记", R.drawable.mynote));
-		list.add(new MainPageItem("我的签到", R.drawable.signin));
-		list.add(new MainPageItem("我的工作日报", R.drawable.mydaily));
-		list.add(new MainPageItem("我的日程", R.drawable.mymemo));
-		list.add(new MainPageItem("设置", R.drawable.set));
+//		list.add(new MainPageItem("企业通讯录", R.drawable.e_contact));
+//		list.add(new MainPageItem("个人通讯录", R.drawable.p_contact));
+//		list.add(new MainPageItem("邮件", R.drawable.email));
+//		list.add(new MainPageItem("单点登录", R.drawable.sso));
+//		list.add(new MainPageItem("个人文件夹", R.drawable.p_folder));
+//		list.add(new MainPageItem("我的笔记", R.drawable.mynote));
+//		list.add(new MainPageItem("我的签到", R.drawable.signin));
+//		list.add(new MainPageItem("我的工作日报", R.drawable.mydaily));
+//		list.add(new MainPageItem("我的日程", R.drawable.mymemo));
+//		list.add(new MainPageItem("设置", R.drawable.set));
 	}
 
 	@Override

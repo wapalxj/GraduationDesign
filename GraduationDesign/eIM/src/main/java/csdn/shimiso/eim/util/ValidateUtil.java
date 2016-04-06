@@ -11,15 +11,15 @@ import android.widget.TextView;
 
 /**
  * 正在表达式验证工具类（验证身份证、车牌号等）
- * 
+ *
  * @author iStar
- * 
+ *
  */
 public class ValidateUtil {
 
 	/**
 	 * 验证str是否为正确的身份证格式
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 */
@@ -102,7 +102,7 @@ public class ValidateUtil {
 
 	/**
 	 * 不为空时，验证str是否为正确的身份证格式
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 */
@@ -187,7 +187,7 @@ public class ValidateUtil {
 
 	/**
 	 * 验证str是否为正确的身份证格式
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 */
@@ -258,7 +258,7 @@ public class ValidateUtil {
 
 	/**
 	 * 验证str是否为正确的车牌号
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 */

@@ -74,6 +74,13 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <provider
+            android:name="provider.PacketProvider"
+            android:authorities="provider.PacketProvider"
+            android:enabled="true"
+            android:exported="true" >
+        </provider>
     </application>
 
 </manifest>

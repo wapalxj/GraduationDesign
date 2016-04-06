@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class SessionFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.i("SessionFragment","onCreate");
         init();
         super.onCreate(savedInstanceState);
     }
@@ -45,6 +47,7 @@ public class SessionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i("SessionFragment","onCreateView");
         View view=inflater.inflate(R.layout.fragment_session, container, false);
         initView(view);
         return view;
@@ -52,6 +55,7 @@ public class SessionFragment extends Fragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        Log.i("SessionFragment","onActivityCreated");
         initData();
         initListener();
         super.onActivityCreated(savedInstanceState);
@@ -115,6 +119,7 @@ public class SessionFragment extends Fragment {
                 //对应查询记录
                 final Cursor cursor = getActivity().getContentResolver().query(SmsProvider.URI_SESSION, null, null,
                         new String[]{IMService.current_account, IMService.current_account}, null);
+
 
                 //删除某个会话
 //                getContext().getContentResolver().delete(

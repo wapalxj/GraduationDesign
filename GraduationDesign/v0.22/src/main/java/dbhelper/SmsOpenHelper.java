@@ -23,6 +23,7 @@ public class SmsOpenHelper extends SQLiteOpenHelper{
          * type:类型
          * time:发送时间
          * session_account:会话id
+         * session_belong_to:会话属于谁
          */
         public static final String FROM_ACCOUNT="from_account";
         public static final String TO_ACCOUNT="to_account";
@@ -49,7 +50,7 @@ public class SmsOpenHelper extends SQLiteOpenHelper{
                     SmsTable.TYPE+" TEXT," +
                     SmsTable.TIME+" TEXT," +
                     SmsTable.SESSION_ACCOUNT+" TEXT" +
-                    ")";
+                    ");";
 
         db.execSQL(sql);
     }

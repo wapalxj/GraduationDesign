@@ -33,7 +33,6 @@ public class ToolBarUtil {
             mTextViews.add(tv);
 
             //设置toolbar按钮点击
-
             final int finalI = i;
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override

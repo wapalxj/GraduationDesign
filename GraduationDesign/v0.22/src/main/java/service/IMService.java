@@ -46,7 +46,7 @@ public class IMService extends Service{
 
     private ChatManager chatManager;
     private Chat mCurChat;
-    private Map<String,Chat> mChatMap=new HashMap<>();//存储所有chat
+    private Map<String,Chat> mChatMap;//存储所有chat
 
     @Nullable
     @Override
@@ -64,62 +64,111 @@ public class IMService extends Service{
     public void onCreate() {
         Log.i("service","service---onCreate");
         //同步roster
-        ThreadUtils.runInThread(new Runnable() {
-            @Override
-            public void run() {
-                Log.i("service","--------同步roster_begin------");
-                //获取所有联系人
-                //连接对象
-                //获取Roster
-                roster = IMService.conn.getRoster();
-                //得到所有联系人
-                final Collection<RosterEntry> entries= roster.getEntries();
-                //打印所有联系人
-                for (RosterEntry entry:entries) {
-                    System.out.print(entry.toString()+"----");
-                    System.out.print(entry.getUser()+"----");
-                    System.out.print(entry.getName()+"----");
-                    System.out.print(entry.getStatus()+"----");
-                    System.out.print(entry.getType()+"----");
-                    System.out.println(" ");
-                }
-                //监听联系人的改变
-                rosterlistener=new MyRosterlistener();
-                roster.addRosterListener(rosterlistener);
-
-
-                for (RosterEntry entry: entries) {
-                    saveOrUpdateEntry(entry);
-                }
-
-                Log.i("service","--------同步roster_end------");
-
-                Log.i("service","--------消息监听处理------");
-                //1.获取消息管理者
-                if (chatManager==null){
-                    chatManager = IMService.conn.getChatManager();
-                }
-
-                //会话监听器:当参与者住的发起会话的时候的监听
-                chatManager.addChatListener(myChatManagerListener);
-
-                Log.i("service","--------消息监听处理end------");
-
-
-            }
-        });
+//        ThreadUtils.runInThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.i("service","--------同步roster_begin------");
+//                //获取所有联系人
+//                //连接对象
+//                //获取Roster
+//                roster = IMService.conn.getRoster();
+//                //得到所有联系人
+//                final Collection<RosterEntry> entries= roster.getEntries();
+//                //打印所有联系人
+//                for (RosterEntry entry:entries) {
+//                    System.out.print(entry.toString()+"----");
+//                    System.out.print(entry.getUser()+"----");
+//                    System.out.print(entry.getName()+"----");
+//                    System.out.print(entry.getStatus()+"----");
+//                    System.out.print(entry.getType()+"----");
+//                    System.out.println(" ");
+//                }
+//                //监听联系人的改变
+//                rosterlistener=new MyRosterlistener();
+//                roster.addRosterListener(rosterlistener);
+//
+//
+//                for (RosterEntry entry: entries) {
+//                    saveOrUpdateEntry(entry);
+//                }
+//
+//                Log.i("service","--------同步roster_end------");
+//
+//                Log.i("service","--------消息监听处理------");
+//                //1.获取消息管理者
+//                if (chatManager==null){
+//                    chatManager = IMService.conn.getChatManager();
+//                }
+//
+//                //会话监听器:当参与者住的发起会话的时候的监听
+//                chatManager.addChatListener(myChatManagerListener);
+//
+//                Log.i("service","--------消息监听处理end------");
+//
+//
+//            }
+//        });
         super.onCreate();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("service","service---onStartCommand");
+        //同步roster
+        ThreadUtils.runInThread(new Runnable() {
+            @Override
+            public void run() {
+                mChatMap=new HashMap<>();
+                myMessageListener=new MyMessageListener();
+                myChatManagerListener =new MyChatManagerListener();
+                Log.i("service", "--------同步roster_begin------");
+                //获取所有联系人
+                //连接对象
+                //获取Roster
+                roster = IMService.conn.getRoster();
+                //得到所有联系人
+                final Collection<RosterEntry> entries = roster.getEntries();
+                //打印所有联系人
+                for (RosterEntry entry : entries) {
+                    System.out.print(entry.toString() + "----");
+                    System.out.print(entry.getUser() + "----");
+                    System.out.print(entry.getName() + "----");
+                    System.out.print(entry.getStatus() + "----");
+                    System.out.print(entry.getType() + "----");
+                    System.out.println(" ");
+                }
+                //监听联系人的改变
+                rosterlistener = new MyRosterlistener();
+                roster.addRosterListener(rosterlistener);
+
+
+                for (RosterEntry entry : entries) {
+                    saveOrUpdateEntry(entry);
+                }
+
+                Log.i("service", "--------同步roster_end------");
+
+                Log.i("service", "--------消息监听处理------");
+                //1.获取消息管理者
+                if (chatManager == null) {
+                    chatManager = IMService.conn.getChatManager();
+                }
+
+                //会话监听器:当参与者住的发起会话的时候的监听
+                chatManager.addChatListener(myChatManagerListener);
+
+                Log.i("service", "--------消息监听处理end------");
+
+
+            }
+        });
         return super.onStartCommand(intent, flags, startId);
+
     }
 
     @Override
     public void onDestroy() {
-        Log.i("service","service---onDestroy");
+        Log.i("service","IMService---onDestroy");
         //移除联系人监听
         if (roster!=null&&rosterlistener!=null){
             roster.removeRosterListener(rosterlistener);
@@ -182,7 +231,8 @@ public class IMService extends Service{
         }
     }
 
-    MyMessageListener myMessageListener=new MyMessageListener();
+//    MyMessageListener myMessageListener=new MyMessageListener();
+      MyMessageListener myMessageListener;
 
     /**
      *消息监听器
@@ -205,11 +255,11 @@ public class IMService extends Service{
             saveMessage(participant, message);
         }
     }
-    MyChatManagerListener myChatManagerListener =new MyChatManagerListener();
-
+//    MyChatManagerListener myChatManagerListener =new MyChatManagerListener();
+    MyChatManagerListener myChatManagerListener;
     /**
      * 会话Chat监听器
-     */
+    */
     class MyChatManagerListener implements ChatManagerListener{
             @Override
             public void chatCreated(Chat chat, boolean createLocally) {
@@ -225,25 +275,24 @@ public class IMService extends Service{
                 }
 
                 if (createLocally){
-                    Log.i("chatCreated","我创建的chat,jid="+chat.getParticipant());
+                    Log.i("chatCreated","我："+IMService.current_account+":创建的chat,jid="+chat.getParticipant());
                     //jid:v1@vero
                 }else {
                     Log.i("chatCreated","别人创建的chat,jid="+chat.getParticipant());
                     //jid:v1@vero/Spark 2.6.3
                 }
-
-
         }
     }
 
     /**
-     * 更新或者插入
+     * 更新或者插入联系人
      */
     private void saveOrUpdateEntry(RosterEntry entry){
         ContentValues values=new ContentValues();
         String account=entry.getUser();
         String nickName=entry.getName();
         String pinyinName=entry.getName();
+        String belong_to=IMService.current_account;
         PinyinUtil.strToPinyin(account);
         if (nickName==null||"".equals(nickName)){
             nickName=account.substring(0,account.indexOf("@"));
@@ -253,10 +302,12 @@ public class IMService extends Service{
         values.put(ContactOpenHelper.ContactTable.NICKNAME,nickName);
         values.put(ContactOpenHelper.ContactTable.AVATAR, "0");
         values.put(ContactOpenHelper.ContactTable.PINYIN, pinyinName);
+        values.put(ContactOpenHelper.ContactTable.BELONG_TO, belong_to);
 
         //先update在insert
         int uCount=getContentResolver().update(ContactsProvider.URI_CONTACT,
-                values, ContactOpenHelper.ContactTable.ACCOUNT + "=?", new String[]{account});
+                values, ContactOpenHelper.ContactTable.ACCOUNT + "=? and "+ContactOpenHelper.ContactTable.BELONG_TO+ "=?",
+                new String[]{account,IMService.current_account});
 
         if (uCount<=0){
             getContentResolver().insert(ContactsProvider.URI_CONTACT,values);

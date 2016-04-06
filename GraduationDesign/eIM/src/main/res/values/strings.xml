@@ -79,7 +79,7 @@
     
     <!-- 缺省的服务器配置 --> 
     <integer name="xmpp_port">5222</integer> 
-    <string name="xmpp_host">113.55.78.230</string>
+    <string name="xmpp_host">113.55.81.247</string>
     <string name="xmpp_service_name">vero</string>
     <bool name="is_remember">true</bool>
     <bool name="is_autologin">false</bool>

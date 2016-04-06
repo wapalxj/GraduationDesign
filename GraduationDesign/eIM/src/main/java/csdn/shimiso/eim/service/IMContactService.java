@@ -99,6 +99,9 @@ public class IMContactService extends Service {
 				.getConnection());
 	}
 
+	/**
+	 * 好友申请监听
+	 */
 	private PacketListener subscriptionPacketListener = new PacketListener() {
 
 		@Override

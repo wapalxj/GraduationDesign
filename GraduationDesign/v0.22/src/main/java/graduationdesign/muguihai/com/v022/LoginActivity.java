@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 
 import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.XMPPError;
@@ -21,7 +22,7 @@ import utils.ThreadUtils;
 import utils.ToastUtils;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String SERVER ="113.55.78.230";//IP
+    private static final String SERVER ="113.55.66.163";//IP
     private static final int PORT=5222;//port
     public static final String SERVICENAME	= "vero";
     private EditText mEtUsername;
@@ -40,50 +41,61 @@ public class LoginActivity extends AppCompatActivity {
     public void init(){
         mEtUsername= (EditText) findViewById(R.id.et_username);
         mEtPassword= (EditText) findViewById(R.id.et_password);
-        mBtnLogin= (Button) findViewById(R.id.btn_login);
-        mBtnRegister= (Button) findViewById(R.id.btn_register);
-        mBtnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                username = mEtUsername.getText().toString();
-                password = mEtPassword.getText().toString();
-                //判断用户名
-                if (TextUtils.isEmpty(username)) {
-                    mEtUsername.setError("用户名不能为空");
-                    return;
-                } else if (TextUtils.isEmpty(password)) {
-                    mEtPassword.setError("密码不能为空");
-                    return;
-                }else {
-                    ThreadUtils.runInThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            createConnection();
-                        }
-                    });
+            mBtnLogin= (Button) findViewById(R.id.btn_login);
+            mBtnRegister= (Button) findViewById(R.id.btn_register);
+            mBtnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    username = mEtUsername.getText().toString();
+                    password = mEtPassword.getText().toString();
+                    //判断用户名
+                    if (TextUtils.isEmpty(username)) {
+                        mEtUsername.setError("用户名不能为空");
+                        return;
+                    } else if (TextUtils.isEmpty(password)) {
+                        mEtPassword.setError("密码不能为空");
+                        return;
+                    }else {
+                        ThreadUtils.runInThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                createConnection();
+                            }
+                        });
 
+                    }
                 }
-            }
-        });
-        mBtnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(LoginActivity.this,RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
+            });
+            mBtnRegister.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(LoginActivity.this,RegisterActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
 
-    //创建连接
+        //创建连接
     public void createConnection(){
         //创建配置
-        ConnectionConfiguration config =new ConnectionConfiguration(SERVER,PORT);
+        ConnectionConfiguration configuration =new ConnectionConfiguration(SERVER,PORT);
         //额外的配置:上线则改回来
-        config.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);//明文传输
-        config.setDebuggerEnabled(true);//调试模式，方便查看具体内容
-        config.setSASLAuthenticationEnabled(false);
+        configuration.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);//明文传输
+        configuration.setDebuggerEnabled(true);//调试模式，方便查看具体内容
+        configuration.setSASLAuthenticationEnabled(false);
+
+        //
+        // 允许自动连接
+        configuration.setReconnectionAllowed(false);
+        // 允许登陆成功后更新在线状态
+        configuration.setSendPresence(true);
+        // 收到好友邀请后manual表示需要经过同意,accept_all表示不经同意自动为好友
+//        Roster.setDefaultSubscriptionMode(Roster.SubscriptionMode.accept_all);
+        Roster.setDefaultSubscriptionMode(Roster.SubscriptionMode.manual);
+        //
+
         //创建连接对象
-        XMPPConnection conn=new XMPPConnection(config);
+        XMPPConnection conn=new XMPPConnection(configuration);
         //连接
         try {
             conn.connect();

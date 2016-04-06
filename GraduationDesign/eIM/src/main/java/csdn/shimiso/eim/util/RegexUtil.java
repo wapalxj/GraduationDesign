@@ -53,7 +53,7 @@ public class RegexUtil {
 
 	/**
 	 * 车牌号码是否正确
-	 * 
+	 *
 	 * @param s
 	 * @return
 	 */
@@ -64,7 +64,7 @@ public class RegexUtil {
 
 	/**
 	 * 证件号码是否正确
-	 * 
+	 *
 	 * @param s
 	 * @return
 	 */
@@ -75,7 +75,7 @@ public class RegexUtil {
 
 	/**
 	 * 编码是否正确
-	 * 
+	 *
 	 * @param s
 	 * @return
 	 */
@@ -86,7 +86,7 @@ public class RegexUtil {
 
 	/**
 	 * 固话编码是否正确
-	 * 
+	 *
 	 * @param s
 	 * @return
 	 */
@@ -97,7 +97,7 @@ public class RegexUtil {
 
 	/**
 	 * 邮政编码是否正确
-	 * 
+	 *
 	 * @param s
 	 * @return
 	 */
@@ -108,7 +108,7 @@ public class RegexUtil {
 
 	/**
 	 * 面积是否正确
-	 * 
+	 *
 	 * @param s
 	 * @return
 	 */
@@ -119,7 +119,7 @@ public class RegexUtil {
 
 	/**
 	 * 手机号码否正确
-	 * 
+	 *
 	 * @param s
 	 * @return
 	 */
@@ -130,7 +130,7 @@ public class RegexUtil {
 
 	/**
 	 * 银行账号否正确
-	 * 
+	 *
 	 * @param s
 	 * @return
 	 */

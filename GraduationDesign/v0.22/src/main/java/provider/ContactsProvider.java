@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import dbhelper.ContactOpenHelper;
+import service.IMService;
 
 public class ContactsProvider extends ContentProvider {
 
@@ -64,7 +65,7 @@ public class ContactsProvider extends ContentProvider {
                     uri=ContentUris.withAppendedId(uri,_id);
 
                     //通知observer数据改变了
-                    ontifyOberver();
+                    notifyObserver();
                 }
                 break;
             default:
@@ -85,7 +86,7 @@ public class ContactsProvider extends ContentProvider {
                     Log.i("ContactProvider","删除成功");
 
                     //通知observer数据改变了
-                    ontifyOberver();
+                    notifyObserver();
                 }
                 break;
             default:
@@ -108,7 +109,7 @@ public class ContactsProvider extends ContentProvider {
                     Log.i("ContactProvider", "更改成功");
 
                     //通知observer数据改变了
-                    ontifyOberver();
+                    notifyObserver();
                 }
                 break;
             default:
@@ -135,7 +136,7 @@ public class ContactsProvider extends ContentProvider {
         return cursor;
     }
 
-    public void ontifyOberver(){
+    public void notifyObserver(){
         //通知observer数据改变了
         getContext().getContentResolver().notifyChange(ContactsProvider.URI_CONTACT,null);
     }
