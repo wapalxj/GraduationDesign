@@ -28,6 +28,8 @@ import csdn.shimiso.eim.model.LoginConfig;
  * @author shimiso
  */
 public class LoginTask extends AsyncTask<String, Integer, Integer> {
+
+
 	private ProgressDialog pd;
 	private Context context;
 	private IActivitySupport activitySupport;

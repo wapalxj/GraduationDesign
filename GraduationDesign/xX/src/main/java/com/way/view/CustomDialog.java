@@ -99,7 +99,7 @@ public class CustomDialog extends Dialog {
 		}
 
 		/**
-		 * Set a custom content view for the Dialog. If a message is set, the
+		 * Set a custom content graduationdesign.muguihai.com.v023.view for the Dialog. If a message is set, the
 		 * contentView is not added to the Dialog...
 		 * 
 		 * @param v

@@ -86,7 +86,7 @@ public class SlidingActivityHelper {
 	}
 
 	/**
-	 * Controls whether the ActionBar slides along with the above view when the menu is opened,
+	 * Controls whether the ActionBar slides along with the above graduationdesign.muguihai.com.v023.view when the menu is opened,
 	 * or if it stays in place.
 	 *
 	 * @param slidingActionBarEnabled True if you want the ActionBar to slide along with the SlidingMenu,
@@ -99,10 +99,10 @@ public class SlidingActivityHelper {
 	}
 
 	/**
-	 * Finds a view that was identified by the id attribute from the XML that was processed in onCreate(Bundle).
+	 * Finds a graduationdesign.muguihai.com.v023.view that was identified by the id attribute from the XML that was processed in onCreate(Bundle).
 	 * 
-	 * @param id the resource id of the desired view
-	 * @return The view if found or null otherwise.
+	 * @param id the resource id of the desired graduationdesign.muguihai.com.v023.view
+	 * @return The graduationdesign.muguihai.com.v023.view if found or null otherwise.
 	 */
 	public View findViewById(int id) {
 		View v;
@@ -127,10 +127,10 @@ public class SlidingActivityHelper {
 	}
 
 	/**
-	 * Register the above content view.
+	 * Register the above content graduationdesign.muguihai.com.v023.view.
 	 *
-	 * @param v the above content view to register
-	 * @param params LayoutParams for that view (unused)
+	 * @param v the above content graduationdesign.muguihai.com.v023.view to register
+	 * @param params LayoutParams for that graduationdesign.muguihai.com.v023.view (unused)
 	 */
 	public void registerAboveContentView(View v, LayoutParams params) {
 		if (!mBroadcasting)
@@ -138,11 +138,11 @@ public class SlidingActivityHelper {
 	}
 
 	/**
-	 * Set the activity content to an explicit view. This view is placed directly into the activity's view
-	 * hierarchy. It can itself be a complex view hierarchy. When calling this method, the layout parameters
-	 * of the specified view are ignored. Both the width and the height of the view are set by default to
-	 * MATCH_PARENT. To use your own layout parameters, invoke setContentView(android.view.View,
-	 * android.view.ViewGroup.LayoutParams) instead.
+	 * Set the activity content to an explicit graduationdesign.muguihai.com.v023.view. This graduationdesign.muguihai.com.v023.view is placed directly into the activity's graduationdesign.muguihai.com.v023.view
+	 * hierarchy. It can itself be a complex graduationdesign.muguihai.com.v023.view hierarchy. When calling this method, the layout parameters
+	 * of the specified graduationdesign.muguihai.com.v023.view are ignored. Both the width and the height of the graduationdesign.muguihai.com.v023.view are set by default to
+	 * MATCH_PARENT. To use your own layout parameters, invoke setContentView(android.graduationdesign.muguihai.com.v023.view.View,
+	 * android.graduationdesign.muguihai.com.v023.view.ViewGroup.LayoutParams) instead.
 	 *
 	 * @param v The desired content to display.
 	 */
@@ -152,11 +152,11 @@ public class SlidingActivityHelper {
 	}
 
 	/**
-	 * Set the behind view content to an explicit view. This view is placed directly into the behind view 's view hierarchy.
-	 * It can itself be a complex view hierarchy.
+	 * Set the behind graduationdesign.muguihai.com.v023.view content to an explicit graduationdesign.muguihai.com.v023.view. This graduationdesign.muguihai.com.v023.view is placed directly into the behind graduationdesign.muguihai.com.v023.view 's graduationdesign.muguihai.com.v023.view hierarchy.
+	 * It can itself be a complex graduationdesign.muguihai.com.v023.view hierarchy.
 	 *
 	 * @param view The desired content to display.
-	 * @param layoutParams Layout parameters for the view. (unused)
+	 * @param layoutParams Layout parameters for the graduationdesign.muguihai.com.v023.view. (unused)
 	 */
 	public void setBehindContentView(View view, LayoutParams layoutParams) {
 		mViewBehind = view;
@@ -180,21 +180,21 @@ public class SlidingActivityHelper {
 	}
 
 	/**
-	 * Close the SlidingMenu and show the content view.
+	 * Close the SlidingMenu and show the content graduationdesign.muguihai.com.v023.view.
 	 */
 	public void showContent() {
 		mSlidingMenu.showContent();
 	}
 
 	/**
-	 * Open the SlidingMenu and show the menu view.
+	 * Open the SlidingMenu and show the menu graduationdesign.muguihai.com.v023.view.
 	 */
 	public void showMenu() {
 		mSlidingMenu.showMenu();
 	}
 
 	/**
-	 * Open the SlidingMenu and show the secondary menu view. Will default to the regular menu
+	 * Open the SlidingMenu and show the secondary menu graduationdesign.muguihai.com.v023.view. Will default to the regular menu
 	 * if there is only one.
 	 */
 	public void showSecondaryMenu() {

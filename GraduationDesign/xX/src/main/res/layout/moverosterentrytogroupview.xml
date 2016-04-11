@@ -18,7 +18,7 @@
         android:text="@string/MoveRosterEntryToGroupDialog_summ"
         android:textColor="@color/color_bai" />
 
-    <com.way.view.GroupNameView
+    <com.way.graduationdesign.muguihai.com.v023.view.GroupNameView
         android:id="@+id/moverosterentrytogroupview_gv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

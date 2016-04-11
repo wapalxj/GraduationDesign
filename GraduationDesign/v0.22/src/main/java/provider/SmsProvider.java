@@ -123,7 +123,7 @@ public class SmsProvider extends ContentProvider {
                 cursor= mHelper.getWritableDatabase().rawQuery(
                         "SELECT * FROM ( " +
                         " SELECT * FROM table_sms WHERE " +
-                        " from_account= ? OR to_account= ? " +
+                        " (from_account= ? OR to_account= ?) and (session_belong_to= ?) " +
                         " ORDER BY time ASC)" +
                         " GROUP BY session_account"
                         ,selectionArgs);

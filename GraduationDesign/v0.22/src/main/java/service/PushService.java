@@ -117,7 +117,7 @@ public class PushService extends Service {
         values.put(PacketOpenHelper.Packet_Table.PACKET_TYPE,packet_type);
         values.put(PacketOpenHelper.Packet_Table.TYPE, t);
         values.put(PacketOpenHelper.Packet_Table.PINYIN, pinyin);
-
+        values.put(PacketOpenHelper.Packet_Table.PACKET_BELONG_TO, IMService.current_account);
         //先update在insert
         int uCount=getContentResolver().update(PacketProvider.URI_PACKET,
                 values, PacketOpenHelper.Packet_Table.PACKET_ACCOUNT_FROM + "=?", new String[]{account});

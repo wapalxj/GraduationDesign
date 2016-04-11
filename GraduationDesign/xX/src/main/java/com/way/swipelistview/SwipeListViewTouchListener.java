@@ -97,9 +97,9 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 	 * @param swipeListView
 	 *            SwipeListView
 	 * @param swipeFrontView
-	 *            front view Identifier
+	 *            front graduationdesign.muguihai.com.v023.view Identifier
 	 * @param swipeBackView
-	 *            back view Identifier
+	 *            back graduationdesign.muguihai.com.v023.view Identifier
 	 */
 	public SwipeListViewTouchListener(SwipeListView swipeListView,
 			int swipeFrontView, int swipeBackView) {
@@ -117,20 +117,20 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 	}
 
 	/**
-	 * Sets current item's parent view
+	 * Sets current item's parent graduationdesign.muguihai.com.v023.view
 	 * 
 	 * @param parentView
-	 *            Parent view
+	 *            Parent graduationdesign.muguihai.com.v023.view
 	 */
 	private void setParentView(View parentView) {
 		this.parentView = parentView;
 	}
 
 	/**
-	 * Sets current item's front view
+	 * Sets current item's front graduationdesign.muguihai.com.v023.view
 	 * 
 	 * @param frontView
-	 *            Front view
+	 *            Front graduationdesign.muguihai.com.v023.view
 	 */
 	private void setFrontView(View frontView) {
 		this.frontView = frontView;
@@ -152,7 +152,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 	}
 
 	/**
-	 * Set current item's back view
+	 * Set current item's back graduationdesign.muguihai.com.v023.view
 	 * 
 	 * @param backView
 	 */
@@ -316,7 +316,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 	 * Open item
 	 * 
 	 * @param view
-	 *            affected view
+	 *            affected graduationdesign.muguihai.com.v023.view
 	 * @param position
 	 *            Position of list
 	 */
@@ -330,7 +330,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 	 * Close item
 	 * 
 	 * @param view
-	 *            affected view
+	 *            affected graduationdesign.muguihai.com.v023.view
 	 * @param position
 	 *            Position of list
 	 */
@@ -344,7 +344,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 	 * Create animation
 	 * 
 	 * @param view
-	 *            affected view
+	 *            affected graduationdesign.muguihai.com.v023.view
 	 * @param swap
 	 *            If state should change. If "false" returns to the original
 	 *            position
@@ -368,7 +368,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 	 * Create dismiss animation
 	 * 
 	 * @param view
-	 *            affected view
+	 *            affected graduationdesign.muguihai.com.v023.view
 	 * @param swap
 	 *            If will change state. If is "false" returns to the original
 	 *            position
@@ -417,7 +417,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 	 * Create reveal animation
 	 * 
 	 * @param view
-	 *            affected view
+	 *            affected graduationdesign.muguihai.com.v023.view
 	 * @param swap
 	 *            If will change state. If "false" returns to the original
 	 *            position
@@ -617,7 +617,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 			velocityTracker.recycle();
 			velocityTracker = null;
 			downX = 0;
-			// change clickable front view
+			// change clickable front graduationdesign.muguihai.com.v023.view
 			if (swap) {
 				frontView.setClickable(opened.get(downPosition));
 				frontView.setLongClickable(opened.get(downPosition));
@@ -719,7 +719,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 	}
 
 	/**
-	 * Moves the view
+	 * Moves the graduationdesign.muguihai.com.v023.view
 	 * 
 	 * @param deltaX
 	 *            delta
@@ -789,7 +789,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 
 					ViewGroup.LayoutParams lp;
 					for (PendingDismissData pendingDismiss : pendingDismisses) {
-						// Reset view presentation
+						// Reset graduationdesign.muguihai.com.v023.view presentation
 						setAlpha(pendingDismiss.view, 1f);
 						setTranslationX(pendingDismiss.view, 0);
 						lp = pendingDismiss.view.getLayoutParams();

@@ -22,7 +22,7 @@ import utils.ThreadUtils;
 import utils.ToastUtils;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String SERVER ="113.55.66.163";//IP
+    private static final String SERVER ="113.55.72.120";//IP
     private static final int PORT=5222;//port
     public static final String SERVICENAME	= "vero";
     private EditText mEtUsername;

@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void init() {
 //        regReceiver();
-        //viewPager---->view----->pagerAdapter
+        //viewPager---->graduationdesign.muguihai.com.v023.view----->pagerAdapter
         //viewPager---->fragment---->fragmentPagerAdapter:选这个，因为frag数量比较少
         //viewPager---->fragment---->fragmentStatePagerAdapter
 

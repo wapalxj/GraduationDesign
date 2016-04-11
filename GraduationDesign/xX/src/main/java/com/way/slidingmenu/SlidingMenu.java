@@ -321,7 +321,7 @@ public class SlidingMenu extends RelativeLayout {
 			break;
 		case SLIDING_CONTENT:
 			mActionbarOverlay = actionbarOverlay;
-			// take the above view out of
+			// take the above graduationdesign.muguihai.com.v023.view out of
 			ViewGroup contentParent = (ViewGroup)activity.findViewById(android.R.id.content);
 			View content = contentParent.getChildAt(0);
 			contentParent.removeView(content);
@@ -335,8 +335,8 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Set the above view content from a layout resource. The resource will be inflated, adding all top-level views
-	 * to the above view.
+	 * Set the above graduationdesign.muguihai.com.v023.view content from a layout resource. The resource will be inflated, adding all top-level views
+	 * to the above graduationdesign.muguihai.com.v023.view.
 	 *
 	 * @param res the new content
 	 */
@@ -345,7 +345,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Set the above view content to the given View.
+	 * Set the above graduationdesign.muguihai.com.v023.view content to the given View.
 	 *
 	 * @param view The desired content to display.
 	 */
@@ -363,8 +363,8 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Set the behind view (menu) content from a layout resource. The resource will be inflated, adding all top-level views
-	 * to the behind view.
+	 * Set the behind graduationdesign.muguihai.com.v023.view (menu) content from a layout resource. The resource will be inflated, adding all top-level views
+	 * to the behind graduationdesign.muguihai.com.v023.view.
 	 *
 	 * @param res the new content
 	 */
@@ -373,7 +373,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Set the behind view (menu) content to the given View.
+	 * Set the behind graduationdesign.muguihai.com.v023.view (menu) content to the given View.
 	 *
 	 * @param view The desired content to display.
 	 */
@@ -390,8 +390,8 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Set the secondary behind view (right menu) content from a layout resource. The resource will be inflated, adding all top-level views
-	 * to the behind view.
+	 * Set the secondary behind graduationdesign.muguihai.com.v023.view (right menu) content from a layout resource. The resource will be inflated, adding all top-level views
+	 * to the behind graduationdesign.muguihai.com.v023.view.
 	 *
 	 * @param res the new content
 	 */
@@ -400,7 +400,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Set the secondary behind view (right menu) content to the given View.
+	 * Set the secondary behind graduationdesign.muguihai.com.v023.view (right menu) content to the given View.
 	 *
 	 * @param view The desired content to display.
 	 */
@@ -475,14 +475,14 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Opens the menu and shows the menu view.
+	 * Opens the menu and shows the menu graduationdesign.muguihai.com.v023.view.
 	 */
 	public void showMenu() {
 		showMenu(true);
 	}
 
 	/**
-	 * Opens the menu and shows the menu view.
+	 * Opens the menu and shows the menu graduationdesign.muguihai.com.v023.view.
 	 *
 	 * @param animate true to animate the transition, false to ignore animation
 	 */
@@ -491,7 +491,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Opens the menu and shows the secondary menu view. Will default to the regular menu
+	 * Opens the menu and shows the secondary menu graduationdesign.muguihai.com.v023.view. Will default to the regular menu
 	 * if there is only one.
 	 */
 	public void showSecondaryMenu() {
@@ -499,7 +499,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Opens the menu and shows the secondary (right) menu view. Will default to the regular menu
+	 * Opens the menu and shows the secondary (right) menu graduationdesign.muguihai.com.v023.view. Will default to the regular menu
 	 * if there is only one.
 	 *
 	 * @param animate true to animate the transition, false to ignore animation
@@ -509,14 +509,14 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Closes the menu and shows the above view.
+	 * Closes the menu and shows the above graduationdesign.muguihai.com.v023.view.
 	 */
 	public void showContent() {
 		showContent(true);
 	}
 
 	/**
-	 * Closes the menu and shows the above view.
+	 * Closes the menu and shows the above graduationdesign.muguihai.com.v023.view.
 	 *
 	 * @param animate true to animate the transition, false to ignore animation
 	 */
@@ -545,18 +545,18 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Checks if is the behind view showing.
+	 * Checks if is the behind graduationdesign.muguihai.com.v023.view showing.
 	 *
-	 * @return Whether or not the behind view is showing
+	 * @return Whether or not the behind graduationdesign.muguihai.com.v023.view is showing
 	 */
 	public boolean isMenuShowing() {
 		return mViewAbove.getCurrentItem() == 0 || mViewAbove.getCurrentItem() == 2;
 	}
 	
 	/**
-	 * Checks if is the behind view showing.
+	 * Checks if is the behind graduationdesign.muguihai.com.v023.view showing.
 	 *
-	 * @return Whether or not the behind view is showing
+	 * @return Whether or not the behind graduationdesign.muguihai.com.v023.view is showing
 	 */
 	public boolean isSecondaryMenuShowing() {
 		return mViewAbove.getCurrentItem() == 2;
@@ -565,7 +565,7 @@ public class SlidingMenu extends RelativeLayout {
 	/**
 	 * Gets the behind offset.
 	 *
-	 * @return The margin on the right of the screen that the behind view scrolls to
+	 * @return The margin on the right of the screen that the behind graduationdesign.muguihai.com.v023.view scrolls to
 	 */
 	public int getBehindOffset() {
 		return ((RelativeLayout.LayoutParams)mViewBehind.getLayoutParams()).rightMargin;
@@ -574,7 +574,7 @@ public class SlidingMenu extends RelativeLayout {
 	/**
 	 * Sets the behind offset.
 	 *
-	 * @param i The margin, in pixels, on the right of the screen that the behind view scrolls to.
+	 * @param i The margin, in pixels, on the right of the screen that the behind graduationdesign.muguihai.com.v023.view scrolls to.
 	 */
 	public void setBehindOffset(int i) {
 		//		RelativeLayout.LayoutParams params = ((RelativeLayout.LayoutParams)mViewBehind.getLayoutParams());
@@ -662,7 +662,7 @@ public class SlidingMenu extends RelativeLayout {
 	 * Sets the behind scroll scale.
 	 *
 	 * @param f The scale of the parallax scroll (i.e. 1.0f scrolls 1 pixel for every
-	 * 1 pixel that the above view scrolls and 0.0f scrolls 0 pixels)
+	 * 1 pixel that the above graduationdesign.muguihai.com.v023.view scrolls and 0.0f scrolls 0 pixels)
 	 */
 	public void setBehindScrollScale(float f) {
 		if (f < 0 && f > 1)
@@ -803,9 +803,9 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Sets the selected view. The selector will be drawn here
+	 * Sets the selected graduationdesign.muguihai.com.v023.view. The selector will be drawn here
 	 *
-	 * @param v the new selected view
+	 * @param v the new selected graduationdesign.muguihai.com.v023.view
 	 */
 	public void setSelectedView(View v) {
 		mViewBehind.setSelectedView(v);
@@ -832,7 +832,7 @@ public class SlidingMenu extends RelativeLayout {
 	/**
 	 * Add a View ignored by the Touch Down event when mode is Fullscreen
 	 *
-	 * @param v a view to be ignored
+	 * @param v a graduationdesign.muguihai.com.v023.view to be ignored
 	 */
 	public void addIgnoredView(View v) {
 		mViewAbove.addIgnoredView(v);
@@ -841,7 +841,7 @@ public class SlidingMenu extends RelativeLayout {
 	/**
 	 * Remove a View ignored by the Touch Down event when mode is Fullscreen
 	 *
-	 * @param v a view not wanted to be ignored anymore
+	 * @param v a graduationdesign.muguihai.com.v023.view not wanted to be ignored anymore
 	 */
 	public void removeIgnoredView(View v) {
 		mViewAbove.removeIgnoredView(v);
@@ -911,7 +911,7 @@ public class SlidingMenu extends RelativeLayout {
 		}
 
 		/* (non-Javadoc)
-		 * @see android.view.AbsSavedState#writeToParcel(android.os.Parcel, int)
+		 * @see android.graduationdesign.muguihai.com.v023.view.AbsSavedState#writeToParcel(android.os.Parcel, int)
 		 */
 		public void writeToParcel(Parcel out, int flags) {
 			super.writeToParcel(out, flags);
@@ -932,7 +932,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/* (non-Javadoc)
-	 * @see android.view.View#onSaveInstanceState()
+	 * @see android.graduationdesign.muguihai.com.v023.view.View#onSaveInstanceState()
 	 */
 	@Override
 	protected Parcelable onSaveInstanceState() {
@@ -942,7 +942,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/* (non-Javadoc)
-	 * @see android.view.View#onRestoreInstanceState(android.os.Parcelable)
+	 * @see android.graduationdesign.muguihai.com.v023.view.View#onRestoreInstanceState(android.os.Parcelable)
 	 */
 	@Override
 	protected void onRestoreInstanceState(Parcelable state) {
@@ -952,7 +952,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/* (non-Javadoc)
-	 * @see android.view.ViewGroup#fitSystemWindows(android.graphics.Rect)
+	 * @see android.graduationdesign.muguihai.com.v023.view.ViewGroup#fitSystemWindows(android.graphics.Rect)
 	 */
 	@SuppressLint("NewApi")
 	@Override

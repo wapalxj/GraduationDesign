@@ -564,7 +564,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 	}
 
 	/**
-	 * Used internally for adding view. Need because we override addView to
+	 * Used internally for adding graduationdesign.muguihai.com.v023.view. Need because we override addView to
 	 * pass-through to the Refreshable View
 	 */
 	protected final void addViewInternal(View child, int index, ViewGroup.LayoutParams params) {
@@ -572,7 +572,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 	}
 
 	/**
-	 * Used internally for adding view. Need because we override addView to
+	 * Used internally for adding graduationdesign.muguihai.com.v023.view. Need because we override addView to
 	 * pass-through to the Refreshable View
 	 */
 	protected final void addViewInternal(View child, ViewGroup.LayoutParams params) {
@@ -608,10 +608,10 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 	 * need to use a custom View (such as a custom ListView), override this
 	 * method and return an instance of your custom class.
 	 * <p/>
-	 * Be sure to set the ID of the view in this method, especially if you're
+	 * Be sure to set the ID of the graduationdesign.muguihai.com.v023.view in this method, especially if you're
 	 * using a ListActivity or ListFragment.
 	 * 
-	 * @param context Context to create view with
+	 * @param context Context to create graduationdesign.muguihai.com.v023.view with
 	 * @param attrs AttributeSet from wrapped class. Means that anything you
 	 *            include in the XML layout declaration will be routed to the
 	 *            created View
@@ -1301,7 +1301,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 
 		/**
 		 * Maps an int to a specific mode. This is needed when saving state, or
-		 * inflating the view from XML where the mode is given through a attr
+		 * inflating the graduationdesign.muguihai.com.v023.view from XML where the mode is given through a attr
 		 * int.
 		 * 
 		 * @param modeInt - int to map a Mode to
@@ -1373,7 +1373,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 
 		/**
 		 * Maps an int to a specific mode. This is needed when saving state, or
-		 * inflating the view from XML where the mode is given through a attr
+		 * inflating the graduationdesign.muguihai.com.v023.view from XML where the mode is given through a attr
 		 * int.
 		 * 
 		 * @param modeInt - int to map a Mode to

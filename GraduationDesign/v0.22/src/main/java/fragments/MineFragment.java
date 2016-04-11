@@ -145,7 +145,8 @@ public class MineFragment extends Fragment {
             @Override
             public void run() {
                 //对应查询记录
-                final Cursor cursor = getActivity().getContentResolver().query(PacketProvider.URI_PACKET, null, null, null, null);
+                final Cursor cursor = getActivity().getContentResolver().query(PacketProvider.URI_PACKET, null,
+                        "packet_belong_to= ?", new String[]{IMService.current_account}, null);
 
                 //没有数据
                 if (cursor.getCount() <= 0) {

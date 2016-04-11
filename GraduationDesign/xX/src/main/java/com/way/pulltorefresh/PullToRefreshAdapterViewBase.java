@@ -168,7 +168,7 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 		FrameLayout refreshableViewWrapper = getRefreshableViewWrapper();
 
 		if (null != newEmptyView) {
-			// New view needs to be clickable so that Android recognizes it as a
+			// New graduationdesign.muguihai.com.v023.view needs to be clickable so that Android recognizes it as a
 			// target for Touch Events
 			newEmptyView.setClickable(true);
 

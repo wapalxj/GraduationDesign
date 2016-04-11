@@ -179,7 +179,7 @@ public class Switch extends CompoundButton {
         if (colors != null) {
             mTextColors = colors;
         } else {
-            // If no color set in TextAppearance, default to the view's textColor
+            // If no color set in TextAppearance, default to the graduationdesign.muguihai.com.v023.view's textColor
             mTextColors = getTextColors();
         }
 

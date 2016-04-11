@@ -65,13 +65,13 @@ public interface SwipeListViewListener {
     void onStartClose(int position, boolean right);
 
     /**
-     * Called when user clicks on the front view
+     * Called when user clicks on the front graduationdesign.muguihai.com.v023.view
      * @param position list item
      */
     void onClickFrontView(int position);
 
     /**
-     * Called when user clicks on the back view
+     * Called when user clicks on the back graduationdesign.muguihai.com.v023.view
      * @param position list item
      */
     void onClickBackView(int position);

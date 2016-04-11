@@ -133,8 +133,8 @@ public class ChatActivity extends AppCompatActivity {
 //                            }
 //
 //                            @Override
-//                            public void bindView(View view, Context context, Cursor cursor) {
-//                                TextView tv= (TextView) view;
+//                            public void bindView(View graduationdesign.muguihai.com.v023.view, Context context, Cursor cursor) {
+//                                TextView tv= (TextView) graduationdesign.muguihai.com.v023.view;
 //                                //具体设置数据
 //                                String smsBody=cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.BODY));
 //                                tv.setText(smsBody);

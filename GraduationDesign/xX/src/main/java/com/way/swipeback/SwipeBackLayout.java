@@ -47,19 +47,19 @@ public class SwipeBackLayout extends FrameLayout {
 	public static final int EDGE_ALL = EDGE_LEFT | EDGE_RIGHT | EDGE_BOTTOM;
 
 	/**
-	 * A view is not currently being dragged or animating as a result of a
+	 * A graduationdesign.muguihai.com.v023.view is not currently being dragged or animating as a result of a
 	 * fling/snap.
 	 */
 	public static final int STATE_IDLE = ViewDragHelper.STATE_IDLE;
 
 	/**
-	 * A view is currently being dragged. The position is currently changing as
+	 * A graduationdesign.muguihai.com.v023.view is currently being dragged. The position is currently changing as
 	 * a result of user input or simulated user input.
 	 */
 	public static final int STATE_DRAGGING = ViewDragHelper.STATE_DRAGGING;
 
 	/**
-	 * A view is currently settling into place as a result of a fling or
+	 * A graduationdesign.muguihai.com.v023.view is currently settling into place as a result of a fling or
 	 * predefined non-interactive motion.
 	 */
 	public static final int STATE_SETTLING = ViewDragHelper.STATE_SETTLING;
@@ -176,7 +176,7 @@ public class SwipeBackLayout extends FrameLayout {
 	}
 
 	/**
-	 * Enable edge tracking for the selected edges of the parent view. The
+	 * Enable edge tracking for the selected edges of the parent graduationdesign.muguihai.com.v023.view. The
 	 * callback's
 	 * {@link com.way.swipeback.ViewDragHelper.Callback#onEdgeTouched(int, int)}
 	 * and
@@ -209,7 +209,7 @@ public class SwipeBackLayout extends FrameLayout {
 
 	/**
 	 * Set the size of an edge. This is the range in pixels along the edges of
-	 * this view that will actively detect edge touches or drags if edge
+	 * this graduationdesign.muguihai.com.v023.view that will actively detect edge touches or drags if edge
 	 * tracking is enabled.
 	 * 
 	 * @param size
@@ -221,10 +221,10 @@ public class SwipeBackLayout extends FrameLayout {
 
 	/**
 	 * Register a callback to be invoked when a swipe event is sent to this
-	 * view.
+	 * graduationdesign.muguihai.com.v023.view.
 	 * 
 	 * @param listener
-	 *            the swipe listener to attach to this view
+	 *            the swipe listener to attach to this graduationdesign.muguihai.com.v023.view
 	 * @deprecated use {@link #addSwipeListener} instead
 	 */
 	@Deprecated
@@ -233,10 +233,10 @@ public class SwipeBackLayout extends FrameLayout {
 	}
 
 	/**
-	 * Add a callback to be invoked when a swipe event is sent to this view.
+	 * Add a callback to be invoked when a swipe event is sent to this graduationdesign.muguihai.com.v023.view.
 	 * 
 	 * @param listener
-	 *            the swipe listener to attach to this view
+	 *            the swipe listener to attach to this graduationdesign.muguihai.com.v023.view
 	 */
 	public void addSwipeListener(SwipeListener listener) {
 		if (mListeners == null) {
@@ -267,7 +267,7 @@ public class SwipeBackLayout extends FrameLayout {
 		 * @see #STATE_DRAGGING
 		 * @see #STATE_SETTLING
 		 * @param scrollPercent
-		 *            scroll percent of this view
+		 *            scroll percent of this graduationdesign.muguihai.com.v023.view
 		 */
 		public void onScrollStateChange(int state, float scrollPercent);
 

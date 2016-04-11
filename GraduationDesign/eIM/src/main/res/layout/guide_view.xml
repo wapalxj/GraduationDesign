@@ -11,7 +11,7 @@
         android:orientation="vertical" >
 	    <include android:id="@+id/item_header"
 	        	layout="@layout/item_header" />
-	    <android.support.v4.view.ViewPager
+	    <android.support.v4.graduationdesign.muguihai.com.v023.view.ViewPager
 	        android:id="@+id/guidePages"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"/>

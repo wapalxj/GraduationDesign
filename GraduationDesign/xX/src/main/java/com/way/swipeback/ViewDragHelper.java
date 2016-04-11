@@ -46,19 +46,19 @@ public class ViewDragHelper {
 	public static final int INVALID_POINTER = -1;
 
 	/**
-	 * A view is not currently being dragged or animating as a result of a
+	 * A graduationdesign.muguihai.com.v023.view is not currently being dragged or animating as a result of a
 	 * fling/snap.
 	 */
 	public static final int STATE_IDLE = 0;
 
 	/**
-	 * A view is currently being dragged. The position is currently changing as
+	 * A graduationdesign.muguihai.com.v023.view is currently being dragged. The position is currently changing as
 	 * a result of user input or simulated user input.
 	 */
 	public static final int STATE_DRAGGING = 1;
 
 	/**
-	 * A view is currently settling into place as a result of a fling or
+	 * A graduationdesign.muguihai.com.v023.view is currently settling into place as a result of a fling or
 	 * predefined non-interactive motion.
 	 */
 	public static final int STATE_SETTLING = 2;
@@ -158,10 +158,10 @@ public class ViewDragHelper {
 
 	/**
 	 * A Callback is used as a communication channel with the ViewDragHelper
-	 * back to the parent view using it. <code>on*</code>methods are invoked on
+	 * back to the parent graduationdesign.muguihai.com.v023.view using it. <code>on*</code>methods are invoked on
 	 * siginficant events and several accessor methods are expected to provide
 	 * the ViewDragHelper with more information about the state of the parent
-	 * view upon request. The callback also makes decisions governing the range
+	 * graduationdesign.muguihai.com.v023.view upon request. The callback also makes decisions governing the range
 	 * and draggability of child views.
 	 */
 	public static abstract class Callback {
@@ -179,15 +179,15 @@ public class ViewDragHelper {
 		}
 
 		/**
-		 * Called when the captured view's position changes as the result of a
+		 * Called when the captured graduationdesign.muguihai.com.v023.view's position changes as the result of a
 		 * drag or settle.
 		 * 
 		 * @param changedView
 		 *            View whose position changed
 		 * @param left
-		 *            New X coordinate of the left edge of the view
+		 *            New X coordinate of the left edge of the graduationdesign.muguihai.com.v023.view
 		 * @param top
-		 *            New Y coordinate of the top edge of the view
+		 *            New Y coordinate of the top edge of the graduationdesign.muguihai.com.v023.view
 		 * @param dx
 		 *            Change in X position from the last call
 		 * @param dy
@@ -198,13 +198,13 @@ public class ViewDragHelper {
 		}
 
 		/**
-		 * Called when a child view is captured for dragging or settling. The ID
-		 * of the pointer currently dragging the captured view is supplied. If
+		 * Called when a child graduationdesign.muguihai.com.v023.view is captured for dragging or settling. The ID
+		 * of the pointer currently dragging the captured graduationdesign.muguihai.com.v023.view is supplied. If
 		 * activePointerId is identified as {@link #INVALID_POINTER} the capture
 		 * is programmatic instead of pointer-initiated.
 		 * 
 		 * @param capturedChild
-		 *            Child view that was captured
+		 *            Child graduationdesign.muguihai.com.v023.view that was captured
 		 * @param activePointerId
 		 *            Pointer id tracking the child capture
 		 */
@@ -212,23 +212,23 @@ public class ViewDragHelper {
 		}
 
 		/**
-		 * Called when the child view is no longer being actively dragged. The
+		 * Called when the child graduationdesign.muguihai.com.v023.view is no longer being actively dragged. The
 		 * fling velocity is also supplied, if relevant. The velocity values may
 		 * be clamped to system minimums or maximums.
 		 * <p>
-		 * Calling code may decide to fling or otherwise release the view to let
+		 * Calling code may decide to fling or otherwise release the graduationdesign.muguihai.com.v023.view to let
 		 * it settle into place. It should do so using
 		 * {@link #settleCapturedViewAt(int, int)} or
 		 * {@link #flingCapturedView(int, int, int, int)}. If the Callback
 		 * invokes one of these methods, the ViewDragHelper will enter
-		 * {@link #STATE_SETTLING} and the view capture will not fully end until
+		 * {@link #STATE_SETTLING} and the graduationdesign.muguihai.com.v023.view capture will not fully end until
 		 * it comes to a complete stop. If neither of these methods is invoked
-		 * before <code>onViewReleased</code> returns, the view will stop in
+		 * before <code>onViewReleased</code> returns, the graduationdesign.muguihai.com.v023.view will stop in
 		 * place and the ViewDragHelper will return to {@link #STATE_IDLE}.
 		 * </p>
 		 * 
 		 * @param releasedChild
-		 *            The captured child view now being released
+		 *            The captured child graduationdesign.muguihai.com.v023.view now being released
 		 * @param xvel
 		 *            X velocity of the pointer as it left the screen in pixels
 		 *            per second.
@@ -240,8 +240,8 @@ public class ViewDragHelper {
 		}
 
 		/**
-		 * Called when one of the subscribed edges in the parent view has been
-		 * touched by the user while no child view is currently captured.
+		 * Called when one of the subscribed edges in the parent graduationdesign.muguihai.com.v023.view has been
+		 * touched by the user while no child graduationdesign.muguihai.com.v023.view is currently captured.
 		 * 
 		 * @param edgeFlags
 		 *            A combination of edge flags describing the edge(s)
@@ -273,7 +273,7 @@ public class ViewDragHelper {
 
 		/**
 		 * Called when the user has started a deliberate drag away from one of
-		 * the subscribed edges in the parent view while no child view is
+		 * the subscribed edges in the parent graduationdesign.muguihai.com.v023.view while no child graduationdesign.muguihai.com.v023.view is
 		 * currently captured.
 		 * 
 		 * @param edgeFlags
@@ -293,7 +293,7 @@ public class ViewDragHelper {
 		 * 
 		 * @param index
 		 *            the ordered position to query for
-		 * @return index of the view that should be ordered at position
+		 * @return index of the graduationdesign.muguihai.com.v023.view that should be ordered at position
 		 *         <code>index</code>
 		 */
 		public int getOrderedChildIndex(int index) {
@@ -301,12 +301,12 @@ public class ViewDragHelper {
 		}
 
 		/**
-		 * Return the magnitude of a draggable child view's horizontal range of
+		 * Return the magnitude of a draggable child graduationdesign.muguihai.com.v023.view's horizontal range of
 		 * motion in pixels. This method should return 0 for views that cannot
 		 * move horizontally.
 		 * 
 		 * @param child
-		 *            Child view to check
+		 *            Child graduationdesign.muguihai.com.v023.view to check
 		 * @return range of horizontal motion in pixels
 		 */
 		public int getViewHorizontalDragRange(View child) {
@@ -314,12 +314,12 @@ public class ViewDragHelper {
 		}
 
 		/**
-		 * Return the magnitude of a draggable child view's vertical range of
+		 * Return the magnitude of a draggable child graduationdesign.muguihai.com.v023.view's vertical range of
 		 * motion in pixels. This method should return 0 for views that cannot
 		 * move vertically.
 		 * 
 		 * @param child
-		 *            Child view to check
+		 *            Child graduationdesign.muguihai.com.v023.view to check
 		 * @return range of vertical motion in pixels
 		 */
 		public int getViewVerticalDragRange(View child) {
@@ -328,13 +328,13 @@ public class ViewDragHelper {
 
 		/**
 		 * Called when the user's input indicates that they want to capture the
-		 * given child view with the pointer indicated by pointerId. The
+		 * given child graduationdesign.muguihai.com.v023.view with the pointer indicated by pointerId. The
 		 * callback should return true if the user is permitted to drag the
-		 * given view with the indicated pointer.
+		 * given graduationdesign.muguihai.com.v023.view with the indicated pointer.
 		 * <p>
-		 * ViewDragHelper may call this method multiple times for the same view
-		 * even if the view is already captured; this indicates that a new
-		 * pointer is trying to take control of the view.
+		 * ViewDragHelper may call this method multiple times for the same graduationdesign.muguihai.com.v023.view
+		 * even if the graduationdesign.muguihai.com.v023.view is already captured; this indicates that a new
+		 * pointer is trying to take control of the graduationdesign.muguihai.com.v023.view.
 		 * </p>
 		 * <p>
 		 * If this method returns true, a call to
@@ -351,13 +351,13 @@ public class ViewDragHelper {
 		public abstract boolean tryCaptureView(View child, int pointerId);
 
 		/**
-		 * Restrict the motion of the dragged child view along the horizontal
+		 * Restrict the motion of the dragged child graduationdesign.muguihai.com.v023.view along the horizontal
 		 * axis. The default implementation does not allow horizontal motion;
 		 * the extending class must override this method and provide the desired
 		 * clamping.
 		 * 
 		 * @param child
-		 *            Child view being dragged
+		 *            Child graduationdesign.muguihai.com.v023.view being dragged
 		 * @param left
 		 *            Attempted motion along the X axis
 		 * @param dx
@@ -369,13 +369,13 @@ public class ViewDragHelper {
 		}
 
 		/**
-		 * Restrict the motion of the dragged child view along the vertical
+		 * Restrict the motion of the dragged child graduationdesign.muguihai.com.v023.view along the vertical
 		 * axis. The default implementation does not allow vertical motion; the
 		 * extending class must override this method and provide the desired
 		 * clamping.
 		 * 
 		 * @param child
-		 *            Child view being dragged
+		 *            Child graduationdesign.muguihai.com.v023.view being dragged
 		 * @param top
 		 *            Attempted motion along the Y axis
 		 * @param dy
@@ -407,7 +407,7 @@ public class ViewDragHelper {
 	 * Factory method to create a new ViewDragHelper.
 	 * 
 	 * @param forParent
-	 *            Parent view to monitor
+	 *            Parent graduationdesign.muguihai.com.v023.view to monitor
 	 * @param cb
 	 *            Callback to provide information and receive events
 	 * @return a new ViewDragHelper instance
@@ -420,7 +420,7 @@ public class ViewDragHelper {
 	 * Factory method to create a new ViewDragHelper.
 	 * 
 	 * @param forParent
-	 *            Parent view to monitor
+	 *            Parent graduationdesign.muguihai.com.v023.view to monitor
 	 * @param sensitivity
 	 *            Multiplier for how sensitive the helper should be about
 	 *            detecting the start of a drag. Larger values are more
@@ -444,11 +444,11 @@ public class ViewDragHelper {
 	 * @param context
 	 *            Context to initialize config-dependent params from
 	 * @param forParent
-	 *            Parent view to monitor
+	 *            Parent graduationdesign.muguihai.com.v023.view to monitor
 	 */
 	private ViewDragHelper(Context context, ViewGroup forParent, Callback cb) {
 		if (forParent == null) {
-			throw new IllegalArgumentException("Parent view may not be null");
+			throw new IllegalArgumentException("Parent graduationdesign.muguihai.com.v023.view may not be null");
 		}
 		if (cb == null) {
 			throw new IllegalArgumentException("Callback may not be null");
@@ -502,7 +502,7 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Enable edge tracking for the selected edges of the parent view. The
+	 * Enable edge tracking for the selected edges of the parent graduationdesign.muguihai.com.v023.view. The
 	 * callback's
 	 * {@link com.way.swipeback.ViewDragHelper.Callback#onEdgeTouched(int, int)}
 	 * and
@@ -523,7 +523,7 @@ public class ViewDragHelper {
 
 	/**
 	 * Return the size of an edge. This is the range in pixels along the edges
-	 * of this view that will actively detect edge touches or drags if edge
+	 * of this graduationdesign.muguihai.com.v023.view that will actively detect edge touches or drags if edge
 	 * tracking is enabled.
 	 * 
 	 * @return The size of an edge in pixels
@@ -535,7 +535,7 @@ public class ViewDragHelper {
 
 	/**
 	 * Set the size of an edge. This is the range in pixels along the edges of
-	 * this view that will actively detect edge touches or drags if edge
+	 * this graduationdesign.muguihai.com.v023.view that will actively detect edge touches or drags if edge
 	 * tracking is enabled.
 	 * 
 	 * @param size
@@ -546,21 +546,21 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Capture a specific child view for dragging within the parent. The
+	 * Capture a specific child graduationdesign.muguihai.com.v023.view for dragging within the parent. The
 	 * callback will be notified but
 	 * {@link com.way.swipeback.ViewDragHelper.Callback#tryCaptureView(android.view.View, int)}
-	 * will not be asked permission to capture this view.
+	 * will not be asked permission to capture this graduationdesign.muguihai.com.v023.view.
 	 * 
 	 * @param childView
-	 *            Child view to capture
+	 *            Child graduationdesign.muguihai.com.v023.view to capture
 	 * @param activePointerId
-	 *            ID of the pointer that is dragging the captured child view
+	 *            ID of the pointer that is dragging the captured child graduationdesign.muguihai.com.v023.view
 	 */
 	public void captureChildView(View childView, int activePointerId) {
 		if (childView.getParent() != mParentView) {
 			throw new IllegalArgumentException(
 					"captureChildView: parameter must be a descendant "
-							+ "of the ViewDragHelper's tracked parent view ("
+							+ "of the ViewDragHelper's tracked parent graduationdesign.muguihai.com.v023.view ("
 							+ mParentView + ")");
 		}
 
@@ -571,7 +571,7 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * @return The currently captured view, or null if no view has been
+	 * @return The currently captured graduationdesign.muguihai.com.v023.view, or null if no graduationdesign.muguihai.com.v023.view has been
 	 *         captured.
 	 */
 	public View getCapturedView() {
@@ -579,7 +579,7 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * @return The ID of the pointer currently dragging the captured view, or
+	 * @return The ID of the pointer currently dragging the captured graduationdesign.muguihai.com.v023.view, or
 	 *         {@link #INVALID_POINTER}.
 	 */
 	public int getActivePointerId() {
@@ -628,19 +628,19 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Animate the view <code>child</code> to the given (left, top) position. If
+	 * Animate the graduationdesign.muguihai.com.v023.view <code>child</code> to the given (left, top) position. If
 	 * this method returns true, the caller should invoke
 	 * {@link #continueSettling(boolean)} on each subsequent frame to continue
 	 * the motion until it returns false. If this method returns false there is
 	 * no further work to do to complete the movement.
 	 * <p>
 	 * This operation does not count as a capture event, though
-	 * {@link #getCapturedView()} will still report the sliding view while the
+	 * {@link #getCapturedView()} will still report the sliding graduationdesign.muguihai.com.v023.view while the
 	 * slide is in progress.
 	 * </p>
 	 * 
 	 * @param child
-	 *            Child view to capture and animate
+	 *            Child graduationdesign.muguihai.com.v023.view to capture and animate
 	 * @param finalLeft
 	 *            Final left position of child
 	 * @param finalTop
@@ -656,7 +656,7 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Settle the captured view at the given (left, top) position. The
+	 * Settle the captured graduationdesign.muguihai.com.v023.view at the given (left, top) position. The
 	 * appropriate velocity from prior motion will be taken into account. If
 	 * this method returns true, the caller should invoke
 	 * {@link #continueSettling(boolean)} on each subsequent frame to continue
@@ -664,9 +664,9 @@ public class ViewDragHelper {
 	 * no further work to do to complete the movement.
 	 * 
 	 * @param finalLeft
-	 *            Settled left edge position for the captured view
+	 *            Settled left edge position for the captured graduationdesign.muguihai.com.v023.view
 	 * @param finalTop
-	 *            Settled top edge position for the captured view
+	 *            Settled top edge position for the captured graduationdesign.muguihai.com.v023.view
 	 * @return true if animation should continue through
 	 *         {@link #continueSettling(boolean)} calls
 	 */
@@ -685,12 +685,12 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Settle the captured view at the given (left, top) position.
+	 * Settle the captured graduationdesign.muguihai.com.v023.view at the given (left, top) position.
 	 * 
 	 * @param finalLeft
-	 *            Target left position for the captured view
+	 *            Target left position for the captured graduationdesign.muguihai.com.v023.view
 	 * @param finalTop
-	 *            Target top position for the captured view
+	 *            Target top position for the captured graduationdesign.muguihai.com.v023.view
 	 * @param xvel
 	 *            Horizontal velocity
 	 * @param yvel
@@ -818,18 +818,18 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Settle the captured view based on standard free-moving fling behavior.
+	 * Settle the captured graduationdesign.muguihai.com.v023.view based on standard free-moving fling behavior.
 	 * The caller should invoke {@link #continueSettling(boolean)} on each
 	 * subsequent frame to continue the motion until it returns false.
 	 * 
 	 * @param minLeft
-	 *            Minimum X position for the view's left edge
+	 *            Minimum X position for the graduationdesign.muguihai.com.v023.view's left edge
 	 * @param minTop
-	 *            Minimum Y position for the view's top edge
+	 *            Minimum Y position for the graduationdesign.muguihai.com.v023.view's top edge
 	 * @param maxLeft
-	 *            Maximum X position for the view's left edge
+	 *            Maximum X position for the graduationdesign.muguihai.com.v023.view's left edge
 	 * @param maxTop
-	 *            Maximum Y position for the view's top edge
+	 *            Maximum Y position for the graduationdesign.muguihai.com.v023.view's top edge
 	 */
 	public void flingCapturedView(int minLeft, int minTop, int maxLeft,
 			int maxTop) {
@@ -849,7 +849,7 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Move the captured settling view by the appropriate amount for the current
+	 * Move the captured settling graduationdesign.muguihai.com.v023.view by the appropriate amount for the current
 	 * time. If <code>continueSettling</code> returns true, the caller should
 	 * call it again on the next frame to continue.
 	 * 
@@ -1031,9 +1031,9 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Attempt to capture the view with the given pointer ID. The callback will
+	 * Attempt to capture the graduationdesign.muguihai.com.v023.view with the given pointer ID. The callback will
 	 * be involved. This will put us into the "dragging" state. If we've already
-	 * captured this view with this pointer this method will immediately return
+	 * captured this graduationdesign.muguihai.com.v023.view with this pointer this method will immediately return
 	 * true without consulting the callback.
 	 * 
 	 * @param toCapture
@@ -1061,7 +1061,7 @@ public class ViewDragHelper {
 	 * @param v
 	 *            View to test for horizontal scrollability
 	 * @param checkV
-	 *            Whether the view v passed should itself be checked for
+	 *            Whether the graduationdesign.muguihai.com.v023.view v passed should itself be checked for
 	 *            scrollability (true), or just its children (false).
 	 * @param dx
 	 *            Delta scrolled in pixels along the X axis
@@ -1104,13 +1104,13 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Check if this event as provided to the parent view's
+	 * Check if this event as provided to the parent graduationdesign.muguihai.com.v023.view's
 	 * onInterceptTouchEvent should cause the parent to intercept the touch
 	 * event stream.
 	 * 
 	 * @param ev
 	 *            MotionEvent provided to onInterceptTouchEvent
-	 * @return true if the parent view should return true from
+	 * @return true if the parent graduationdesign.muguihai.com.v023.view should return true from
 	 *         onInterceptTouchEvent
 	 */
 	public boolean shouldInterceptTouchEvent(MotionEvent ev) {
@@ -1137,7 +1137,7 @@ public class ViewDragHelper {
 
 			final View toCapture = findTopChildUnder((int) x, (int) y);
 
-			// Catch a settling view if possible.
+			// Catch a settling graduationdesign.muguihai.com.v023.view if possible.
 			if (toCapture == mCapturedView && mDragState == STATE_SETTLING) {
 				tryCaptureViewForDrag(toCapture, pointerId);
 			}
@@ -1158,7 +1158,7 @@ public class ViewDragHelper {
 
 			saveInitialMotion(x, y, pointerId);
 
-			// A ViewDragHelper can only manipulate one view at a time.
+			// A ViewDragHelper can only manipulate one graduationdesign.muguihai.com.v023.view at a time.
 			if (mDragState == STATE_IDLE) {
 				final int edgesTouched = mInitialEdgesTouched[pointerId];
 				if ((edgesTouched & mTrackingEdges) != 0) {
@@ -1166,7 +1166,7 @@ public class ViewDragHelper {
 							pointerId);
 				}
 			} else if (mDragState == STATE_SETTLING) {
-				// Catch a settling view if possible.
+				// Catch a settling graduationdesign.muguihai.com.v023.view if possible.
 				final View toCapture = findTopChildUnder((int) x, (int) y);
 				if (toCapture == mCapturedView) {
 					tryCaptureViewForDrag(toCapture, pointerId);
@@ -1176,7 +1176,7 @@ public class ViewDragHelper {
 		}
 
 		case MotionEvent.ACTION_MOVE: {
-			// First to cross a touch slop over a draggable view wins. Also
+			// First to cross a touch slop over a draggable graduationdesign.muguihai.com.v023.view wins. Also
 			// report edge drags.
 			final int pointerCount = MotionEventCompat.getPointerCount(ev);
 			for (int i = 0; i < pointerCount; i++) {
@@ -1220,12 +1220,12 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Process a touch event received by the parent view. This method will
-	 * dispatch callback events as needed before returning. The parent view's
+	 * Process a touch event received by the parent graduationdesign.muguihai.com.v023.view. This method will
+	 * dispatch callback events as needed before returning. The parent graduationdesign.muguihai.com.v023.view's
 	 * onTouchEvent implementation should call this.
 	 * 
 	 * @param ev
-	 *            The touch event received by the parent view
+	 *            The touch event received by the parent graduationdesign.muguihai.com.v023.view
 	 */
 	public void processTouchEvent(MotionEvent ev) {
 		final int action = MotionEventCompat.getActionMasked(ev);
@@ -1273,7 +1273,7 @@ public class ViewDragHelper {
 
 			saveInitialMotion(x, y, pointerId);
 
-			// A ViewDragHelper can only manipulate one view at a time.
+			// A ViewDragHelper can only manipulate one graduationdesign.muguihai.com.v023.view at a time.
 			if (mDragState == STATE_IDLE) {
 				// If we're idle we can do anything! Treat it like a normal
 				// down event.
@@ -1287,12 +1287,12 @@ public class ViewDragHelper {
 							pointerId);
 				}
 			} else if (isCapturedViewUnder((int) x, (int) y)) {
-				// We're still tracking a captured view. If the same view is
+				// We're still tracking a captured graduationdesign.muguihai.com.v023.view. If the same graduationdesign.muguihai.com.v023.view is
 				// under this
 				// point, we'll swap to controlling it with this pointer
 				// instead.
 				// (This will still work if we're "catching" a settling
-				// view.)
+				// graduationdesign.muguihai.com.v023.view.)
 
 				tryCaptureViewForDrag(mCapturedView, pointerId);
 			}
@@ -1313,7 +1313,7 @@ public class ViewDragHelper {
 
 				saveLastMotion(ev);
 			} else {
-				// Check to see if any pointer is now over a draggable view.
+				// Check to see if any pointer is now over a draggable graduationdesign.muguihai.com.v023.view.
 				final int pointerCount = MotionEventCompat.getPointerCount(ev);
 				for (int i = 0; i < pointerCount; i++) {
 					final int pointerId = MotionEventCompat.getPointerId(ev, i);
@@ -1344,7 +1344,7 @@ public class ViewDragHelper {
 					actionIndex);
 			if (mDragState == STATE_DRAGGING && pointerId == mActivePointerId) {
 				// Try to find another pointer that's still holding on to
-				// the captured view.
+				// the captured graduationdesign.muguihai.com.v023.view.
 				int newActivePointer = INVALID_POINTER;
 				final int pointerCount = MotionEventCompat.getPointerCount(ev);
 				for (int i = 0; i < pointerCount; i++) {
@@ -1365,7 +1365,7 @@ public class ViewDragHelper {
 
 				if (newActivePointer == INVALID_POINTER) {
 					// We didn't find another pointer still touching the
-					// view, release it.
+					// graduationdesign.muguihai.com.v023.view, release it.
 					releaseViewForPointerUp();
 				}
 			}
@@ -1433,7 +1433,7 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Check if we've crossed a reasonable touch slop for the given child view.
+	 * Check if we've crossed a reasonable touch slop for the given child graduationdesign.muguihai.com.v023.view.
 	 * If the child cannot be dragged along the horizontal or vertical axis,
 	 * motion along that axis will not count toward the slop check.
 	 * 
@@ -1604,15 +1604,15 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Determine if the currently captured view is under the given point in the
-	 * parent view's coordinate system. If there is no captured view this method
+	 * Determine if the currently captured graduationdesign.muguihai.com.v023.view is under the given point in the
+	 * parent graduationdesign.muguihai.com.v023.view's coordinate system. If there is no captured graduationdesign.muguihai.com.v023.view this method
 	 * will return false.
 	 * 
 	 * @param x
 	 *            X position to test in the parent's coordinate system
 	 * @param y
 	 *            Y position to test in the parent's coordinate system
-	 * @return true if the captured view is under the given point, false
+	 * @return true if the captured graduationdesign.muguihai.com.v023.view is under the given point, false
 	 *         otherwise
 	 */
 	public boolean isCapturedViewUnder(int x, int y) {
@@ -1620,16 +1620,16 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Determine if the supplied view is under the given point in the parent
-	 * view's coordinate system.
+	 * Determine if the supplied graduationdesign.muguihai.com.v023.view is under the given point in the parent
+	 * graduationdesign.muguihai.com.v023.view's coordinate system.
 	 * 
 	 * @param view
-	 *            Child view of the parent to hit test
+	 *            Child graduationdesign.muguihai.com.v023.view of the parent to hit test
 	 * @param x
 	 *            X position to test in the parent's coordinate system
 	 * @param y
 	 *            Y position to test in the parent's coordinate system
-	 * @return true if the supplied view is under the given point, false
+	 * @return true if the supplied graduationdesign.muguihai.com.v023.view is under the given point, false
 	 *         otherwise
 	 */
 	public boolean isViewUnder(View view, int x, int y) {
@@ -1641,7 +1641,7 @@ public class ViewDragHelper {
 	}
 
 	/**
-	 * Find the topmost child under the given point within the parent view's
+	 * Find the topmost child under the given point within the parent graduationdesign.muguihai.com.v023.view's
 	 * coordinate system. The child order is determined using
 	 * {@link com.way.swipeback.ViewDragHelper.Callback#getOrderedChildIndex(int)}
 	 * .
@@ -1650,7 +1650,7 @@ public class ViewDragHelper {
 	 *            X position to test in the parent's coordinate system
 	 * @param y
 	 *            Y position to test in the parent's coordinate system
-	 * @return The topmost child view under (x, y) or null if none found.
+	 * @return The topmost child graduationdesign.muguihai.com.v023.view under (x, y) or null if none found.
 	 */
 	public View findTopChildUnder(int x, int y) {
 		final int childCount = mParentView.getChildCount();

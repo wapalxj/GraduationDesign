@@ -61,7 +61,7 @@ public class BaseSlidingFragmentActivity extends BaseActivity implements Sliding
 	}
 
 	/* (non-Javadoc)
-	 * @see android.app.Activity#setContentView(android.view.View)
+	 * @see android.app.Activity#setContentView(android.graduationdesign.muguihai.com.v023.view.View)
 	 */
 	@Override
 	public void setContentView(View v) {
@@ -69,7 +69,7 @@ public class BaseSlidingFragmentActivity extends BaseActivity implements Sliding
 	}
 
 	/* (non-Javadoc)
-	 * @see android.app.Activity#setContentView(android.view.View, android.view.ViewGroup.LayoutParams)
+	 * @see android.app.Activity#setContentView(android.graduationdesign.muguihai.com.v023.view.View, android.graduationdesign.muguihai.com.v023.view.ViewGroup.LayoutParams)
 	 */
 	@Override
 	public void setContentView(View v, LayoutParams params) {
@@ -85,14 +85,14 @@ public class BaseSlidingFragmentActivity extends BaseActivity implements Sliding
 	}
 
 	/* (non-Javadoc)
-	 * @see com.slidingmenu.lib.app.SlidingActivityBase#setBehindContentView(android.view.View)
+	 * @see com.slidingmenu.lib.app.SlidingActivityBase#setBehindContentView(android.graduationdesign.muguihai.com.v023.view.View)
 	 */
 	public void setBehindContentView(View v) {
 		setBehindContentView(v, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 	}
 
 	/* (non-Javadoc)
-	 * @see com.slidingmenu.lib.app.SlidingActivityBase#setBehindContentView(android.view.View, android.view.ViewGroup.LayoutParams)
+	 * @see com.slidingmenu.lib.app.SlidingActivityBase#setBehindContentView(android.graduationdesign.muguihai.com.v023.view.View, android.graduationdesign.muguihai.com.v023.view.ViewGroup.LayoutParams)
 	 */
 	public void setBehindContentView(View v, LayoutParams params) {
 		mHelper.setBehindContentView(v, params);
@@ -141,7 +141,7 @@ public class BaseSlidingFragmentActivity extends BaseActivity implements Sliding
 	}
 
 	/* (non-Javadoc)
-	 * @see android.app.Activity#onKeyUp(int, android.view.KeyEvent)
+	 * @see android.app.Activity#onKeyUp(int, android.graduationdesign.muguihai.com.v023.view.KeyEvent)
 	 */
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {

@@ -125,7 +125,7 @@
         android:paddingTop="5dip"
         android:visibility="gone" >
 
-        <android.support.v4.view.ViewPager
+        <android.support.v4.graduationdesign.muguihai.com.v023.view.ViewPager
             android:id="@+id/face_pager"
             android:layout_width="fill_parent"
             android:layout_height="120.0dip"
@@ -135,7 +135,7 @@
             android:flipInterval="30"
             android:persistentDrawingCache="animation" />
 
-        <com.way.view.CirclePageIndicator
+        <com.way.graduationdesign.muguihai.com.v023.view.CirclePageIndicator
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/indicator"
             android:layout_width="fill_parent"

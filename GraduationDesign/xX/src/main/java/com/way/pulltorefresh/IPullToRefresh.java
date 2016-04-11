@@ -38,10 +38,10 @@ public interface IPullToRefresh<T extends View> {
 	public boolean demo();
 
 	/**
-	 * Get the mode that this view is currently in. This is only really useful
+	 * Get the mode that this graduationdesign.muguihai.com.v023.view is currently in. This is only really useful
 	 * when using <code>Mode.BOTH</code>.
 	 * 
-	 * @return Mode that the view is currently in
+	 * @return Mode that the graduationdesign.muguihai.com.v023.view is currently in
 	 */
 	public Mode getCurrentMode();
 
@@ -85,17 +85,17 @@ public interface IPullToRefresh<T extends View> {
 	public ILoadingLayout getLoadingLayoutProxy(boolean includeStart, boolean includeEnd);
 
 	/**
-	 * Get the mode that this view has been set to. If this returns
+	 * Get the mode that this graduationdesign.muguihai.com.v023.view has been set to. If this returns
 	 * <code>Mode.BOTH</code>, you can use <code>getCurrentMode()</code> to
-	 * check which mode the view is currently in
+	 * check which mode the graduationdesign.muguihai.com.v023.view is currently in
 	 * 
-	 * @return Mode that the view has been set to
+	 * @return Mode that the graduationdesign.muguihai.com.v023.view has been set to
 	 */
 	public Mode getMode();
 
 	/**
 	 * Get the Wrapped Refreshable View. Anything returned here has already been
-	 * added to the content view.
+	 * added to the content graduationdesign.muguihai.com.v023.view.
 	 * 
 	 * @return The View which is currently wrapped
 	 */
@@ -166,7 +166,7 @@ public interface IPullToRefresh<T extends View> {
 	public void setFilterTouchEvents(boolean filterEvents);
 
 	/**
-	 * Set the mode of Pull-to-Refresh that this view will use.
+	 * Set the mode of Pull-to-Refresh that this graduationdesign.muguihai.com.v023.view will use.
 	 * 
 	 * @param mode - Mode to set the View to
 	 */
@@ -205,16 +205,16 @@ public interface IPullToRefresh<T extends View> {
 
 	/**
 	 * Sets the Widget to be in the refresh state. The UI will be updated to
-	 * show the 'Refreshing' view, and be scrolled to show such.
+	 * show the 'Refreshing' graduationdesign.muguihai.com.v023.view, and be scrolled to show such.
 	 */
 	public void setRefreshing();
 
 	/**
 	 * Sets the Widget to be in the refresh state. The UI will be updated to
-	 * show the 'Refreshing' view.
+	 * show the 'Refreshing' graduationdesign.muguihai.com.v023.view.
 	 * 
 	 * @param doScroll - true if you want to force a scroll to the Refreshing
-	 *            view.
+	 *            graduationdesign.muguihai.com.v023.view.
 	 */
 	public void setRefreshing(boolean doScroll);
 

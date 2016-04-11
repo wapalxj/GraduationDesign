@@ -39,7 +39,7 @@ import android.view.ViewConfiguration;
 import com.way.xx.R;
 
 /**
- * Draws circles (one for each view). The current view position is filled and
+ * Draws circles (one for each graduationdesign.muguihai.com.v023.view). The current graduationdesign.muguihai.com.v023.view position is filled and
  * others are only stroked.
  */
 public class CirclePageIndicator extends View implements PageIndicator {
@@ -441,7 +441,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
     /*
      * (non-Javadoc)
      *
-     * @see android.view.View#onMeasure(int, int)
+     * @see android.graduationdesign.muguihai.com.v023.view.View#onMeasure(int, int)
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -453,11 +453,11 @@ public class CirclePageIndicator extends View implements PageIndicator {
     }
 
     /**
-     * Determines the width of this view
+     * Determines the width of this graduationdesign.muguihai.com.v023.view
      *
      * @param measureSpec
      *            A measureSpec packed into an int
-     * @return The width of the view, honoring constraints from measureSpec
+     * @return The width of the graduationdesign.muguihai.com.v023.view, honoring constraints from measureSpec
      */
     private int measureLong(int measureSpec) {
         int result;
@@ -481,11 +481,11 @@ public class CirclePageIndicator extends View implements PageIndicator {
     }
 
     /**
-     * Determines the height of this view
+     * Determines the height of this graduationdesign.muguihai.com.v023.view
      *
      * @param measureSpec
      *            A measureSpec packed into an int
-     * @return The height of the view, honoring constraints from measureSpec
+     * @return The height of the graduationdesign.muguihai.com.v023.view, honoring constraints from measureSpec
      */
     private int measureShort(int measureSpec) {
         int result;

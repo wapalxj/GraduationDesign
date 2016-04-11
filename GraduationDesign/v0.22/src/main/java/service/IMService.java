@@ -362,14 +362,16 @@ public class IMService extends Service{
         from=filterAccount(from);
         String to=msg.getTo();
         to=filterAccount(to);
+        String session_belong_to=IMService.current_account;
 
         values.put(SmsOpenHelper.SmsTable.FROM_ACCOUNT,from);
         values.put(SmsOpenHelper.SmsTable.TO_ACCOUNT, to);
         values.put(SmsOpenHelper.SmsTable.BODY,msg.getBody());
-        values.put(SmsOpenHelper.SmsTable.STATUS,"offline");
+        values.put(SmsOpenHelper.SmsTable.STATUS,"online");
         values.put(SmsOpenHelper.SmsTable.TYPE,msg.getType().name());
         values.put(SmsOpenHelper.SmsTable.TIME,System.currentTimeMillis());
         values.put(SmsOpenHelper.SmsTable.SESSION_ACCOUNT, sessionAccount);
+        values.put(SmsOpenHelper.SmsTable.SESSION_BELONG_TO, session_belong_to);
 
         getContentResolver().insert(
                 SmsProvider.URI_SMS, values

@@ -106,7 +106,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 	}
 
 	/**
-	 * Set root view.
+	 * Set root graduationdesign.muguihai.com.v023.view.
 	 * 
 	 * @param id
 	 *            Layout resource id
@@ -122,7 +122,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 
 		// This was previously defined on show() method, moved here to prevent
 		// force close that occured
-		// when tapping fastly on a view to show quickaction dialog.
+		// when tapping fastly on a graduationdesign.muguihai.com.v023.view to show quickaction dialog.
 		// Thanx to zammbi (github.com/zammbi)
 		mRootView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
@@ -230,7 +230,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 
 	/**
 	 * Show quickaction popup. Popup is automatically positioned, on top or
-	 * bottom of anchor view.
+	 * bottom of anchor graduationdesign.muguihai.com.v023.view.
 	 * 
 	 */
 	public void show(View anchor) {
@@ -316,7 +316,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 	 *            distance from left edge
 	 * @param onTop
 	 *            flag to indicate where the popup should be displayed. Set TRUE
-	 *            if displayed on top of anchor view and vice versa
+	 *            if displayed on top of anchor graduationdesign.muguihai.com.v023.view and vice versa
 	 */
 	private void setAnimationStyle(int screenWidth, int requestedX,
 			boolean onTop) {

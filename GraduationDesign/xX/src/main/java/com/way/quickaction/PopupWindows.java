@@ -67,7 +67,7 @@ public class PopupWindows {
 	 */
 	protected void preShow() {
 		if (mRootView == null) 
-			throw new IllegalStateException("setContentView was not called with a view to display.");
+			throw new IllegalStateException("setContentView was not called with a graduationdesign.muguihai.com.v023.view to display.");
 	
 		onShow();
 
@@ -95,9 +95,9 @@ public class PopupWindows {
 	}
 
 	/**
-	 * Set content view.
+	 * Set content graduationdesign.muguihai.com.v023.view.
 	 * 
-	 * @param root Root view
+	 * @param root Root graduationdesign.muguihai.com.v023.view
 	 */
 	public void setContentView(View root) {
 		mRootView = root;
@@ -106,7 +106,7 @@ public class PopupWindows {
 	}
 
 	/**
-	 * Set content view.
+	 * Set content graduationdesign.muguihai.com.v023.view.
 	 * 
 	 * @param layoutResID Resource id
 	 */

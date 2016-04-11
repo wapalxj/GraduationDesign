@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class ContactFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.i("ContactFragment", "onCreate");
         super.onCreate(savedInstanceState);
         init();
     }
@@ -139,7 +141,7 @@ public class ContactFragment extends Fragment {
                                     //数据的设置和显示
                                     @Override
                                     public void bindView(View view, Context context, Cursor cursor) {
-//                                TextView tv= (TextView) view;
+//                                TextView tv= (TextView) graduationdesign.muguihai.com.v023.view;
                                         ImageView ivHead = (ImageView) view.findViewById(R.id.head);
                                         TextView tvAccount = (TextView) view.findViewById(R.id.account);
                                         TextView tvNickname = (TextView) view.findViewById(R.id.nickname);

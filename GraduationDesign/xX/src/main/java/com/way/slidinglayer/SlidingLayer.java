@@ -24,21 +24,21 @@ public class SlidingLayer extends FrameLayout {
 
 	/**
 	 * Special value for the position of the layer. STICK_TO_RIGHT means that
-	 * the view shall be attached to the right side of the screen, and come from
+	 * the graduationdesign.muguihai.com.v023.view shall be attached to the right side of the screen, and come from
 	 * there into the viewable area.
 	 */
 	public static final int STICK_TO_RIGHT = -1;
 
 	/**
 	 * Special value for the position of the layer. STICK_TO_LEFT means that the
-	 * view shall be attached to the left side of the screen, and come from
+	 * graduationdesign.muguihai.com.v023.view shall be attached to the left side of the screen, and come from
 	 * there into the viewable area.
 	 */
 	public static final int STICK_TO_LEFT = -2;
 
 	/**
 	 * Special value for the position of the layer. STICK_TO_MIDDLE means that
-	 * the view will stay attached trying to be in the middle of the screen and
+	 * the graduationdesign.muguihai.com.v023.view will stay attached trying to be in the middle of the screen and
 	 * allowing dismissing both to right and left side.
 	 */
 	public static final int STICK_TO_MIDDLE = -3;
@@ -225,8 +225,8 @@ public class SlidingLayer extends FrameLayout {
 	}
 
 	/**
-	 * Sets the shadow of the width which will be included within the view by
-	 * using padding since it's on the left of the view in this case
+	 * Sets the shadow of the width which will be included within the graduationdesign.muguihai.com.v023.view by
+	 * using padding since it's on the left of the graduationdesign.muguihai.com.v023.view in this case
 	 * 
 	 * @param shadowWidth
 	 *            Desired width of the shadow
@@ -688,7 +688,7 @@ public class SlidingLayer extends FrameLayout {
 	private void completeScroll() {
 		boolean needPopulate = mScrolling;
 		if (needPopulate) {
-			// Done with scroll, no longer want to cache view drawing.
+			// Done with scroll, no longer want to cache graduationdesign.muguihai.com.v023.view drawing.
 			setDrawingCacheEnabled(false);
 			mScroller.abortAnimation();
 			int oldX = getScrollX();

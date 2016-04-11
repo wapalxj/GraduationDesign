@@ -32,6 +32,7 @@ public class SmsOpenHelper extends SQLiteOpenHelper{
         public static final String TYPE="type";
         public static final String TIME="time";
         public static final String SESSION_ACCOUNT="session_account";
+        public static final String SESSION_BELONG_TO="session_belong_to";
     }
 
 
@@ -49,7 +50,8 @@ public class SmsOpenHelper extends SQLiteOpenHelper{
                     SmsTable.STATUS+" TEXT," +
                     SmsTable.TYPE+" TEXT," +
                     SmsTable.TIME+" TEXT," +
-                    SmsTable.SESSION_ACCOUNT+" TEXT" +
+                    SmsTable.SESSION_ACCOUNT+" TEXT," +
+                    SmsTable.SESSION_BELONG_TO+" TEXT" +
                     ");";
 
         db.execSQL(sql);

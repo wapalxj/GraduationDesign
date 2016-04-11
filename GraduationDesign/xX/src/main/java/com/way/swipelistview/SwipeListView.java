@@ -62,7 +62,7 @@ public class SwipeListView extends ListView {
     public final static int SWIPE_MODE_LEFT = 3;
 
     /**
-     * Binds the swipe gesture to reveal a view behind the row (Drawer style)
+     * Binds the swipe gesture to reveal a graduationdesign.muguihai.com.v023.view behind the row (Drawer style)
      */
     public final static int SWIPE_ACTION_REVEAL = 0;
 
@@ -82,12 +82,12 @@ public class SwipeListView extends ListView {
     public final static int SWIPE_ACTION_NONE = 3;
 
     /**
-     * Default ids for front view
+     * Default ids for front graduationdesign.muguihai.com.v023.view
      */
     public final static String SWIPE_DEFAULT_FRONT_VIEW = "swipelist_frontview";
 
     /**
-     * Default id for back view
+     * Default id for back graduationdesign.muguihai.com.v023.view
      */
     public final static String SWIPE_DEFAULT_BACK_VIEW = "swipelist_backview";
 

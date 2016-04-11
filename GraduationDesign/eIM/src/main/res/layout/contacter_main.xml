@@ -121,13 +121,13 @@
 
     <LinearLayout android:id="@+id/bottom" android:layout_width="0dip" android:layout_height="0dip" android:layout_alignParentBottom="true"/>
 
-    <csdn.shimiso.eim.view.ScrollLayout
+    <csdn.shimiso.eim.graduationdesign.muguihai.com.v023.view.ScrollLayout
         android:id="@+id/scrolllayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@id/bottom"
         android:layout_below="@id/top" >
-    </csdn.shimiso.eim.view.ScrollLayout>
+    </csdn.shimiso.eim.graduationdesign.muguihai.com.v023.view.ScrollLayout>
 
     <RelativeLayout
         android:id="@+id/main_head"

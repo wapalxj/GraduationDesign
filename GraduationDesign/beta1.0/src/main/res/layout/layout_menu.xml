@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@mipmap/bg"
+    android:paddingLeft="20dp"
+    android:paddingTop="50dp" >
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/my" />
+    <TextView
+        android:id="@+id/signature"
+        android:layout_marginTop="5dp"
+        android:textColor="#FFF"
+        android:text="“全栈工程师=屌丝战斗机=系统+网络+研发+dba+架构+安全=没女朋友"
+        android:singleLine="true"
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ListView
+        android:layout_weight="7"
+        android:id="@+id/menu_listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:listSelector="@android:color/transparent" >
+    </ListView>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TextView
+            android:textColor="#FFF"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="20dp"
+            android:text="设置"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textColor="#FFF"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="20dp"
+            android:text="设置"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textColor="#FFF"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="70dp"
+            android:text="设置"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</LinearLayout>

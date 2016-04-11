@@ -25,12 +25,14 @@ public class PacketOpenHelper extends SQLiteOpenHelper {
          * packet_nickname：昵称
          * packet_type:packet类型
          * type:消息类型
+         * packet_belong_to
          */
         public static final String PACKET_ACCOUNT_FROM="packet_account_from";
         public static final String PACKET_NICKNAME_FROM="packet_nickname_from";
         public static final String PACKET_TYPE="packet_from_type";
         public static final String TYPE="type";
         public static final String PINYIN ="pinying";
+        public static final String PACKET_BELONG_TO="packet_belong_to";
 
 
     }
@@ -44,7 +46,8 @@ public class PacketOpenHelper extends SQLiteOpenHelper {
                 Packet_Table.PACKET_NICKNAME_FROM+" TEXT, "+
                 Packet_Table.PACKET_TYPE+" TEXT, "+
                 Packet_Table.TYPE+" TEXT, "+
-                Packet_Table.PINYIN +" TEXT"+
+                Packet_Table.PINYIN +" TEXT, "+
+                Packet_Table.PACKET_BELONG_TO +" TEXT"+
                 ");";
         db.execSQL(sql);
     }

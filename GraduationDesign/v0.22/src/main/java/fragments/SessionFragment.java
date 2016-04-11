@@ -118,7 +118,7 @@ public class SessionFragment extends Fragment {
             public void run() {
                 //对应查询记录
                 final Cursor cursor = getActivity().getContentResolver().query(SmsProvider.URI_SESSION, null, null,
-                        new String[]{IMService.current_account, IMService.current_account}, null);
+                        new String[]{IMService.current_account, IMService.current_account,IMService.current_account}, null);
 
 
                 //删除某个会话
@@ -150,7 +150,7 @@ public class SessionFragment extends Fragment {
                                     //数据的设置和显示
                                     @Override
                                     public void bindView(View view, Context context, Cursor cursor) {
-//                                TextView tv= (TextView) view;
+//                                TextView tv= (TextView) graduationdesign.muguihai.com.v023.view;
                                         ImageView ivHead = (ImageView) view.findViewById(R.id.head);
                                         TextView tvBody = (TextView) view.findViewById(R.id.body);
                                         TextView tvNickname = (TextView) view.findViewById(R.id.nickname);

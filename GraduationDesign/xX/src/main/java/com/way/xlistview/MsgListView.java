@@ -1,6 +1,6 @@
 /**
  * @file XListView.java
- * @package me.maxwin.view
+ * @package me.maxwin.graduationdesign.muguihai.com.v023.view
  * @create Mar 18, 2012 6:28:41 PM
  * @author Maxwin
  * @description An ListView support (a) Pull down to refresh, (b) Pull up to load more.
@@ -32,17 +32,17 @@ public class MsgListView extends ListView implements OnScrollListener {
 	// the interface to trigger refresh and load more.
 	private IXListViewListener mListViewListener;
 
-	// -- header view
+	// -- header graduationdesign.muguihai.com.v023.view
 	private MsgHeader mHeaderView;
-	// header view content, use it to calculate the Header's height. And hide it
+	// header graduationdesign.muguihai.com.v023.view content, use it to calculate the Header's height. And hide it
 	// when disable pull refresh.
 	private RelativeLayout mHeaderViewContent;
 	// private TextView mHeaderTimeView;
-	private int mHeaderViewHeight; // header view's height
+	private int mHeaderViewHeight; // header graduationdesign.muguihai.com.v023.view's height
 	private boolean mEnablePullRefresh = true;//
 	private boolean mPullRefreshing = false; // is refreashing.
 
-	// -- footer view
+	// -- footer graduationdesign.muguihai.com.v023.view
 	private XListViewFooter mFooterView;
 	private boolean mEnablePullLoad;
 	private boolean mPullLoading;
@@ -87,7 +87,7 @@ public class MsgListView extends ListView implements OnScrollListener {
 		// user's listener (as a proxy).
 		super.setOnScrollListener(this);
 
-		// init header view
+		// init header graduationdesign.muguihai.com.v023.view
 		mHeaderView = new MsgHeader(context);
 		mHeaderViewContent = (RelativeLayout) mHeaderView
 				.findViewById(R.id.msg_header_content);
@@ -95,7 +95,7 @@ public class MsgListView extends ListView implements OnScrollListener {
 		// .findViewById(R.id.xlistview_header_time);
 		addHeaderView(mHeaderView);
 
-		// init footer view
+		// init footer graduationdesign.muguihai.com.v023.view
 		mFooterView = new XListViewFooter(context);
 
 		// init header height
@@ -112,7 +112,7 @@ public class MsgListView extends ListView implements OnScrollListener {
 
 	@Override
 	public void setAdapter(ListAdapter adapter) {
-		// make sure XListViewFooter is the last footer view, and only add once.
+		// make sure XListViewFooter is the last footer graduationdesign.muguihai.com.v023.view, and only add once.
 		if (mIsFooterReady == false) {
 			mIsFooterReady = true;
 			addFooterView(mFooterView);
@@ -159,7 +159,7 @@ public class MsgListView extends ListView implements OnScrollListener {
 	}
 
 	/**
-	 * stop refresh, reset header view.
+	 * stop refresh, reset header graduationdesign.muguihai.com.v023.view.
 	 */
 	public void stopRefresh() {
 		if (mPullRefreshing == true) {
@@ -169,7 +169,7 @@ public class MsgListView extends ListView implements OnScrollListener {
 	}
 
 	/**
-	 * stop load more, reset footer view.
+	 * stop load more, reset footer graduationdesign.muguihai.com.v023.view.
 	 */
 	public void stopLoadMore() {
 		if (mPullLoading == true) {
@@ -212,7 +212,7 @@ public class MsgListView extends ListView implements OnScrollListener {
 	}
 
 	/**
-	 * reset header view's height.
+	 * reset header graduationdesign.muguihai.com.v023.view's height.
 	 */
 	private void resetHeaderHeight() {
 		int height = mHeaderView.getVisiableHeight();
