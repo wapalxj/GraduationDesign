@@ -18,7 +18,7 @@ public class XMPPUtil {
         configuration.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);//明文传输
         configuration.setDebuggerEnabled(true);//调试模式，方便查看具体内容
         configuration.setSASLAuthenticationEnabled(false);
-
+        configuration.setSendPresence(true);
         //
         // 允许自动连接
         configuration.setReconnectionAllowed(false);

@@ -32,7 +32,9 @@ import org.jivesoftware.smack.packet.Presence;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * 用于管理添加删除别人
+ */
 public class XMPPService extends Service {
     public static XMPPConnection conn;
     public static String current_account;//当前登录用户的JID
@@ -57,13 +59,13 @@ public class XMPPService extends Service {
 
     @Override
     public void onCreate() {
-        Log.i("service","service---onCreate");
+        Log.i("XMPPService","service---onCreate");
         super.onCreate();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("service","service---onStartCommand");
+        Log.i("XMPPService","service---onStartCommand");
         //同步roster
         ThreadUtils.runInThread(new Runnable() {
             @Override
@@ -91,14 +93,14 @@ public class XMPPService extends Service {
                 rosterlistener = new MyRosterlistener();
                 roster.addRosterListener(rosterlistener);
 
-
+                //第一次安装的时候用于插入数据库
                 for (RosterEntry entry : entries) {
                     saveOrUpdateEntry(entry);
                 }
 
-                Log.i("service", "--------同步roster_end------");
+                Log.i("XMPPService", "--------同步roster_end------");
 
-                Log.i("service", "--------消息监听处理------");
+                Log.i("XMPPService", "--------消息监听处理------");
                 //1.获取消息管理者
                 if (chatManager == null) {
                     chatManager = XMPPService.conn.getChatManager();
@@ -107,7 +109,7 @@ public class XMPPService extends Service {
                 //会话监听器:当参与者住的发起会话的时候的监听
                 chatManager.addChatListener(myChatManagerListener);
 
-                Log.i("service", "--------消息监听处理end------");
+                Log.i("XMPPService", "--------消息监听处理end------");
 
 
             }
@@ -118,7 +120,7 @@ public class XMPPService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.i("service","IMService---onDestroy");
+        Log.i("XMPPService","XMPPService---onDestroy");
         //移除联系人监听
         if (roster!=null&&rosterlistener!=null){
             roster.removeRosterListener(rosterlistener);
@@ -138,10 +140,10 @@ public class XMPPService extends Service {
 
     class MyRosterlistener implements RosterListener {
 
-        //联系人添加
+        //添加联系人
         @Override
         public void entriesAdded(Collection<String> addrs) {
-            Log.i("--entriesAdded--","--entriesAdded--");
+            Log.i("--XMPPService--","--entriesAdded--");
             //对应更新数据库
             for (String addr:addrs){
                 RosterEntry entry=roster.getEntry(addr);
@@ -153,31 +155,53 @@ public class XMPPService extends Service {
         //联系人修改
         @Override
         public void entriesUpdated(Collection<String> addrs) {
-            Log.i("--entriesUpdated--", "--entriesUpdated--");
+            Log.i("--XMPPService--", "--entriesUpdated--");
             //对应更新数据库
-            for (String addr:addrs){
-                RosterEntry entry=roster.getEntry(addr);
+//            for (String addr:addrs){
+//                RosterEntry entry=roster.getEntry(addr);
                 //更新或插入
-                saveOrUpdateEntry(entry);
-            }
+//                saveOrUpdateEntry(entry);
+//            }
         }
 
-        //联系人删除
+        //删除联系人
         @Override
         public void entriesDeleted(Collection<String> addrs) {
-            Log.i("--entriesDeleted--", "--entriesDeleted--");
+            Log.i("--XMPPService--", "--entriesDeleted--");
             //对应更新数据库
             for (String account:addrs){
-                //删除
+//                //删除
+//                getContentResolver().delete(ContactsProvider.URI_CONTACT,
+//                        ContactOpenHelper.ContactTable.ACCOUNT + "=?", new String[]{account});
+//
+//                // 删除会话
+//               getContentResolver().delete(
+//                        SmsProvider.URI_SMS,
+//                        SmsOpenHelper.SmsTable.SESSION_ACCOUNT+"=?",
+//                        new String[]{account});
+
+                //删除联系人
                 getContentResolver().delete(ContactsProvider.URI_CONTACT,
-                        ContactOpenHelper.ContactTable.ACCOUNT + "=?", new String[]{account});
+                        ContactOpenHelper.ContactTable.ACCOUNT + "=? and "+ContactOpenHelper.ContactTable.BELONG_TO+ "=?"
+                        , new String[]{account,XMPPService.current_account});
+
+                // 删除会话
+                getContentResolver().delete(
+                        SmsProvider.URI_SMS,
+                        SmsOpenHelper.SmsTable.SESSION_ACCOUNT+"=? and "+SmsOpenHelper.SmsTable.SESSION_BELONG_TO+ "=?"
+                        ,
+                        new String[]{account,XMPPService.current_account});
             }
         }
 
         //联系人状态
         @Override
         public void presenceChanged(Presence presence) {
-            Log.i("--presenceChanged--", "--presenceChanged--");
+            Log.i("--XMPPService--", "--presenceChanged--");
+            String from  =presence.getFrom();
+            String to  =presence.getTo();
+            Presence.Type type=presence.getType();
+            Log.i("--presenceChanged--", "--from:"+from+"--to:"+to+"--type:"+type);
         }
     }
 
@@ -213,7 +237,7 @@ public class XMPPService extends Service {
     class MyChatManagerListener implements ChatManagerListener {
         @Override
         public void chatCreated(Chat chat, boolean createLocally) {
-            Log.i("chatCreated","chatCreated");
+            Log.i("XMPPService","chatCreated");
             //判断chat是否存在
             String participant=chat.getParticipant();
             participant=participant.substring(0,participant.indexOf("@"));
@@ -241,9 +265,9 @@ public class XMPPService extends Service {
         ContentValues values=new ContentValues();
         String account=entry.getUser();
         String nickName=entry.getName();
-        String pinyinName=entry.getName();
+        String pinyinName=PinyinUtil.strToPinyin(account);;
         String belong_to=XMPPService.current_account;
-        PinyinUtil.strToPinyin(account);
+
         if (nickName==null||"".equals(nickName)){
             nickName=account.substring(0,account.indexOf("@"));
         }
@@ -259,9 +283,12 @@ public class XMPPService extends Service {
                 values, ContactOpenHelper.ContactTable.ACCOUNT + "=? and "+ContactOpenHelper.ContactTable.BELONG_TO+ "=?",
                 new String[]{account,XMPPService.current_account});
 
+
         if (uCount<=0){
+            Log.i("chatCreated","插入"+nickName);
             getContentResolver().insert(ContactsProvider.URI_CONTACT,values);
         }
+
     }
 
 

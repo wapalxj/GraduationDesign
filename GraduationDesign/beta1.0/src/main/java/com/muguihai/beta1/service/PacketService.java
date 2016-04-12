@@ -7,14 +7,23 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.muguihai.beta1.activity.LoginActivity;
+import com.muguihai.beta1.dbhelper.ContactOpenHelper;
 import com.muguihai.beta1.dbhelper.PacketOpenHelper;
+import com.muguihai.beta1.dbhelper.SmsOpenHelper;
+import com.muguihai.beta1.provider.ContactsProvider;
 import com.muguihai.beta1.provider.PacketProvider;
+import com.muguihai.beta1.provider.SmsProvider;
 import com.muguihai.beta1.utils.PinyinUtil;
 
 import org.jivesoftware.smack.PacketListener;
+import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
 
+/**
+ * 用于管理被添加被删除
+ */
 public class PacketService extends Service {
 
     public PacketService() {
@@ -27,54 +36,57 @@ public class PacketService extends Service {
 
     @Override
     public void onCreate() {
-        Log.i("PushService", "onCreate");
+        Log.i("PacketService", "onCreate");
 
         super.onCreate();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("PushService", "onStartCommand");
+        Log.i("PacketService", "onStartCommand");
         XMPPService.conn.addPacketListener(new PacketListener() {
             @Override
             public void processPacket(Packet packet) {
                 //Packet:消息包,Message的父类
                 if (packet instanceof Presence){
-                    Log.i("PushService---packet", packet.toXML());
+                    Log.i("PacketService---packet", packet.toXML());
                     Presence presence = (Presence) packet;
                     Presence.Type type = presence.getType();
+
+                    String pid = presence.getPacketID();
+                    String from = presence.getFrom();
+                    String nickName=from.substring(0, from.indexOf("@"));
+                    Log.i("presence", "type:" + type + "------id:" + pid + "------from:" + from + "-----nickname:" + nickName);
                     if (type.equals(Presence.Type.subscribe)){
-                        String pid = presence.getPacketID();
-                        String from = presence.getFrom();
-                        String nickName=from.substring(0, from.indexOf("@"));
-                        Log.i("presence", "type:" + type + "------id:" + pid + "------from:" + from + "-----nickname:" + nickName);
+                        //被添加好友
                         saveOrUpdateEntry(presence);
+
+                    }else if (type.equals(Presence.Type.unsubscribe)){
+                        //被好友删除:我们也删除对方
+                        try {
+                            Presence unsubscribe = new Presence(Presence.Type.unsubscribe);
+                            unsubscribe.setTo(from);
+                            XMPPService.conn.sendPacket(unsubscribe);
+                            RosterEntry entry =XMPPService.conn.getRoster().getEntry(from);
+                            XMPPService.conn.getRoster().removeEntry(entry);
+                        } catch (XMPPException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        //删除联系人
+                        getContentResolver().delete(ContactsProvider.URI_CONTACT,
+                                ContactOpenHelper.ContactTable.ACCOUNT + "=? and "+ContactOpenHelper.ContactTable.BELONG_TO+ "=?"
+                                , new String[]{from,XMPPService.current_account});
+
+                        // 删除会话
+                        getContentResolver().delete(
+                                SmsProvider.URI_SMS,
+                                SmsOpenHelper.SmsTable.SESSION_ACCOUNT+"=? and "+SmsOpenHelper.SmsTable.SESSION_BELONG_TO+ "=?"
+                                ,
+                                new String[]{from,XMPPService.current_account});
                     }
                 }
-
-
-                //获取propertyNames集合:接收不到
-//                Collection<String> propertyNames =packet.getPropertyNames();
-//
-//                for (String str : propertyNames){
-//                    Log.i("propertyNames",""+packet.getProperty(str));
-//                }
-
-//                Message message = (Message) packet;
-//                String body = (String) message.getProperty("body");//获取不到：null
-//                String body1 = message.getBody();//可以获取到
-//                Log.i("propertyNames", "body:" + body + "------body1:" + body1);
-
-
-//                if(Roster.getDefaultSubscriptionMode().equals(
-//                        Roster.SubscriptionMode.manual)) {
-                //回复一个presence信息给用户:添加好友
-//                    Presence subscription = new Presence(Presence.Type.subscribed);
-//                    subscription.setTo(packet.getFrom());
-//                    Log.i("subscription", "packetfrom:" + packet.getFrom() + "-----to:" + subscription.getTo());
-//
-//                    XMPPService.conn.sendPacket(subscription);
-//                }
 
 
             }
@@ -85,12 +97,12 @@ public class PacketService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.i("PushService", "PushService---onDestroy");
+        Log.i("PacketService", "PacketService---onDestroy");
         super.onDestroy();
     }
 
     /**
-     * 更新或者插入联系人
+     * 更新或者插入packet
      */
     private void saveOrUpdateEntry(Presence presence){
         ContentValues values=new ContentValues();

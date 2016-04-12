@@ -2,6 +2,7 @@ package com.muguihai.beta1.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,8 @@ import com.muguihai.beta1.R;
 import com.muguihai.beta1.fragment.ContactFragment;
 import com.muguihai.beta1.fragment.MineFragment;
 import com.muguihai.beta1.fragment.SessionFragment;
+import com.muguihai.beta1.service.PacketService;
+import com.muguihai.beta1.service.XMPPService;
 import com.muguihai.beta1.utils.ToolBarUtil;
 import com.muguihai.beta1.view.slidemenu.MyLinearLayout;
 import com.muguihai.beta1.view.slidemenu.SlideMenu;
@@ -133,5 +136,20 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
 
         }
         mTransaction.commit();
+    }
+
+    @Override
+    protected void onDestroy() {
+        XMPPService.conn.disconnect();
+        //关闭IMService
+        Intent intent =new Intent(getApplicationContext(),XMPPService.class);
+        stopService(intent);
+
+
+        //XMPPService
+        Intent intent2 =new Intent(getApplicationContext(), PacketService.class);
+        stopService(intent2);
+        Log.i("close","XMPPService---------PacketService");
+        super.onDestroy();
     }
 }

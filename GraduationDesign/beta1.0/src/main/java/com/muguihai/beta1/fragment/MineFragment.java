@@ -2,6 +2,7 @@ package com.muguihai.beta1.fragment;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.ContentObserver;
@@ -19,11 +20,15 @@ import android.widget.TextView;
 
 import com.muguihai.beta1.R;
 import com.muguihai.beta1.activity.LoginActivity;
+import com.muguihai.beta1.dbhelper.ContactOpenHelper;
 import com.muguihai.beta1.dbhelper.PacketOpenHelper;
+import com.muguihai.beta1.provider.ContactsProvider;
 import com.muguihai.beta1.provider.PacketProvider;
 import com.muguihai.beta1.service.XMPPService;
+import com.muguihai.beta1.utils.PinyinUtil;
 import com.muguihai.beta1.utils.ThreadUtils;
 
+import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.packet.Presence;
 
 
@@ -33,8 +38,8 @@ public class MineFragment extends Fragment {
     private ListView mListView;
     private CursorAdapter mAdapter;
 
+
     public MineFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -81,7 +86,7 @@ public class MineFragment extends Fragment {
      * 好友请求dialog
      * @param account
      */
-    private void showAddFriendDialog(String account,final View view) {
+    private void showAddFriendDialog(String account, final View view) {
         final TextView tvState= (TextView) view.findViewById(R.id.state);
         final String[] acc = {account};
         new AlertDialog.Builder(getActivity())
@@ -91,10 +96,15 @@ public class MineFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 接受请求
+                        String nickname=acc[0];
                         acc[0] +="@"+ LoginActivity.SERVICENAME;
                         Presence subscription = new Presence(Presence.Type.subscribed);
                         subscription.setTo(acc[0]);
                         XMPPService.conn.sendPacket(subscription);
+                        //插入联系人
+                        String account=acc[0];
+                        insertEntry(account,nickname);
+
                         tvState.setVisibility(View.VISIBLE);
                         tvState.setText("已同意");
                     }
@@ -136,8 +146,8 @@ public class MineFragment extends Fragment {
         if (mAdapter!=null){
             Log.i("MyPacketObserver", "mAdapter存在");
             //刷新adapter
-            mAdapter.getCursor().requery();
-//            mAdapter.notifyDataSetChanged();
+//            mAdapter.getCursor().requery();
+            mAdapter.notifyDataSetChanged();
             return;
         }
         Log.i("MyPacketObserver", "创建mAdapter");
@@ -173,7 +183,7 @@ public class MineFragment extends Fragment {
                                         TextView tvNickname = (TextView) view.findViewById(R.id.name);
                                         tvNickname.setTag(ADD_FRIEND);
 //                                        tvNickname.setTag(1,cursor.getString(cursor.getColumnIndex(PacketOpenHelper.Packet_Table.PACKET_ACCOUNT_FROM)));
-                                        String nickname = cursor.getString(cursor.getColumnIndex(PacketOpenHelper.Packet_Table.PACKET_NICKNAME_FROM));
+                                        String nickname  = cursor.getString(cursor.getColumnIndex(PacketOpenHelper.Packet_Table.PACKET_NICKNAME_FROM));
                                         tvNickname.setText(nickname);
                                     }
                                 };
@@ -226,6 +236,29 @@ public class MineFragment extends Fragment {
             //刷新adapter
             setOrUpdateAdapter();
         }
+    }
+
+
+    /**
+     * 插入联系人
+     */
+    private void insertEntry(String account,String nickname){
+        ContentValues values=new ContentValues();
+        String pinyinName=PinyinUtil.strToPinyin(nickname);;
+        String belong_to=XMPPService.current_account;
+
+        if (nickname==null||"".equals(nickname)){
+            nickname=account.substring(0,account.indexOf("@"));
+        }
+
+        values.put(ContactOpenHelper.ContactTable.ACCOUNT,account);
+        values.put(ContactOpenHelper.ContactTable.NICKNAME,nickname);
+        values.put(ContactOpenHelper.ContactTable.AVATAR, "0");
+        values.put(ContactOpenHelper.ContactTable.PINYIN, pinyinName);
+        values.put(ContactOpenHelper.ContactTable.BELONG_TO, belong_to);
+
+
+        getActivity().getContentResolver().insert(ContactsProvider.URI_CONTACT,values);
     }
 
 }
