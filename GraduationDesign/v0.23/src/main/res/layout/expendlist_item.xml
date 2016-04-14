@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#4D6CA4"
@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="昵称"
+            android:textColor="#000"
             android:textSize="16sp"/>
 
         <LinearLayout
@@ -42,12 +43,12 @@
                 android:textColor="#D4D0C8"
                 android:textSize="14sp"/>
             <TextView
-                android:id="@+id/account"
+                android:id="@+id/signature"
                 android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="账号"
+                android:text="个性签名"
                 android:textColor="#D4D0C8"
                 android:textSize="14sp"/>
         </LinearLayout>

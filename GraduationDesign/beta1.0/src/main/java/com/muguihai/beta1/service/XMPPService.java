@@ -23,6 +23,7 @@ import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -89,6 +90,20 @@ public class XMPPService extends Service {
                     System.out.print(entry.getType() + "----");
                     System.out.println(" ");
                 }
+
+
+                //--------------得到联系人分组--------------
+                Collection<RosterGroup> groups = roster.getGroups();
+                if (groups.isEmpty()){
+                    Log.i("roast分组","没有分组");
+                }else {
+                    for (RosterGroup group : groups) {
+                        Log.i("roast分组","分组名称："+(group.getName()+"----"));
+                        Log.i("roast分组","分组人数："+group.getEntryCount());
+                    }
+                }
+
+                //--------------得到联系人分组--------------
                 //监听联系人的改变
                 rosterlistener = new MyRosterlistener();
                 roster.addRosterListener(rosterlistener);
@@ -148,7 +163,7 @@ public class XMPPService extends Service {
             for (String addr:addrs){
                 RosterEntry entry=roster.getEntry(addr);
                 //更新或插入
-                saveOrUpdateEntry(entry);
+//                saveOrUpdateEntry(entry);
             }
         }
 
@@ -171,14 +186,6 @@ public class XMPPService extends Service {
             //对应更新数据库
             for (String account:addrs){
 //                //删除
-//                getContentResolver().delete(ContactsProvider.URI_CONTACT,
-//                        ContactOpenHelper.ContactTable.ACCOUNT + "=?", new String[]{account});
-//
-//                // 删除会话
-//               getContentResolver().delete(
-//                        SmsProvider.URI_SMS,
-//                        SmsOpenHelper.SmsTable.SESSION_ACCOUNT+"=?",
-//                        new String[]{account});
 
                 //删除联系人
                 getContentResolver().delete(ContactsProvider.URI_CONTACT,

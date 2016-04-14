@@ -5,8 +5,7 @@
               android:background="#FFFFFF"
               android:paddingBottom="10dp"
               android:paddingTop="10dp"
-                android:paddingRight="15dp"
-              tools:context=".MainActivity">
+              android:paddingRight="15dp">
 
     <ImageView
         android:id="@+id/head"

@@ -17,10 +17,16 @@ public class FirstActivity extends AppCompatActivity {
         ThreadUtils.runInThread(new Runnable() {
             @Override
             public void run() {
-                SystemClock.sleep(2000);
-                loginActivity=new Intent(FirstActivity.this,LoginActivity.class);
-                startActivity(loginActivity);
-                finish();
+                try {
+                    Thread.sleep(2000);
+//                    SystemClock.sleep(2000);
+                    loginActivity=new Intent(FirstActivity.this,LoginActivity.class);
+                    startActivity(loginActivity);
+                    finish();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }

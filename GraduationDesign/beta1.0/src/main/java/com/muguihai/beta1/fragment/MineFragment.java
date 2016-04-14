@@ -29,6 +29,7 @@ import com.muguihai.beta1.utils.PinyinUtil;
 import com.muguihai.beta1.utils.ThreadUtils;
 
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.packet.Presence;
 
 
@@ -74,19 +75,24 @@ public class MineFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView view1 = (TextView) view.findViewById(R.id.name);
+                TextView tvState = (TextView) view.findViewById(R.id.state);
                 if (view1.getTag().equals(ADD_FRIEND)) {
+                    if (tvState.getVisibility()==View.VISIBLE){
+                        return;
+                    }
                     String account=view1.getText().toString();
                     showAddFriendDialog(account,view);
                 }
             }
         });
+
     }
 
     /**
      * 好友请求dialog
      * @param account
      */
-    private void showAddFriendDialog(String account, final View view) {
+    private void showAddFriendDialog(final String account, final View view) {
         final TextView tvState= (TextView) view.findViewById(R.id.state);
         final String[] acc = {account};
         new AlertDialog.Builder(getActivity())
@@ -104,9 +110,10 @@ public class MineFragment extends Fragment {
                         //插入联系人
                         String account=acc[0];
                         insertEntry(account,nickname);
-
                         tvState.setVisibility(View.VISIBLE);
                         tvState.setText("已同意");
+                        updateState(acc[0],1);
+                        setOrUpdateAdapter();
                     }
                 })
                 .setNegativeButton("拒绝", new DialogInterface.OnClickListener() {
@@ -114,15 +121,21 @@ public class MineFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 拒绝请求
-                        Presence subscription = new Presence(Presence.Type.unsubscribed);
-                        subscription.setTo(acc[0]);
-                        XMPPService.conn.sendPacket(subscription);
+                        Presence unsubscription = new Presence(Presence.Type.unsubscribe);
+                        acc[0] +="@"+ LoginActivity.SERVICENAME;
+                        unsubscription.setTo(acc[0]);
+                        XMPPService.conn.sendPacket(unsubscription);
                         tvState.setVisibility(View.VISIBLE);
                         tvState.setText("已拒绝");
+                        updateState(acc[0],2);
+                        setOrUpdateAdapter();
+
                     }
                 }).show();
-        setOrUpdateAdapter();
+
     }
+
+
 
     private void initData() {
         //设置adapter
@@ -184,6 +197,18 @@ public class MineFragment extends Fragment {
                                         tvNickname.setTag(ADD_FRIEND);
 //                                        tvNickname.setTag(1,cursor.getString(cursor.getColumnIndex(PacketOpenHelper.Packet_Table.PACKET_ACCOUNT_FROM)));
                                         String nickname  = cursor.getString(cursor.getColumnIndex(PacketOpenHelper.Packet_Table.PACKET_NICKNAME_FROM));
+                                        int handle_state  = cursor.getInt(cursor.getColumnIndex(PacketOpenHelper.Packet_Table.HANDLE_STATE));
+
+                                        if (handle_state!=0){
+                                            TextView tvState= (TextView) view.findViewById(R.id.state);
+                                            tvState.setVisibility(View.VISIBLE);
+                                            if (handle_state==1){
+                                                tvState.setText("已同意");
+                                            }else if (handle_state==2){
+                                                tvState.setText("已拒绝");
+                                            }
+                                        }
+
                                         tvNickname.setText(nickname);
                                     }
                                 };
@@ -259,6 +284,23 @@ public class MineFragment extends Fragment {
 
 
         getActivity().getContentResolver().insert(ContactsProvider.URI_CONTACT,values);
+    }
+    /**
+     * 更改处理状态
+     */
+    private void updateState(String account,int state_id) {
+        Log.i("updateState","状态更新成功");
+        ContentValues values=new ContentValues();
+        int handle_state= state_id;//已处理
+        values.put(PacketOpenHelper.Packet_Table.HANDLE_STATE,handle_state);
+
+        int uCount=getActivity().getContentResolver().update(PacketProvider.URI_PACKET,
+                values, PacketOpenHelper.Packet_Table.PACKET_ACCOUNT_FROM + "=? and "+PacketOpenHelper.Packet_Table.PACKET_BELONG_TO+"=? "
+                , new String[]{account,XMPPService.current_account});
+
+        if (uCount>0){
+            Log.i("updateState","状态更新成功");
+        }
     }
 
 }

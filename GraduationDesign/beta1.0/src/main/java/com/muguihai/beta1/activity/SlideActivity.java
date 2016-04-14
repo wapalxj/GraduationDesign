@@ -18,6 +18,7 @@ import com.muguihai.beta1.R;
 import com.muguihai.beta1.fragment.ContactFragment;
 import com.muguihai.beta1.fragment.MineFragment;
 import com.muguihai.beta1.fragment.SessionFragment;
+import com.muguihai.beta1.fragment.TestContactFragment;
 import com.muguihai.beta1.service.PacketService;
 import com.muguihai.beta1.service.XMPPService;
 import com.muguihai.beta1.utils.ToolBarUtil;
@@ -126,7 +127,7 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
                 mMtv_title.setText(toolbar_titles[0]);
                 break;
             case 1:
-                mTransaction.replace(R.id.frame,new ContactFragment());
+                mTransaction.replace(R.id.frame,new TestContactFragment());
                 mMtv_title.setText(toolbar_titles[1]);
                 break;
             case 2:
@@ -149,6 +150,9 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
         //XMPPService
         Intent intent2 =new Intent(getApplicationContext(), PacketService.class);
         stopService(intent2);
+
+        XMPPService.current_account=null;
+        XMPPService.conn=null;
         Log.i("close","XMPPService---------PacketService");
         super.onDestroy();
     }

@@ -112,16 +112,19 @@ public class PacketService extends Service {
         String t=type.toString();
         String packet_type="presence";
         String pinyin= PinyinUtil.strToPinyin(nickName);
+        int handle_state= 0;//未处理
 
         values.put(PacketOpenHelper.Packet_Table.PACKET_ACCOUNT_FROM,account);
         values.put(PacketOpenHelper.Packet_Table.PACKET_NICKNAME_FROM,nickName);
         values.put(PacketOpenHelper.Packet_Table.PACKET_TYPE,packet_type);
         values.put(PacketOpenHelper.Packet_Table.TYPE, t);
         values.put(PacketOpenHelper.Packet_Table.PINYIN, pinyin);
+        values.put(PacketOpenHelper.Packet_Table.HANDLE_STATE,handle_state);
         values.put(PacketOpenHelper.Packet_Table.PACKET_BELONG_TO, XMPPService.current_account);
         //先update在insert
         int uCount=getContentResolver().update(PacketProvider.URI_PACKET,
-                values, PacketOpenHelper.Packet_Table.PACKET_ACCOUNT_FROM + "=?", new String[]{account});
+                values, PacketOpenHelper.Packet_Table.PACKET_ACCOUNT_FROM + "=? and "+PacketOpenHelper.Packet_Table.PACKET_BELONG_TO+"=? "
+                , new String[]{account,XMPPService.current_account});
 
         if (uCount<=0){
             getContentResolver().insert(PacketProvider.URI_PACKET,values);

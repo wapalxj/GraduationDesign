@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -24,6 +25,8 @@ import com.muguihai.beta1.dbhelper.ContactOpenHelper;
 import com.muguihai.beta1.provider.ContactsProvider;
 import com.muguihai.beta1.service.XMPPService;
 import com.muguihai.beta1.utils.ThreadUtils;
+
+import java.util.List;
 
 
 /**
@@ -133,7 +136,6 @@ public class ContactFragment extends Fragment {
                                     //如果convertView==null,则执行newView,返回一个根视图
                                     @Override
                                     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-//                                TextView tv=new TextView(context);
                                         View view = View.inflate(context, R.layout.item_contact, null);
                                         return view;
                                     }
@@ -141,7 +143,6 @@ public class ContactFragment extends Fragment {
                                     //数据的设置和显示
                                     @Override
                                     public void bindView(View view, Context context, Cursor cursor) {
-//                                TextView tv= (TextView) graduationdesign.muguihai.com.v023.view;
                                         ImageView ivHead = (ImageView) view.findViewById(R.id.head);
                                         TextView tvAccount = (TextView) view.findViewById(R.id.account);
                                         TextView tvNickname = (TextView) view.findViewById(R.id.nickname);

@@ -24,9 +24,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.LoginActivity">
-
-        </activity>
+        <activity android:name=".activity.LoginActivity"></activity>
         <activity android:name=".activity.RegisterActivity" />
 
         <service
@@ -55,11 +53,9 @@
         <service
             android:name=".service.PacketService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"></service>
 
-        </service>
-
-        <activity android:name=".activity.SlideActivity"></activity>
+        <activity android:name=".activity.SlideActivity" />
         <activity android:name=".activity.FirstActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

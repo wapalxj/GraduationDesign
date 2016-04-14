@@ -22,7 +22,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
-import csdn.shimiso.eim.R;
 import csdn.shimiso.eim.activity.ActivitySupport;
 import csdn.shimiso.eim.activity.LoginActivity;
 import csdn.shimiso.eim.comm.Constant;
