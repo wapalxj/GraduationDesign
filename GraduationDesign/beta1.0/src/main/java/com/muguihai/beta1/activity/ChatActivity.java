@@ -1,6 +1,7 @@
 package com.muguihai.beta1.activity;
 
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
@@ -21,12 +23,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.muguihai.beta1.R;
+import com.muguihai.beta1.dbhelper.ContactOpenHelper;
 import com.muguihai.beta1.dbhelper.SmsOpenHelper;
+import com.muguihai.beta1.provider.ContactsProvider;
 import com.muguihai.beta1.provider.SmsProvider;
 import com.muguihai.beta1.service.XMPPService;
+import com.muguihai.beta1.utils.PinyinUtil;
 import com.muguihai.beta1.utils.ThreadUtils;
 import com.muguihai.beta1.utils.ToastUtils;
+import com.muguihai.beta1.view.quickaction.ActionItem;
+import com.muguihai.beta1.view.quickaction.QuickAction;
 
+import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.packet.Message;
 
 import java.text.SimpleDateFormat;
@@ -43,7 +52,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private TextView chat_back;
     private TextView chat_title;
-    private ListView listView;
+    private ListView mChat_listView;
     private EditText editText;
     private Button btn_send;
     private CursorAdapter mAdapter;
@@ -78,7 +87,7 @@ public class ChatActivity extends AppCompatActivity {
 
         chat_back= (TextView) findViewById(R.id.chat_back);
         chat_title= (TextView) findViewById(R.id.chat_title);
-        listView= (ListView) findViewById(R.id.listview);
+        mChat_listView= (ListView) findViewById(R.id.chat_listview);
         editText= (EditText) findViewById(R.id.edittext);
         btn_send= (Button) findViewById(R.id.btn_send);
         chat_roster_setting= (TextView) findViewById(R.id.chat_roster_setting);
@@ -123,7 +132,7 @@ public class ChatActivity extends AppCompatActivity {
         if (mAdapter!=null){
             Cursor c=mAdapter.getCursor();
             c.requery();
-            listView.setSelection(c.getCount() - 1);
+            mChat_listView.setSelection(c.getCount() - 1);
             return;
         }
 
@@ -255,8 +264,8 @@ public class ChatActivity extends AppCompatActivity {
                             }
                         };
 
-                        listView.setAdapter(mAdapter);
-                        listView.setSelection(mAdapter.getCount() - 1);
+                        mChat_listView.setAdapter(mAdapter);
+                        mChat_listView.setSelection(mAdapter.getCount() - 1);
                     }
                 });
 
@@ -266,7 +275,30 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initListener() {
+        final QuickAction quickAction = new QuickAction(getApplicationContext(), QuickAction.HORIZONTAL);
 
+        quickAction.addActionItem(new ActionItem(0, "删除"));
+        quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+
+            @Override
+            public void onItemClick(QuickAction source, int pos, int actionId) {
+                switch (actionId) {
+                    case 0:
+                        ToastUtils.myToast(getApplicationContext(),"删除");
+//                                removeChat(account);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        mChat_listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                quickAction.show(mChat_listView.getChildAt(position));
+                return false;
+            }
+        });
     }
 
     /**
@@ -290,6 +322,9 @@ public class ChatActivity extends AppCompatActivity {
                 //TODO 调用Service里面的sendMessage()方法---->boundService
                 xmppService.sendMessage(msg);
 
+
+                //更新或者插入会话表
+                xmppService.saveOrUpdateSession(chat_account,msg);
                 //4.清空edittext
                 ThreadUtils.runInUIThread(new Runnable() {
                     @Override
@@ -369,11 +404,5 @@ public class ChatActivity extends AppCompatActivity {
 
         }
     }
-
-
-
-
-
-
 }
 

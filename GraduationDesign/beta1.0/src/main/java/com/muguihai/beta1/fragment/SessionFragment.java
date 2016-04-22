@@ -21,8 +21,10 @@ import android.widget.Toast;
 import com.muguihai.beta1.R;
 import com.muguihai.beta1.activity.ChatActivity;
 import com.muguihai.beta1.dbhelper.ContactOpenHelper;
+import com.muguihai.beta1.dbhelper.SessionOpenHelper;
 import com.muguihai.beta1.dbhelper.SmsOpenHelper;
 import com.muguihai.beta1.provider.ContactsProvider;
+import com.muguihai.beta1.provider.SessionProvider;
 import com.muguihai.beta1.provider.SmsProvider;
 import com.muguihai.beta1.service.XMPPService;
 import com.muguihai.beta1.utils.ThreadUtils;
@@ -89,22 +91,32 @@ public class SessionFragment extends Fragment {
                 cursor.moveToPosition(position);
 
                 //获取JID:用于发送消息
-                String account=cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.SESSION_ACCOUNT));
+                String account=cursor.getString(cursor.getColumnIndex(SessionOpenHelper.SessionTable.SESSION_ACCOUNT));
                 //nickname:用于显示
-                String nickname= getNicknameByAccount(account);
+                String nickname=cursor.getString(cursor.getColumnIndex(SessionOpenHelper.SessionTable.SESSION_NICKNAME));
 
                 Intent intent =new Intent(getActivity(),ChatActivity.class);
                 intent.putExtra(ChatActivity.CHAT_ACCOUNT,account);
                 intent.putExtra(ChatActivity.CHAT_NICKNAME,nickname);
+
+
                 startActivity(intent);
             }
         });
 
         mListview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
+                Cursor cursor=adapter.getCursor();
+                cursor.moveToPosition(position);
+
+                //获取JID:用于发送消息
+                final String account=cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.SESSION_ACCOUNT));
+                //nickname:用于显示
+                final String nickname= getNicknameByAccount(account);
+
                 QuickAction quickAction = new QuickAction(getActivity(), QuickAction.HORIZONTAL);
-                quickAction.addActionItem(new ActionItem(0, "置顶"));
+                quickAction.addActionItem(new ActionItem(0, "打开"));
                 quickAction.addActionItem(new ActionItem(1,"删除"));
                 quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
 
@@ -113,11 +125,14 @@ public class SessionFragment extends Fragment {
                                                     int actionId) {
                                 switch (actionId) {
                                     case 0:
-                                        Toast.makeText(getActivity(),"1111",Toast.LENGTH_SHORT).show();
+                                        Intent intent =new Intent(getActivity(),ChatActivity.class);
+                                        intent.putExtra(ChatActivity.CHAT_ACCOUNT,account);
+                                        intent.putExtra(ChatActivity.CHAT_NICKNAME,nickname);
+                                        startActivity(intent);
                                         break;
                                     case 1:
-                                        TextView tvAccount= (TextView) view.findViewById(R.id.account_session);
-                                        String account=tvAccount.getText().toString();
+//                                        TextView tvAccount= (TextView) view.findViewById(R.id.account_session);
+//                                        String account=tvAccount.getText().toString();
                                         ToastUtils.myToast(getActivity(),account);
                                         removeSession(account);
                                         break;
@@ -154,9 +169,15 @@ public class SessionFragment extends Fragment {
         ThreadUtils.runInThread(new Runnable() {
             @Override
             public void run() {
+//                //对应查询记录
+//                final Cursor cursor = getActivity().getContentResolver().query(SmsProvider.URI_SESSION, null, null,
+//                        new String[]{XMPPService.current_account, XMPPService.current_account,XMPPService.current_account}, null);
+
                 //对应查询记录
-                final Cursor cursor = getActivity().getContentResolver().query(SmsProvider.URI_SESSION, null, null,
-                        new String[]{XMPPService.current_account, XMPPService.current_account,XMPPService.current_account}, null);
+                final Cursor cursor = getActivity().getContentResolver().query(SessionProvider.URI_SESSION, null,
+                        "session_belong_to= ?",
+                        new String[]{XMPPService.current_account}, null);
+
 
                 //没有数据
                 if (cursor.getCount() <= 0) {
@@ -183,11 +204,14 @@ public class SessionFragment extends Fragment {
                                         TextView tvBody = (TextView) view.findViewById(R.id.body_session);
                                         TextView tvNickname = (TextView) view.findViewById(R.id.nickname_session);
 
-                                        String body = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.BODY));
-                                        String account = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.SESSION_ACCOUNT));
+//                                        String body = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.BODY));
+//                                        String account = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.SESSION_ACCOUNT));
 
+                                        String body = cursor.getString(cursor.getColumnIndex(SessionOpenHelper.SessionTable.BODY));
+                                        String account = cursor.getString(cursor.getColumnIndex(SessionOpenHelper.SessionTable.SESSION_ACCOUNT));
+                                        String nickname = cursor.getString(cursor.getColumnIndex(SessionOpenHelper.SessionTable.SESSION_NICKNAME));
                                         tvaccount.setText(account);
-                                        String nickname=getNicknameByAccount(account);
+//                                        String nickname=getNicknameByAccount(account);
                                         tvBody.setText(body);
                                         tvNickname.setText(nickname);
                                     }
@@ -247,6 +271,7 @@ public class SessionFragment extends Fragment {
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
             //刷新adapter
+            Log.i("Session","Session变化");
             setOrUpdateAdapter();
         }
     }
@@ -254,11 +279,12 @@ public class SessionFragment extends Fragment {
     private void removeSession(String account){
         // 删除会话
         getActivity().getContentResolver().delete(
-                SmsProvider.URI_SESSION,
-                SmsOpenHelper.SmsTable.SESSION_ACCOUNT+"=? and "+SmsOpenHelper.SmsTable.SESSION_BELONG_TO+ "=?"
+                SessionProvider.URI_SESSION,
+                SessionOpenHelper.SessionTable.SESSION_ACCOUNT+"=? and "+SessionOpenHelper.SessionTable.SESSION_BELONG_TO+ "=?"
                 ,
-                new String[]{account,XMPPService.current_account});
-
+                new String[]{account,XMPPService.current_account}
+        );
+        setOrUpdateAdapter();
     }
 
 

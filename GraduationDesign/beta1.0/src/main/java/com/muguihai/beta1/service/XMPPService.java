@@ -11,9 +11,11 @@ import android.util.Log;
 import com.muguihai.beta1.activity.LoginActivity;
 import com.muguihai.beta1.dbhelper.ContactOpenHelper;
 import com.muguihai.beta1.dbhelper.GroupOpenHelper;
+import com.muguihai.beta1.dbhelper.SessionOpenHelper;
 import com.muguihai.beta1.dbhelper.SmsOpenHelper;
 import com.muguihai.beta1.provider.ContactsProvider;
 import com.muguihai.beta1.provider.GroupProvider;
+import com.muguihai.beta1.provider.SessionProvider;
 import com.muguihai.beta1.provider.SmsProvider;
 import com.muguihai.beta1.utils.PinyinUtil;
 import com.muguihai.beta1.utils.ThreadUtils;
@@ -251,6 +253,8 @@ public class XMPPService extends Service {
             //收到消息保存
             String participant=chat.getParticipant();
             saveMessage(participant, message);
+            //插入或者更新会话表
+            saveOrUpdateSession(participant, message);
         }
     }
     //    MyChatManagerListener myChatManagerListener =new MyChatManagerListener();
@@ -406,6 +410,45 @@ public class XMPPService extends Service {
             getContentResolver().insert(GroupProvider.URI_GROUP,values);
         }
 
+    }
+
+    /**
+     * 更新或者插入会话
+     */
+    public void saveOrUpdateSession(String sessionAccount,Message msg) {
+        ContentValues values=new ContentValues();
+
+        //首先过滤
+        sessionAccount=filterAccount(sessionAccount);
+
+        String from=msg.getFrom();
+        from=filterAccount(from);
+        String to=msg.getTo();
+        to=filterAccount(to);
+        String session_belong_to=XMPPService.current_account;
+
+        String nickName=XMPPService.conn.getRoster().getEntry(sessionAccount).getName();
+        if (nickName==null||"".equals(nickName)){
+            nickName=sessionAccount.substring(0,sessionAccount.indexOf("@"));
+        }
+
+        values.put(SessionOpenHelper.SessionTable.FROM_ACCOUNT,from);
+        values.put(SessionOpenHelper.SessionTable.TO_ACCOUNT,to);
+        values.put(SessionOpenHelper.SessionTable.BODY,msg.getBody());
+        values.put(SessionOpenHelper.SessionTable.TYPE,msg.getType().name());
+        values.put(SessionOpenHelper.SessionTable.SESSION_ACCOUNT, sessionAccount);
+        values.put(SessionOpenHelper.SessionTable.SESSION_NICKNAME, nickName);
+        values.put(SessionOpenHelper.SessionTable.SESSION_BELONG_TO, session_belong_to);
+
+        //先update在insert
+        int uCount=getContentResolver().update(SessionProvider.URI_SESSION,
+                values,SessionOpenHelper.SessionTable.SESSION_ACCOUNT + "= ? and "+SessionOpenHelper.SessionTable.SESSION_BELONG_TO+ "=?",
+                new String[]{sessionAccount,XMPPService.current_account});
+
+        if (uCount<=0){
+            Log.i("chatCreated","插入会话"+nickName);
+            getContentResolver().insert(SessionProvider.URI_SESSION,values);
+        }
     }
 
     public static boolean checkConnection(){

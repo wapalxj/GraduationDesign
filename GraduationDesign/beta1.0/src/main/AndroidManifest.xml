@@ -52,6 +52,11 @@
             android:authorities="com.muguihai.beta1.provider.GroupProvider"
             android:enabled="true"
             android:exported="true" />
+        <provider
+            android:name=".provider.SessionProvider"
+            android:authorities="com.muguihai.beta1.provider.SessionProvider"
+            android:enabled="true"
+            android:exported="true"/>
 
         <activity android:name=".activity.ChatActivity" />
 
@@ -70,7 +75,9 @@
         </activity>
         <activity android:name=".activity.AddFriendActivity" />
         <activity android:name=".activity.RosterSettingActivity" />
-        <activity android:name=".activity.FriendGroupChangeActivity"></activity>
+        <activity android:name=".activity.FriendGroupChangeActivity" />
+
+
     </application>
 
 </manifest>

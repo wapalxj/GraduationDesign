@@ -45,7 +45,7 @@
 
     <ListView
         android:background="@mipmap/chat_bg"
-        android:id="@+id/listview"
+        android:id="@+id/chat_listview"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:divider="#d12f2f2f"

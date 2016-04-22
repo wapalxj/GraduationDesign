@@ -58,12 +58,21 @@ public class AddFriendActivity extends AppCompatActivity implements View.OnClick
                 }else {
                     account=account+"@"+ LoginActivity.SERVICENAME;
                     if (XMPPService.checkConnection()){
-                        Presence subscription = new Presence(Presence.Type.subscribe);
-                        subscription.setTo(account);
-                        XMPPService.conn.sendPacket(subscription);
+                        if (XMPPService.conn.getRoster().contains(account)){
+                            tv_add_account.setError("不能重复添加！");
+                        }else {
+                            Presence subscription = new Presence(Presence.Type.subscribe);
+                            subscription.setTo(account);
+                            XMPPService.conn.sendPacket(subscription);
+                            ToastUtils.myToast(getApplicationContext(),"添加成功，请等待回复");
+                            tv_add_account.setText(null);
+//                            finish();
+                        }
+                    }else {
+                        tv_add_account.setError("网络连接失败，请检查网络！");
                     }
                 }
-                finish();
+
                 break;
             case R.id.btn_addFcancel:
                 tv_add_account.setText("");
