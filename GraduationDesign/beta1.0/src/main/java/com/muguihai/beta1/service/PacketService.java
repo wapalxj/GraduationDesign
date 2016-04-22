@@ -17,6 +17,7 @@ import com.muguihai.beta1.utils.PinyinUtil;
 
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
@@ -59,7 +60,22 @@ public class PacketService extends Service {
                     Log.i("presence", "type:" + type + "------id:" + pid + "------from:" + from + "-----nickname:" + nickName);
                     if (type.equals(Presence.Type.subscribe)){
                         //被添加好友
-                        saveOrUpdateEntry(presence);
+                        saveOrUpdatePacket(presence);
+
+                    }else if (type.equals(Presence.Type.subscribed)){
+                        //对方同意加我为好友
+                        RosterEntry entry=XMPPService.conn.getRoster().getEntry(from);
+                        //加入组
+                        RosterGroup group=XMPPService.conn.getRoster().getGroup("Friends");
+                        try {
+                            group.addEntry(entry);
+                        } catch (XMPPException e) {
+                            e.printStackTrace();
+                        }
+
+                        //更新数据库
+                        saveOrUpdateEntry(entry);
+                        getContentResolver().notifyChange(ContactsProvider.URI_CONTACT,null);
 
                     }else if (type.equals(Presence.Type.unsubscribe)){
                         //被好友删除:我们也删除对方
@@ -104,7 +120,7 @@ public class PacketService extends Service {
     /**
      * 更新或者插入packet
      */
-    private void saveOrUpdateEntry(Presence presence){
+    private void saveOrUpdatePacket(Presence presence){
         ContentValues values=new ContentValues();
         String account = presence.getFrom();
         String nickName=account.substring(0, account.indexOf("@"));
@@ -135,6 +151,40 @@ public class PacketService extends Service {
     private String filterAccount(String sessionAccount){
         sessionAccount=sessionAccount.substring(0,sessionAccount.indexOf("@"))+"@"+ LoginActivity.SERVICENAME;
         return sessionAccount;
+    }
+
+    /**
+     * 更新或者插入联系人
+     */
+    private void saveOrUpdateEntry(RosterEntry entry){
+        ContentValues values=new ContentValues();
+        String account=entry.getUser();
+        String nickName=entry.getName();
+        String pinyinName=PinyinUtil.strToPinyin(account);
+        String groupName="Friends";
+        String belong_to=XMPPService.current_account;
+        if (nickName==null||"".equals(nickName)){
+            nickName=account.substring(0,account.indexOf("@"));
+        }
+
+        values.put(ContactOpenHelper.ContactTable.ACCOUNT,account);
+        values.put(ContactOpenHelper.ContactTable.NICKNAME,nickName);
+        values.put(ContactOpenHelper.ContactTable.AVATAR, "0");
+        values.put(ContactOpenHelper.ContactTable.PINYIN, pinyinName);
+        values.put(ContactOpenHelper.ContactTable.GROUP, groupName);
+        values.put(ContactOpenHelper.ContactTable.BELONG_TO, belong_to);
+
+        //先update在insert
+        int uCount=getContentResolver().update(ContactsProvider.URI_CONTACT,
+                values, ContactOpenHelper.ContactTable.ACCOUNT + "=? and "+ContactOpenHelper.ContactTable.BELONG_TO+ "=?",
+                new String[]{account,XMPPService.current_account});
+
+
+        if (uCount<=0){
+            Log.i("chatCreated","插入"+nickName);
+            getContentResolver().insert(ContactsProvider.URI_CONTACT,values);
+        }
+
     }
 }
 

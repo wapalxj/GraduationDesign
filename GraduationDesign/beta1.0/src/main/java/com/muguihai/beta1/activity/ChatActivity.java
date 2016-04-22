@@ -35,11 +35,14 @@ import java.util.Date;
 public class ChatActivity extends AppCompatActivity {
     public static final String CHAT_ACCOUNT ="chat_account";
     public static final String CHAT_NICKNAME ="chat_nickname";
+    public static final String CHAT_SIGNATURE ="chat_signature";
 
     private String chat_account;//聊天的对象
     private String chat_nickname;
+    private String chat_signature;
 
-    private TextView tv_title;
+    private TextView chat_back;
+    private TextView chat_title;
     private ListView listView;
     private EditText editText;
     private Button btn_send;
@@ -47,6 +50,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private XMPPService xmppService;
     private MyServiceConnection conn;
+
+    private TextView chat_roster_setting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,6 @@ public class ChatActivity extends AppCompatActivity {
         initView();
         initData();
         initListener();
-
     }
 
     private void init() {
@@ -70,11 +74,33 @@ public class ChatActivity extends AppCompatActivity {
 
         chat_account = getIntent().getStringExtra(ChatActivity.CHAT_ACCOUNT);
         chat_nickname = getIntent().getStringExtra(ChatActivity.CHAT_NICKNAME);
+        chat_signature = getIntent().getStringExtra(ChatActivity.CHAT_SIGNATURE);
 
-        tv_title= (TextView) findViewById(R.id.tv_title);
+        chat_back= (TextView) findViewById(R.id.chat_back);
+        chat_title= (TextView) findViewById(R.id.chat_title);
         listView= (ListView) findViewById(R.id.listview);
         editText= (EditText) findViewById(R.id.edittext);
         btn_send= (Button) findViewById(R.id.btn_send);
+        chat_roster_setting= (TextView) findViewById(R.id.chat_roster_setting);
+
+        chat_roster_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent setting=new Intent(ChatActivity.this,RosterSettingActivity.class);
+                setting.putExtra(ChatActivity.CHAT_ACCOUNT,chat_account);
+                setting.putExtra(ChatActivity.CHAT_NICKNAME,chat_nickname);
+                setting.putExtra(ChatActivity.CHAT_SIGNATURE,chat_signature);
+                startActivity(setting);
+                finish();
+            }
+        });
+
+        chat_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +111,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        tv_title.setText("与" + chat_nickname + "聊天中");
+        chat_title.setText(chat_nickname);
 
     }
 

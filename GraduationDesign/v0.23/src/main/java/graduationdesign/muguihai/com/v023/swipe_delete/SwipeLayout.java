@@ -8,13 +8,13 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 /**
  *
  * Created by vero on 2016/4/8.
  */
 public class SwipeLayout extends FrameLayout{
-
     private View contentView;//内容区域
     private View deleteView;//删除区域
     private int delete_height;//delete高度
@@ -102,7 +102,7 @@ public class SwipeLayout extends FrameLayout{
             //上行代码最好放在上面的onInterceptTouchEvent()中,
             // 因为不断的点击会不断的调用这个方法导致卡顿
 
-            requestDisallowInterceptTouchEvent(true);
+//            requestDisallowInterceptTouchEvent(true);
             return true;
         }
         switch (event.getAction()){
@@ -258,6 +258,10 @@ public class SwipeLayout extends FrameLayout{
     public interface OnSwipeChangeListener{
         void onOpen(Object tag);
         void onClose(Object tag);
+    }
+
+    public View getFrontView(){
+        return contentView;
     }
 
 

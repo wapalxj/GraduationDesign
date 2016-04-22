@@ -10,8 +10,10 @@ import android.util.Log;
 
 import com.muguihai.beta1.activity.LoginActivity;
 import com.muguihai.beta1.dbhelper.ContactOpenHelper;
+import com.muguihai.beta1.dbhelper.GroupOpenHelper;
 import com.muguihai.beta1.dbhelper.SmsOpenHelper;
 import com.muguihai.beta1.provider.ContactsProvider;
+import com.muguihai.beta1.provider.GroupProvider;
 import com.muguihai.beta1.provider.SmsProvider;
 import com.muguihai.beta1.utils.PinyinUtil;
 import com.muguihai.beta1.utils.ThreadUtils;
@@ -80,38 +82,38 @@ public class XMPPService extends Service {
                 //获取Roster
                 roster = XMPPService.conn.getRoster();
                 //得到所有联系人
-                final Collection<RosterEntry> entries = roster.getEntries();
-                //打印所有联系人
-                for (RosterEntry entry : entries) {
-                    System.out.print(entry.toString() + "----");
-                    System.out.print(entry.getUser() + "----");
-                    System.out.print(entry.getName() + "----");
-                    System.out.print(entry.getStatus() + "----");
-                    System.out.print(entry.getType() + "----");
-                    System.out.println(" ");
-                }
 
-
+                //监听联系人的改变
+                rosterlistener = new MyRosterlistener();
+                roster.addRosterListener(rosterlistener);
                 //--------------得到联系人分组--------------
                 Collection<RosterGroup> groups = roster.getGroups();
+
                 if (groups.isEmpty()){
                     Log.i("roast分组","没有分组");
+                    roster.createGroup("Friends");
                 }else {
                     for (RosterGroup group : groups) {
-                        Log.i("roast分组","分组名称："+(group.getName()+"----"));
-                        Log.i("roast分组","分组人数："+group.getEntryCount());
+                        System.out.print("分组名称："+(group.getName()+"----"));
+                        System.out.print("分组人数："+group.getEntryCount()+"----");
+                        saveOrUpdateGroup(group.getName());
+
+                        Collection<RosterEntry> entries =group.getEntries();
+                        for (RosterEntry entry : entries) {
+                            System.out.print(entry.getUser() + "----");
+                            System.out.print(entry.getName() + "----");
+                            saveOrUpdateEntry(entry,group);
+                        }
+                        System.out.println(" ");
                     }
                 }
 
                 //--------------得到联系人分组--------------
-                //监听联系人的改变
-                rosterlistener = new MyRosterlistener();
-                roster.addRosterListener(rosterlistener);
-
                 //第一次安装的时候用于插入数据库
-                for (RosterEntry entry : entries) {
-                    saveOrUpdateEntry(entry);
-                }
+//                for (RosterEntry entry : entries) {
+//                    saveOrUpdateEntry(entry);
+//                }
+
 
                 Log.i("XMPPService", "--------同步roster_end------");
 
@@ -176,6 +178,21 @@ public class XMPPService extends Service {
 //                RosterEntry entry=roster.getEntry(addr);
                 //更新或插入
 //                saveOrUpdateEntry(entry);
+//            }
+
+//            Collection<RosterGroup> groups = roster.getGroups();
+//            for (RosterGroup group : groups) {
+//                System.out.print("分组名称："+(group.getName()+"----"));
+//                System.out.print("分组人数："+group.getEntryCount()+"----");
+//                saveOrUpdateGroup(group.getName());
+//
+//                Collection<RosterEntry> entries =group.getEntries();
+//                for (RosterEntry entry : entries) {
+//                    System.out.print(entry.getUser() + "----");
+//                    System.out.print(entry.getName() + "----");
+//                    saveOrUpdateEntry(entry,group);
+//                }
+//                System.out.println(" ");
 //            }
         }
 
@@ -268,13 +285,13 @@ public class XMPPService extends Service {
     /**
      * 更新或者插入联系人
      */
-    private void saveOrUpdateEntry(RosterEntry entry){
+    private void saveOrUpdateEntry(RosterEntry entry,RosterGroup group){
         ContentValues values=new ContentValues();
         String account=entry.getUser();
         String nickName=entry.getName();
-        String pinyinName=PinyinUtil.strToPinyin(account);;
+        String pinyinName=PinyinUtil.strToPinyin(account);
+        String groupName=group.getName();
         String belong_to=XMPPService.current_account;
-
         if (nickName==null||"".equals(nickName)){
             nickName=account.substring(0,account.indexOf("@"));
         }
@@ -283,6 +300,7 @@ public class XMPPService extends Service {
         values.put(ContactOpenHelper.ContactTable.NICKNAME,nickName);
         values.put(ContactOpenHelper.ContactTable.AVATAR, "0");
         values.put(ContactOpenHelper.ContactTable.PINYIN, pinyinName);
+        values.put(ContactOpenHelper.ContactTable.GROUP, groupName);
         values.put(ContactOpenHelper.ContactTable.BELONG_TO, belong_to);
 
         //先update在insert
@@ -316,7 +334,6 @@ public class XMPPService extends Service {
         }else {
             chat = chatManager.createChat(toAccount, myMessageListener);
             mChatMap.put(toAccount,chat);
-
         }
         mCurChat=chat;
         //发送
@@ -368,5 +385,30 @@ public class XMPPService extends Service {
         return sessionAccount;
     }
 
+    /**
+     * 更新或者插入组
+     */
+    private void saveOrUpdateGroup(String groupname){
+        ContentValues values=new ContentValues();
+        String belong_to=XMPPService.current_account;
 
+        values.put(GroupOpenHelper.GroupTable.GROUPNAME,groupname);
+        values.put(GroupOpenHelper.GroupTable.BELONG_TO, belong_to);
+
+        //先update在insert
+        int uCount=getContentResolver().update(GroupProvider.URI_GROUP,
+                values, GroupOpenHelper.GroupTable.GROUPNAME+ "=? and "+GroupOpenHelper.GroupTable.BELONG_TO+ "=?",
+                new String[]{groupname,XMPPService.current_account});
+
+
+        if (uCount<=0){
+            Log.i("chatCreated","插入"+groupname);
+            getContentResolver().insert(GroupProvider.URI_GROUP,values);
+        }
+
+    }
+
+    public static boolean checkConnection(){
+        return XMPPService.conn.isConnected();
+    }
 }

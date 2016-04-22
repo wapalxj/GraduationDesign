@@ -13,11 +13,12 @@
         <activity
             android:name=".slidemenu.MainActivity"
             android:label="@string/app_name" />
-        <activity android:name=".swipe_delete.SwipeActivity"></activity>
-        <activity android:name=".goo_view.GooActivity"></activity>
-        <activity android:name=".ExpandableList.ExpandableActivity">
+        <activity android:name=".swipe_delete.SwipeActivity">
         </activity>
-        <activity android:name=".ExpandableList.E2Activity">
+        <activity android:name=".goo_view.GooActivity" />
+        <activity android:name=".ExpandableList.ExpandableActivity"></activity>
+        <activity android:name=".ExpandableList.E2Activity"></activity>
+        <activity android:name=".popwindow.PopActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

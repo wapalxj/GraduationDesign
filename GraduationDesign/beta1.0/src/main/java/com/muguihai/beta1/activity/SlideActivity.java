@@ -8,20 +8,27 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.CycleInterpolator;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.muguihai.beta1.R;
 import com.muguihai.beta1.fragment.ContactFragment;
 import com.muguihai.beta1.fragment.MineFragment;
+import com.muguihai.beta1.fragment.Sess2Fragment;
 import com.muguihai.beta1.fragment.SessionFragment;
+import com.muguihai.beta1.fragment.Test2Cont;
 import com.muguihai.beta1.fragment.TestContactFragment;
 import com.muguihai.beta1.service.PacketService;
 import com.muguihai.beta1.service.XMPPService;
+import com.muguihai.beta1.utils.ToastUtils;
 import com.muguihai.beta1.utils.ToolBarUtil;
+import com.muguihai.beta1.view.popupwindow.MyPopupwindow;
 import com.muguihai.beta1.view.slidemenu.MyLinearLayout;
 import com.muguihai.beta1.view.slidemenu.SlideMenu;
 import com.nineoldandroids.view.ViewPropertyAnimator;
@@ -38,6 +45,9 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
     private ToolBarUtil mToolBarUtil;
     private FragmentManager mManager;
     private FragmentTransaction mTransaction;
+
+    //popwindow
+    private PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +124,9 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
         //拦截并消耗事件
         myLinearLayout= (MyLinearLayout) findViewById(R.id.my_layout);
         myLinearLayout.setSlideMenu(slideMenu);
+
+        //pop
+        initPop();
     }
 
     //选项卡点击
@@ -127,7 +140,7 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
                 mMtv_title.setText(toolbar_titles[0]);
                 break;
             case 1:
-                mTransaction.replace(R.id.frame,new TestContactFragment());
+                mTransaction.replace(R.id.frame,new Test2Cont());
                 mMtv_title.setText(toolbar_titles[1]);
                 break;
             case 2:
@@ -155,5 +168,26 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
         XMPPService.conn=null;
         Log.i("close","XMPPService---------PacketService");
         super.onDestroy();
+    }
+
+    /**
+     * popw
+     */
+    private  void initPop(){
+        final TextView tv_add= (TextView) findViewById(R.id.tv_add);
+        MyPopupwindow pop=new MyPopupwindow(SlideActivity.this);
+        mPopupWindow=pop.getPwMyPopWindow();
+        tv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.myToast(getApplicationContext(),"pop!");
+                if (mPopupWindow.isShowing()) {
+                    mPopupWindow.dismiss();// 关闭
+                } else {
+                    mPopupWindow.showAsDropDown(tv_add);// 显示
+                }
+
+            }
+        });
     }
 }

@@ -16,6 +16,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.muguihai.beta1.R;
 import com.muguihai.beta1.activity.ChatActivity;
@@ -25,6 +26,9 @@ import com.muguihai.beta1.provider.ContactsProvider;
 import com.muguihai.beta1.provider.SmsProvider;
 import com.muguihai.beta1.service.XMPPService;
 import com.muguihai.beta1.utils.ThreadUtils;
+import com.muguihai.beta1.utils.ToastUtils;
+import com.muguihai.beta1.view.quickaction.ActionItem;
+import com.muguihai.beta1.view.quickaction.QuickAction;
 
 
 /**
@@ -95,6 +99,38 @@ public class SessionFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        mListview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, long id) {
+                QuickAction quickAction = new QuickAction(getActivity(), QuickAction.HORIZONTAL);
+                quickAction.addActionItem(new ActionItem(0, "置顶"));
+                quickAction.addActionItem(new ActionItem(1,"删除"));
+                quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+
+                            @Override
+                            public void onItemClick(QuickAction source, int pos,
+                                                    int actionId) {
+                                switch (actionId) {
+                                    case 0:
+                                        Toast.makeText(getActivity(),"1111",Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 1:
+                                        TextView tvAccount= (TextView) view.findViewById(R.id.account_session);
+                                        String account=tvAccount.getText().toString();
+                                        ToastUtils.myToast(getActivity(),account);
+                                        removeSession(account);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        });
+
+                quickAction.show(mListview.getChildAt(position));
+                return false;
+            }
+        });
     }
 
     @Override
@@ -122,19 +158,10 @@ public class SessionFragment extends Fragment {
                 final Cursor cursor = getActivity().getContentResolver().query(SmsProvider.URI_SESSION, null, null,
                         new String[]{XMPPService.current_account, XMPPService.current_account,XMPPService.current_account}, null);
 
-
-                //删除某个会话
-//                getContext().getContentResolver().delete(
-//                        SmsProvider.URI_SMS, SmsOpenHelper.SmsTable.TO_ACCOUNT+"=?",
-//                        new String[]{"admin@vero"});
-
-
                 //没有数据
                 if (cursor.getCount() <= 0) {
                     return;
                 }
-
-
                 //设置adapter，显示数据
                 ThreadUtils.runInUIThread(new Runnable() {
                     @Override
@@ -148,17 +175,18 @@ public class SessionFragment extends Fragment {
                                         View view = View.inflate(context, R.layout.item_session, null);
                                         return view;
                                     }
-
                                     //数据的设置和显示
                                     @Override
                                     public void bindView(View view, Context context, Cursor cursor) {
                                         ImageView ivHead = (ImageView) view.findViewById(R.id.head);
-                                        TextView tvBody = (TextView) view.findViewById(R.id.body);
-                                        TextView tvNickname = (TextView) view.findViewById(R.id.nickname);
+                                        TextView tvaccount = (TextView) view.findViewById(R.id.account_session);
+                                        TextView tvBody = (TextView) view.findViewById(R.id.body_session);
+                                        TextView tvNickname = (TextView) view.findViewById(R.id.nickname_session);
 
                                         String body = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.BODY));
                                         String account = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.SESSION_ACCOUNT));
 
+                                        tvaccount.setText(account);
                                         String nickname=getNicknameByAccount(account);
                                         tvBody.setText(body);
                                         tvNickname.setText(nickname);
@@ -221,6 +249,16 @@ public class SessionFragment extends Fragment {
             //刷新adapter
             setOrUpdateAdapter();
         }
+    }
+
+    private void removeSession(String account){
+        // 删除会话
+        getActivity().getContentResolver().delete(
+                SmsProvider.URI_SESSION,
+                SmsOpenHelper.SmsTable.SESSION_ACCOUNT+"=? and "+SmsOpenHelper.SmsTable.SESSION_BELONG_TO+ "=?"
+                ,
+                new String[]{account,XMPPService.current_account});
+
     }
 
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.muguihai.beta1.view.swipe_delete.SwipeLayout
+        android:id="@+id/swipelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--item内容布局-->
+        <include android:id="@+id/swipe_content" layout="@layout/layout_content"/>
+
+        <!--delete布局-->
+        <include layout="@layout/layout_delete"/>
+
+    </com.muguihai.beta1.view.swipe_delete.SwipeLayout>
+
+</LinearLayout>

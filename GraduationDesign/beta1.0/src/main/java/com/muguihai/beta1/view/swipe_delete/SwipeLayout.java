@@ -259,5 +259,7 @@ public class SwipeLayout extends FrameLayout{
         void onClose(Object tag);
     }
 
-
+    public View getContentView() {
+        return contentView;
+    }
 }

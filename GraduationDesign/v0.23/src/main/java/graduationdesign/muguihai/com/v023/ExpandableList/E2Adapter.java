@@ -102,7 +102,7 @@ public class E2Adapter extends BaseExpandableListAdapter {
         } else {
             itemHolder = (ItemHolder) convertView.getTag();
         }
-        itemHolder.nickname.setText("vero");
+        itemHolder.nickname.setText(item_list.get(groupPosition).get(childPosition));
 //        itemHolder.head.setBackgroundResource(item_list2.get(1).get(1));
         itemHolder.head.setBackgroundResource(R.mipmap.ic_launcher);
         itemHolder.online_state.setText("[离线]");

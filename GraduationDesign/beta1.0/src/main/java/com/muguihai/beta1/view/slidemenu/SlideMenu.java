@@ -200,7 +200,7 @@ public class SlideMenu extends FrameLayout{
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         width =getMeasuredWidth();
-        dragRange=width*0.8f;
+        dragRange=width*0.85f;
     }
 
 

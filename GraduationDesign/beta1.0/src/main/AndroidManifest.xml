@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.RegisterActivity" />
 
         <service
@@ -47,13 +47,18 @@
             android:authorities="com.muguihai.beta1.provider.PacketProvider"
             android:enabled="true"
             android:exported="true" />
+        <provider
+            android:name=".provider.GroupProvider"
+            android:authorities="com.muguihai.beta1.provider.GroupProvider"
+            android:enabled="true"
+            android:exported="true" />
 
         <activity android:name=".activity.ChatActivity" />
 
         <service
             android:name=".service.PacketService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity android:name=".activity.SlideActivity" />
         <activity android:name=".activity.FirstActivity">
@@ -63,6 +68,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.AddFriendActivity" />
+        <activity android:name=".activity.RosterSettingActivity" />
+        <activity android:name=".activity.FriendGroupChangeActivity"></activity>
     </application>
 
 </manifest>

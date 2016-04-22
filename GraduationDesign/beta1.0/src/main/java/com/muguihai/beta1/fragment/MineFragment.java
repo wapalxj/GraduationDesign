@@ -269,7 +269,8 @@ public class MineFragment extends Fragment {
      */
     private void insertEntry(String account,String nickname){
         ContentValues values=new ContentValues();
-        String pinyinName=PinyinUtil.strToPinyin(nickname);;
+        String pinyinName=PinyinUtil.strToPinyin(nickname);
+        String groupName="Friends";
         String belong_to=XMPPService.current_account;
 
         if (nickname==null||"".equals(nickname)){
@@ -280,11 +281,13 @@ public class MineFragment extends Fragment {
         values.put(ContactOpenHelper.ContactTable.NICKNAME,nickname);
         values.put(ContactOpenHelper.ContactTable.AVATAR, "0");
         values.put(ContactOpenHelper.ContactTable.PINYIN, pinyinName);
+        values.put(ContactOpenHelper.ContactTable.GROUP, groupName);
         values.put(ContactOpenHelper.ContactTable.BELONG_TO, belong_to);
 
 
         getActivity().getContentResolver().insert(ContactsProvider.URI_CONTACT,values);
     }
+
     /**
      * 更改处理状态
      */

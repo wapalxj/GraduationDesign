@@ -14,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="#97C024"
         android:gravity="center"
         android:text="2016 3:32"/>
 
@@ -29,7 +28,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/head_1"/>
 
         <!-- 信息 -->
 
@@ -39,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/head"
-            android:background="@drawable/outgoing"
+            android:background="@drawable/send"
             android:text="vero"
             android:textSize="20sp"/>
     </RelativeLayout>

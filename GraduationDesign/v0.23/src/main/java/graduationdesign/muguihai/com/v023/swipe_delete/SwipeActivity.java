@@ -2,9 +2,11 @@ package graduationdesign.muguihai.com.v023.swipe_delete;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import graduationdesign.muguihai.com.v023.R;
+import graduationdesign.muguihai.com.v023.goo_view.Utils;
 
 public class SwipeActivity extends AppCompatActivity {
     private ListView mListView;
@@ -34,7 +37,6 @@ public class SwipeActivity extends AppCompatActivity {
             list.add("name-"+i);
         }
         mListView.setAdapter(new MyAdapter());
-
         //滚动监听
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -50,6 +52,14 @@ public class SwipeActivity extends AppCompatActivity {
 
             }
         });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(SwipeActivity.this, "sdfdf"+position,Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 
@@ -71,10 +81,11 @@ public class SwipeActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, final ViewGroup parent) {
             if (convertView==null){
                 convertView=View.inflate(SwipeActivity.this,R.layout.adapter_list,null);
             }
+
             ViewHolder holder=ViewHolder.getHolder(convertView);
             holder.tv_name.setText(list.get(position));
 
@@ -92,6 +103,14 @@ public class SwipeActivity extends AppCompatActivity {
                 }
             });
 
+            holder.tv_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    list.remove(position);
+                    SwipeLayoutManager.getInstance().closeCurrentLayout();
+                    notifyDataSetChanged();
+                }
+            });
 
 
             return convertView;

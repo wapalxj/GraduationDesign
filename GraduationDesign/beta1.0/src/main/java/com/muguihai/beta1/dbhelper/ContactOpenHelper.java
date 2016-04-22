@@ -20,12 +20,14 @@ public class ContactOpenHelper extends SQLiteOpenHelper{
          * nickname：昵称
          * avatar：头像
          * pinying：账号拼音
+         * group：分组
          * blong_to:属于哪个用户的
          */
         public static final String ACCOUNT="account";
         public static final String NICKNAME="nickname";
         public static final String AVATAR="avatar";
-        public static final String PINYIN ="pinying";
+        public static final String PINYIN ="pinyin";
+        public static final String GROUP ="Rgroup";
         public static final String BELONG_TO ="belong_to";
 
     }
@@ -44,8 +46,10 @@ public class ContactOpenHelper extends SQLiteOpenHelper{
                 ContactTable.NICKNAME+" TEXT, "+
                 ContactTable.AVATAR+" TEXT, "+
                 ContactTable.PINYIN +" TEXT, "+
+                ContactTable.GROUP +" TEXT, "+
                 ContactTable.BELONG_TO +" TEXT"+
                 ");";
+
         db.execSQL(sql);
     }
 

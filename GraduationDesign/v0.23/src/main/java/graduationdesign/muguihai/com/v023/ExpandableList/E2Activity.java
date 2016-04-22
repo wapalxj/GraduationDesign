@@ -26,6 +26,10 @@ public class E2Activity extends AppCompatActivity {
         group_list.add("C");
         group_list.add("D");
 
+        ArrayList<String> group_list1 = new ArrayList<>();
+        group_list1.add("CC");
+        group_list1.add("DD");
+        group_list1.add("EE");
         ArrayList<String> group_list2 = new ArrayList<>();
         group_list2.add("CC");
         group_list2.add("DD");
@@ -35,12 +39,12 @@ public class E2Activity extends AppCompatActivity {
         group_list3.add("HH");
         ArrayList<String> group_list4 = new ArrayList<>();
         group_list4.add("GG");
-        group_list2.add("CC");
-        group_list2.add("DD");
-        group_list2.add("EE");
+        group_list4.add("CC");
+        group_list4.add("DD");
+        group_list4.add("EE");
 
         child_list = new ArrayList<>();
-        child_list.add(group_list);
+        child_list.add(group_list1);
         child_list.add(group_list2);
         child_list.add(group_list3);
         child_list.add(group_list4);

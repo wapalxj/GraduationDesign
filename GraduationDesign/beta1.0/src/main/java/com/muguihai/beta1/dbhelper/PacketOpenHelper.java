@@ -21,9 +21,9 @@ public class PacketOpenHelper extends SQLiteOpenHelper {
     public class Packet_Table implements BaseColumns {
         /**
          * _id:主键
-         * packet_account：账号
-         * packet_nickname：昵称
-         * packet_type:packet类型
+         * packet_account_from：账号
+         * packet_nickname_from：昵称
+         * packet_from_type:packet类型
          * type:消息类型
          * packet_belong_to
          * packet_handle_state:是否处理

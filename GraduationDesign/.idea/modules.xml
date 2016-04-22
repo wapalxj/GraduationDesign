@@ -7,6 +7,8 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/beta1.0/beta1.0.iml" filepath="$PROJECT_DIR$/beta1.0/beta1.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/eIM/eIM.iml" filepath="$PROJECT_DIR$/eIM/eIM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/quickaction/quickaction.iml" filepath="$PROJECT_DIR$/quickaction/quickaction.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spinner/spinner.iml" filepath="$PROJECT_DIR$/spinner/spinner.iml" />
       <module fileurl="file://$PROJECT_DIR$/v0.22/v0.22.iml" filepath="$PROJECT_DIR$/v0.22/v0.22.iml" />
       <module fileurl="file://$PROJECT_DIR$/v0.23/v0.23.iml" filepath="$PROJECT_DIR$/v0.23/v0.23.iml" />
       <module fileurl="file://$PROJECT_DIR$/xX/xX.iml" filepath="$PROJECT_DIR$/xX/xX.iml" />

@@ -14,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="#97C024"
         android:gravity="center"
         android:text="2016 3:32"
         android:textColor="#000"/>
@@ -33,7 +32,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/head_1"/>
 
         <!-- 信息 -->
 

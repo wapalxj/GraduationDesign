@@ -13,6 +13,7 @@
         <!--delete布局-->
         <include layout="@layout/layout_delete"/>
 
-    </graduationdesign.muguihai.com.v023.swipe_delete.SwipeLayout>
+    </graduationdesign.muguihai.com.v023.swipe_delete.SwipeLayout
+        >
 
 </LinearLayout>
