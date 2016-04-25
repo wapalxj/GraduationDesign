@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Aspark/Aspark.iml" filepath="$PROJECT_DIR$/Aspark/Aspark.iml" />
       <module fileurl="file://$PROJECT_DIR$/GraduationDesign.iml" filepath="$PROJECT_DIR$/GraduationDesign.iml" />
       <module fileurl="file://$PROJECT_DIR$/TC/TC.iml" filepath="$PROJECT_DIR$/TC/TC.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/beta1.0/beta1.0.iml" filepath="$PROJECT_DIR$/beta1.0/beta1.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/eIM/eIM.iml" filepath="$PROJECT_DIR$/eIM/eIM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/face/face.iml" filepath="$PROJECT_DIR$/face/face.iml" />
       <module fileurl="file://$PROJECT_DIR$/newQuickAction/newQuickAction.iml" filepath="$PROJECT_DIR$/newQuickAction/newQuickAction.iml" />
       <module fileurl="file://$PROJECT_DIR$/quickaction/quickaction.iml" filepath="$PROJECT_DIR$/quickaction/quickaction.iml" />
       <module fileurl="file://$PROJECT_DIR$/spinner/spinner.iml" filepath="$PROJECT_DIR$/spinner/spinner.iml" />

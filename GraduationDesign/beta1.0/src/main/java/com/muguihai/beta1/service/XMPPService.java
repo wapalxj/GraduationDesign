@@ -25,6 +25,7 @@ import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.MessageListener;
+import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
@@ -32,10 +33,14 @@ import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smackx.OfflineMessageManager;
+import org.jivesoftware.smackx.packet.OfflineMessageRequest;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 /**
  * 用于管理添加删除别人
@@ -109,14 +114,6 @@ public class XMPPService extends Service {
                         System.out.println(" ");
                     }
                 }
-
-                //--------------得到联系人分组--------------
-                //第一次安装的时候用于插入数据库
-//                for (RosterEntry entry : entries) {
-//                    saveOrUpdateEntry(entry);
-//                }
-
-
                 Log.i("XMPPService", "--------同步roster_end------");
 
                 Log.i("XMPPService", "--------消息监听处理------");
@@ -129,7 +126,6 @@ public class XMPPService extends Service {
                 chatManager.addChatListener(myChatManagerListener);
 
                 Log.i("XMPPService", "--------消息监听处理end------");
-
 
             }
         });

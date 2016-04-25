@@ -18,14 +18,11 @@ public class XMPPUtil {
         configuration.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);//明文传输
         configuration.setDebuggerEnabled(true);//调试模式，方便查看具体内容
         configuration.setSASLAuthenticationEnabled(false);
-        configuration.setSendPresence(true);
+        configuration.setSendPresence(false);//先设置为离线:这样才能接收到离线信息
         //
         // 允许自动连接
         configuration.setReconnectionAllowed(false);
-        // 允许登陆成功后更新在线状态
-        configuration.setSendPresence(true);
         // 收到好友邀请后manual表示需要经过同意,accept_all表示不经同意自动为好友
-//        Roster.setDefaultSubscriptionMode(Roster.SubscriptionMode.accept_all);
         Roster.setDefaultSubscriptionMode(Roster.SubscriptionMode.manual);
         //
 

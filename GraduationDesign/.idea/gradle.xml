@@ -8,10 +8,12 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Aspark" />
             <option value="$PROJECT_DIR$/TC" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/beta1.0" />
             <option value="$PROJECT_DIR$/eIM" />
+            <option value="$PROJECT_DIR$/face" />
             <option value="$PROJECT_DIR$/newQuickAction" />
             <option value="$PROJECT_DIR$/quickaction" />
             <option value="$PROJECT_DIR$/spinner" />
@@ -23,10 +25,12 @@
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Aspark" />
             <option value="$PROJECT_DIR$/TC" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/beta1.0" />
             <option value="$PROJECT_DIR$/eIM" />
+            <option value="$PROJECT_DIR$/face" />
             <option value="$PROJECT_DIR$/newQuickAction" />
             <option value="$PROJECT_DIR$/quickaction" />
             <option value="$PROJECT_DIR$/spinner" />

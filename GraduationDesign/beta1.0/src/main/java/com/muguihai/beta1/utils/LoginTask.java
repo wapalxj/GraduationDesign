@@ -12,9 +12,16 @@ import com.muguihai.beta1.activity.SlideActivity;
 import com.muguihai.beta1.service.PacketService;
 import com.muguihai.beta1.service.XMPPService;
 
+import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.packet.XMPPError;
+import org.jivesoftware.smackx.OfflineMessageManager;
+
+import java.util.Iterator;
 
 
 /**
@@ -92,6 +99,7 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
         //连接
         try {
             conn.connect();
+
             //登录
             conn.login(username, password);
             //保存连接对象
@@ -99,6 +107,7 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
             //保存当前登录账户
             username = username + "@" + LoginActivity.SERVICENAME;
             XMPPService.current_account=username;//user@vero
+
             //启动IMService
             Intent intent =new Intent(this.context,XMPPService.class);
             this.activity.startService(intent);

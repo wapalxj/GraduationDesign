@@ -87,7 +87,6 @@ public class PacketProvider extends ContentProvider {
                 del_count=db.delete(PacketOpenHelper.TABLE_PACKET, selection, selectionArgs);
                 if (del_count>0){
                     Log.i("PacketProvider","删除成功");
-
                     //通知observer数据改变了
                     notifyObserver();
                 }

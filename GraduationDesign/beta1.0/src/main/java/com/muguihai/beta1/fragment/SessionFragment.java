@@ -29,8 +29,8 @@ import com.muguihai.beta1.provider.SmsProvider;
 import com.muguihai.beta1.service.XMPPService;
 import com.muguihai.beta1.utils.ThreadUtils;
 import com.muguihai.beta1.utils.ToastUtils;
-import com.muguihai.beta1.view.quickaction.ActionItem;
-import com.muguihai.beta1.view.quickaction.QuickAction;
+import com.muguihai.beta1.view.newquickaction.ActionItem;
+import com.muguihai.beta1.view.newquickaction.QuickAction;
 
 
 /**
@@ -40,6 +40,9 @@ import com.muguihai.beta1.view.quickaction.QuickAction;
 public class SessionFragment extends Fragment {
     private ListView mListview;
     private CursorAdapter adapter;
+
+    private static int OPEN=0;
+    private static int DELETE=1;
 
     public SessionFragment() {
         // Required empty public constructor
@@ -115,10 +118,15 @@ public class SessionFragment extends Fragment {
                 //nickname:用于显示
                 final String nickname= getNicknameByAccount(account);
 
-                QuickAction quickAction = new QuickAction(getActivity(), QuickAction.HORIZONTAL);
-                quickAction.addActionItem(new ActionItem(0, "打开"));
-                quickAction.addActionItem(new ActionItem(1,"删除"));
-                quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+                ActionItem addItem 		= new ActionItem(OPEN, "打开", getResources().getDrawable(R.drawable.ic_open));
+                ActionItem acceptItem 	= new ActionItem(DELETE, "删除", getResources().getDrawable(R.drawable.ic_delete));
+
+                final QuickAction mQuickAction 	= new QuickAction(getActivity());
+
+                mQuickAction.addActionItem(addItem);
+                mQuickAction.addActionItem(acceptItem);
+
+                mQuickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
 
                             @Override
                             public void onItemClick(QuickAction source, int pos,
@@ -131,8 +139,6 @@ public class SessionFragment extends Fragment {
                                         startActivity(intent);
                                         break;
                                     case 1:
-//                                        TextView tvAccount= (TextView) view.findViewById(R.id.account_session);
-//                                        String account=tvAccount.getText().toString();
                                         ToastUtils.myToast(getActivity(),account);
                                         removeSession(account);
                                         break;
@@ -142,7 +148,7 @@ public class SessionFragment extends Fragment {
                             }
                         });
 
-                quickAction.show(mListview.getChildAt(position));
+                mQuickAction.show(view);
                 return false;
             }
         });
@@ -236,6 +242,10 @@ public class SessionFragment extends Fragment {
         if (c.getCount()>0){//渠道数据
             c.moveToFirst();
             nickname=c.getString(c.getColumnIndex(ContactOpenHelper.ContactTable.NICKNAME));
+        }
+
+        if (nickname==null||"".equals(nickname)){
+            nickname=account.substring(0,account.indexOf("@"));
         }
         return nickname;
     }

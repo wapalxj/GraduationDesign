@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">即时通讯（ASpark）</string>
+    <string name="hello_world">你好</string>
+    <string name="action_settings">设置</string>
+    <string name="title_activity_aspark_login">登录（ASpark）</string>  
+    <string name="login">登录</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="login_server">服务器IP或域名</string>
+    <string name="save_password">记住密码</string>
+    <string name="auto_login">自动登录</string>
+    <string name="register">注册</string>
+    
+    <!-- 主菜单 -->
+    <string name="add_friend">添加好友</string>
+    <string name="title_activity_add_friend">添加好友</string>
+    <string name="title_activity_chat">聊天</string>
+    <string name="title_activity_chat_service">聊天服务</string>
+    <string name="title_activity_chat_room">聊天室</string>
+    <string name="title_activity_parent">ParentActivity</string>
+    <string name="title_activity_register">用户注册</string>
+    <string name="title_activity_face">选择表情</string>
+
+    <string name="edittext_user">用户名</string>
+    <string name="edittext_password">密码</string>
+    <string name="edittext_repassword">确认密码</string>
+    <string name="edittext_server">服务器</string>
+
+
+
+</resources>
+

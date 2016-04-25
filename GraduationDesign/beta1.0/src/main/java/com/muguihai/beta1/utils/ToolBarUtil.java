@@ -59,6 +59,12 @@ public class ToolBarUtil {
         mTextViews.get(position).setTextColor(Color.GREEN);
     }
 
+    //toolBar消息提示
+    public void toolBarNotification(int position){
+        //
+        
+    }
+
     /**
      * 接口回调
      */

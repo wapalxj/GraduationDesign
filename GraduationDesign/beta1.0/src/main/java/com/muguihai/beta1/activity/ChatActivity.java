@@ -1,16 +1,21 @@
 package com.muguihai.beta1.activity;
 
 import android.content.ComponentName;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,37 +23,43 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.muguihai.beta1.R;
-import com.muguihai.beta1.dbhelper.ContactOpenHelper;
 import com.muguihai.beta1.dbhelper.SmsOpenHelper;
-import com.muguihai.beta1.provider.ContactsProvider;
+import com.muguihai.beta1.face.FaceListAdapter;
+import com.muguihai.beta1.face.FaceUtil;
+import com.muguihai.beta1.face.Face_Const;
 import com.muguihai.beta1.provider.SmsProvider;
 import com.muguihai.beta1.service.XMPPService;
-import com.muguihai.beta1.utils.PinyinUtil;
 import com.muguihai.beta1.utils.ThreadUtils;
 import com.muguihai.beta1.utils.ToastUtils;
-import com.muguihai.beta1.view.quickaction.ActionItem;
-import com.muguihai.beta1.view.quickaction.QuickAction;
+import com.muguihai.beta1.view.newquickaction.ActionItem;
+import com.muguihai.beta1.view.newquickaction.QuickAction;
 
-import org.jivesoftware.smack.RosterEntry;
-import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.packet.Message;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Formatter;
 
 public class ChatActivity extends AppCompatActivity {
     public static final String CHAT_ACCOUNT ="chat_account";
     public static final String CHAT_NICKNAME ="chat_nickname";
     public static final String CHAT_SIGNATURE ="chat_signature";
+    private static final int DELETE = 0;
 
     private String chat_account;//聊天的对象
     private String chat_nickname;
     private String chat_signature;
+
+    private ImageView face_btn;
+    private GridView mGridViewFaces;
+    private FaceListAdapter mFaceListAdapter;
 
     private TextView chat_back;
     private TextView chat_title;
@@ -85,6 +96,8 @@ public class ChatActivity extends AppCompatActivity {
         chat_nickname = getIntent().getStringExtra(ChatActivity.CHAT_NICKNAME);
         chat_signature = getIntent().getStringExtra(ChatActivity.CHAT_SIGNATURE);
 
+        face_btn= (ImageView) findViewById(R.id.face_btn);
+        mGridViewFaces= (GridView) findViewById(R.id.gridview_faces);
         chat_back= (TextView) findViewById(R.id.chat_back);
         chat_title= (TextView) findViewById(R.id.chat_title);
         mChat_listView= (ListView) findViewById(R.id.chat_listview);
@@ -114,13 +127,57 @@ public class ChatActivity extends AppCompatActivity {
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (face_btn.isSelected()){
+                    face_btn.setSelected(false);
+                    mGridViewFaces.setVisibility(View.GONE);
+                }
                 send_click();
+            }
+        });
+
+        face_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (face_btn.isSelected()){
+                    face_btn.setSelected(false);
+                    mGridViewFaces.setVisibility(View.GONE);
+                }else {
+                    face_btn.setSelected(true);
+                    mGridViewFaces.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        mGridViewFaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int faceId=position+1;
+                if (faceId != -1)
+                {
+                    String faceResName = Face_Const.FACE_PREFIX + faceId;
+
+                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                            FaceUtil.getResourceIdFromName(R.drawable.class, faceResName));
+
+                    Matrix matrix = new Matrix();
+                    matrix.postScale(0.6f, 0.6f);
+                    Bitmap smallBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
+                            matrix, true);
+                    ImageSpan imageSpan = new ImageSpan(ChatActivity.this, smallBitmap);
+                    String faceText = Face_Const.FACE_TEXT_PREFIX + faceId + Face_Const.FACE_TEXT_SUFFIX;
+//                    editText.setText(faceText);//插入字符
+                    SpannableString spannableString = new SpannableString(faceText);
+                    spannableString.setSpan(imageSpan, 0, faceText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    editText.getText().insert(editText.getSelectionStart(), spannableString);
+                }
             }
         });
     }
 
     private void initView() {
         chat_title.setText(chat_nickname);
+        mFaceListAdapter = new FaceListAdapter(this);
+        mGridViewFaces.setAdapter(mFaceListAdapter);
 
     }
 
@@ -213,6 +270,7 @@ public class ChatActivity extends AppCompatActivity {
                                         holder.time = (TextView) convertView.findViewById(R.id.time);
                                         holder.sms_body = (TextView) convertView.findViewById(R.id.content);
                                         holder.head = (ImageView) convertView.findViewById(R.id.head);
+                                        holder.chat_id=(TextView) convertView.findViewById(R.id.chat_id);
                                     } else {
                                         holder = (ViewHolder) convertView.getTag();
                                     }
@@ -228,6 +286,7 @@ public class ChatActivity extends AppCompatActivity {
                                         holder.time = (TextView) convertView.findViewById(R.id.time);
                                         holder.sms_body = (TextView) convertView.findViewById(R.id.content);
                                         holder.head = (ImageView) convertView.findViewById(R.id.head);
+                                        holder.chat_id=(TextView) convertView.findViewById(R.id.chat_id);
                                     } else {
                                         holder = (ViewHolder) convertView.getTag();
                                     }
@@ -239,9 +298,12 @@ public class ChatActivity extends AppCompatActivity {
                                 String time = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.TIME));
                                 String sms_body = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.BODY));
                                 String formatTime = new SimpleDateFormat("yyyy-MM--dd HH:mm:ss").format(new Date(Long.parseLong(time)));
+                                String chat_id=cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable._ID));
 
                                 holder.time.setText(formatTime);
                                 holder.sms_body.setText(sms_body);
+                                FaceUtil.updateFacesForTextView(getApplication(),holder.sms_body);
+                                holder.chat_id.setText(chat_id);
 
                                 return super.getView(position, convertView, parent);
                             }
@@ -260,10 +322,10 @@ public class ChatActivity extends AppCompatActivity {
                             class ViewHolder {
                                 TextView sms_body;
                                 TextView time;
+                                TextView chat_id;
                                 ImageView head;
                             }
                         };
-
                         mChat_listView.setAdapter(mAdapter);
                         mChat_listView.setSelection(mAdapter.getCount() - 1);
                     }
@@ -275,27 +337,38 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        final QuickAction quickAction = new QuickAction(getApplicationContext(), QuickAction.HORIZONTAL);
+        ActionItem addItem 		= new ActionItem(DELETE, "删除", getResources().getDrawable(R.drawable.ic_delete));
 
-        quickAction.addActionItem(new ActionItem(0, "删除"));
-        quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+        final QuickAction mQuickAction 	= new QuickAction(this);
 
-            @Override
-            public void onItemClick(QuickAction source, int pos, int actionId) {
-                switch (actionId) {
-                    case 0:
-                        ToastUtils.myToast(getApplicationContext(),"删除");
-//                                removeChat(account);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
+        mQuickAction.addActionItem(addItem);
+
+
         mChat_listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                quickAction.show(mChat_listView.getChildAt(position));
+            public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, long id) {
+
+                mQuickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+
+                    @Override
+                    public void onItemClick(QuickAction source, int pos, int actionId) {
+                        switch (actionId) {
+                            case 0:
+                                String chat_id=((TextView) view.findViewById(R.id.chat_id)).getText().toString();
+                                 //删除聊天记录通过(id)
+                                getContentResolver().delete(
+                                        SmsProvider.URI_SMS,
+                                        SmsOpenHelper.SmsTable._ID+ "=? and "+
+                                                SmsOpenHelper.SmsTable.SESSION_BELONG_TO+"=? ",
+                                        new String[]{chat_id,XMPPService.current_account}
+                                );
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+                mQuickAction.show(view);
                 return false;
             }
         });
@@ -320,9 +393,8 @@ public class ChatActivity extends AppCompatActivity {
                 msg.setProperty("key", "value");//属性，额外的信息
 
                 //TODO 调用Service里面的sendMessage()方法---->boundService
+
                 xmppService.sendMessage(msg);
-
-
                 //更新或者插入会话表
                 xmppService.saveOrUpdateSession(chat_account,msg);
                 //4.清空edittext
@@ -332,8 +404,6 @@ public class ChatActivity extends AppCompatActivity {
                         editText.setText(null);
                     }
                 });
-
-
             }
         });
 
@@ -404,5 +474,6 @@ public class ChatActivity extends AppCompatActivity {
 
         }
     }
+
 }
 

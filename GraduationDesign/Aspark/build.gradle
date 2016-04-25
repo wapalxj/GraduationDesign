@@ -1,0 +1,32 @@
+apply plugin: 'com.android.application'
+repositories {
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+    mavenCentral()
+}
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "mobile.android.aspark"
+        minSdkVersion 21
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    // Optional for XMPPTCPConnection
+    // Optional for XMPP-IM (RFC 6121) support (Roster, Threaded Chats, …)
+    // Optional for XMPP extensions support
+    compile files('libs/asmack-android-8-4.0.7.jar')
+}

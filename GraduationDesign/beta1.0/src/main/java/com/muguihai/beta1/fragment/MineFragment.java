@@ -22,11 +22,16 @@ import com.muguihai.beta1.R;
 import com.muguihai.beta1.activity.LoginActivity;
 import com.muguihai.beta1.dbhelper.ContactOpenHelper;
 import com.muguihai.beta1.dbhelper.PacketOpenHelper;
+import com.muguihai.beta1.dbhelper.SmsOpenHelper;
 import com.muguihai.beta1.provider.ContactsProvider;
 import com.muguihai.beta1.provider.PacketProvider;
+import com.muguihai.beta1.provider.SmsProvider;
 import com.muguihai.beta1.service.XMPPService;
 import com.muguihai.beta1.utils.PinyinUtil;
 import com.muguihai.beta1.utils.ThreadUtils;
+import com.muguihai.beta1.utils.ToastUtils;
+import com.muguihai.beta1.view.newquickaction.ActionItem;
+import com.muguihai.beta1.view.newquickaction.QuickAction;
 
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.packet.PacketExtension;
@@ -35,6 +40,7 @@ import org.jivesoftware.smack.packet.Presence;
 
 public class MineFragment extends Fragment {
     public static final String ADD_FRIEND="add_friend";
+    private static final int DELETE = 0;
 
     private ListView mListView;
     private CursorAdapter mAdapter;
@@ -83,6 +89,40 @@ public class MineFragment extends Fragment {
                     String account=view1.getText().toString();
                     showAddFriendDialog(account,view);
                 }
+            }
+        });
+
+
+        ActionItem addItem 	= new ActionItem(DELETE, "删除", getResources().getDrawable(R.drawable.ic_delete));
+        final QuickAction mQuickAction 	= new QuickAction(getActivity());
+        mQuickAction.addActionItem(addItem);
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, long id) {
+
+                mQuickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+
+                    @Override
+                    public void onItemClick(QuickAction source, int pos, int actionId) {
+                        switch (actionId) {
+                            case 0:
+                                String packet_id=((TextView) view.findViewById(R.id.packet_id)).getText().toString();
+                                //删除信息记录通过(id)
+                                getActivity().getContentResolver().delete(
+                                        PacketProvider.URI_PACKET,
+                                        PacketOpenHelper.Packet_Table._ID+ "=? and "+
+                                                PacketOpenHelper.Packet_Table.PACKET_BELONG_TO+"=? ",
+                                        new String[]{packet_id,XMPPService.current_account}
+                                );
+//                                setOrUpdateAdapter();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+                mQuickAction.show(view);
+                return false;
             }
         });
 
@@ -159,8 +199,8 @@ public class MineFragment extends Fragment {
         if (mAdapter!=null){
             Log.i("MyPacketObserver", "mAdapter存在");
             //刷新adapter
-//            mAdapter.getCursor().requery();
-            mAdapter.notifyDataSetChanged();
+            mAdapter.getCursor().requery();
+//            mAdapter.notifyDataSetChanged();
             return;
         }
         Log.i("MyPacketObserver", "创建mAdapter");
@@ -194,10 +234,13 @@ public class MineFragment extends Fragment {
                                     @Override
                                     public void bindView(View view, Context context, Cursor cursor) {
                                         TextView tvNickname = (TextView) view.findViewById(R.id.name);
+                                        TextView packet_id = (TextView) view.findViewById(R.id.packet_id);
+
                                         tvNickname.setTag(ADD_FRIEND);
 //                                        tvNickname.setTag(1,cursor.getString(cursor.getColumnIndex(PacketOpenHelper.Packet_Table.PACKET_ACCOUNT_FROM)));
                                         String nickname  = cursor.getString(cursor.getColumnIndex(PacketOpenHelper.Packet_Table.PACKET_NICKNAME_FROM));
                                         int handle_state  = cursor.getInt(cursor.getColumnIndex(PacketOpenHelper.Packet_Table.HANDLE_STATE));
+                                        String _id  = cursor.getString(cursor.getColumnIndex(PacketOpenHelper.Packet_Table._ID));
 
                                         if (handle_state!=0){
                                             TextView tvState= (TextView) view.findViewById(R.id.state);
@@ -208,8 +251,9 @@ public class MineFragment extends Fragment {
                                                 tvState.setText("已拒绝");
                                             }
                                         }
-
+                                        packet_id.setText(_id);
                                         tvNickname.setText(nickname);
+
                                     }
                                 };
 
