@@ -7,6 +7,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.muguihai.beta1.activity.LoginActivity;
+import com.muguihai.beta1.activity.SlideActivity;
 import com.muguihai.beta1.dbhelper.ContactOpenHelper;
 import com.muguihai.beta1.dbhelper.PacketOpenHelper;
 import com.muguihai.beta1.dbhelper.SessionOpenHelper;
@@ -67,14 +68,19 @@ public class PacketService extends Service {
                     Log.i("presence", "type:" + type + "------id:" + pid + "------from:" + from + "-----nickname:" + nickName);
                     if (type.equals(Presence.Type.subscribe)){
                         //被添加好友
-                        saveOrUpdatePacket(presence);
-
+                        //名单中没有则创建请求信息
+                        if (!XMPPService.conn.getRoster().contains(from)){
+                            saveOrUpdatePacket(presence);
+                        }
                     }else if (type.equals(Presence.Type.subscribed)){
                         //对方同意加我为好友
                         RosterEntry entry=XMPPService.conn.getRoster().getEntry(from);
                         //加入组
                         RosterGroup group=XMPPService.conn.getRoster().getGroup("Friends");
                         try {
+                            Presence subscribed = new Presence(Presence.Type.subscribed);
+                            subscribed.setTo(from);
+                            XMPPService.conn.sendPacket(subscribed);
                             group.addEntry(entry);
                         } catch (XMPPException e) {
                             e.printStackTrace();
@@ -102,10 +108,17 @@ public class PacketService extends Service {
                                 ContactOpenHelper.ContactTable.ACCOUNT + "=? and "+ContactOpenHelper.ContactTable.BELONG_TO+ "=?"
                                 , new String[]{from,XMPPService.current_account});
 
-                        // 删除会话
+                        // 删除聊天记录
                         getContentResolver().delete(
                                 SmsProvider.URI_SMS,
                                 SmsOpenHelper.SmsTable.SESSION_ACCOUNT+"=? and "+SmsOpenHelper.SmsTable.SESSION_BELONG_TO+ "=?"
+                                ,
+                                new String[]{from,XMPPService.current_account});
+
+                        // 删除会话
+                        getContentResolver().delete(
+                                SessionProvider.URI_SESSION,
+                                SessionOpenHelper.SessionTable.SESSION_ACCOUNT+"=? and "+SessionOpenHelper.SessionTable.SESSION_BELONG_TO+ "=?"
                                 ,
                                 new String[]{from,XMPPService.current_account});
                     }
@@ -123,28 +136,27 @@ public class PacketService extends Service {
             public void run() {
                 //--------------离线消息处理--------------
                 Log.i("XMPPService", "--------离线消息处理-----");
-
-                OfflineMessageManager offManager=new OfflineMessageManager(XMPPService.conn);
-                try {
+                    OfflineMessageManager offManager=new OfflineMessageManager(XMPPService.conn);
+                    try {
 //                    Log.i("offfffffffffffffff","离线消息数量: " + offManager.getMessageCount());
 //                    offManager.supportsFlexibleRetrieval();
-                    Iterator<Message> it = offManager.getMessages();
-                    while (it.hasNext()) {
-                        Message message = it.next();
-                        Log.i("收到离线消息", "from【" + message.getFrom() + "】 message: " + message.getBody());
-                        String sessionAccount=message.getFrom().substring(0,message.getFrom().indexOf("@"))+"@"+LoginActivity.SERVICENAME;
-                        Log.i("offffffffffff",sessionAccount);
-                        saveMessage(sessionAccount,message);
-                        saveOrUpdateSession(sessionAccount,message);
+                        Iterator<Message> it = offManager.getMessages();
+                        while (it.hasNext()) {
+                            Message message = it.next();
+                            Log.i("收到离线消息", "from【" + message.getFrom() + "】 message: " + message.getBody());
+                            String sessionAccount=message.getFrom().substring(0,message.getFrom().indexOf("@"))+"@"+LoginActivity.SERVICENAME;
+                            Log.i("offffffffffff",sessionAccount);
+                            saveMessage(sessionAccount,message);
+                            saveOrUpdateSession(sessionAccount,message);
+                        }
+                        offManager.deleteMessages();//最后进行删除处理
+                    } catch (XMPPException e) {
+                        e.printStackTrace();
                     }
-                    offManager.deleteMessages();//最后进行删除处理
-                } catch (XMPPException e) {
-                    e.printStackTrace();
-                }
 
-                //设置上线
-                Presence presence = new Presence(Presence.Type.available);
-                XMPPService.conn.sendPacket(presence);
+                    //设置上线
+                    Presence presence = new Presence(Presence.Type.available);
+                    XMPPService.conn.sendPacket(presence);
             }
         });
 
@@ -178,14 +190,22 @@ public class PacketService extends Service {
         values.put(PacketOpenHelper.Packet_Table.PINYIN, pinyin);
         values.put(PacketOpenHelper.Packet_Table.HANDLE_STATE,handle_state);
         values.put(PacketOpenHelper.Packet_Table.PACKET_BELONG_TO, XMPPService.current_account);
+
         //先update在insert
         int uCount=getContentResolver().update(PacketProvider.URI_PACKET,
                 values, PacketOpenHelper.Packet_Table.PACKET_ACCOUNT_FROM + "=? and "+PacketOpenHelper.Packet_Table.PACKET_BELONG_TO+"=? "
                 , new String[]{account,XMPPService.current_account});
 
         if (uCount<=0){
+            //插入
             getContentResolver().insert(PacketProvider.URI_PACKET,values);
+            //发送广播
+            Intent session=new Intent(SlideActivity.XMPPReceiver.SESSION_ACTION);
+            session.putExtra(SlideActivity.XMPPReceiver.SESSION,1);
+            sendBroadcast(session);
         }
+
+
     }
 
     //账户名称过滤
@@ -273,7 +293,12 @@ public class PacketService extends Service {
         to=filterAccount(to);
         String session_belong_to=XMPPService.current_account;
 
-        String nickName=XMPPService.conn.getRoster().getEntry(sessionAccount).getName();
+        String nickName=null;
+
+        if (XMPPService.conn.getRoster().contains(sessionAccount)){
+            nickName=XMPPService.conn.getRoster().getEntry(sessionAccount).getName();
+        }
+
         if (nickName==null||"".equals(nickName)){
             nickName=sessionAccount.substring(0,sessionAccount.indexOf("@"));
         }

@@ -14,7 +14,11 @@ import android.widget.TextView;
 
 import com.muguihai.beta1.R;
 import com.muguihai.beta1.dbhelper.ContactOpenHelper;
+import com.muguihai.beta1.dbhelper.SessionOpenHelper;
+import com.muguihai.beta1.dbhelper.SmsOpenHelper;
 import com.muguihai.beta1.provider.ContactsProvider;
+import com.muguihai.beta1.provider.SessionProvider;
+import com.muguihai.beta1.provider.SmsProvider;
 import com.muguihai.beta1.service.XMPPService;
 import com.muguihai.beta1.utils.PinyinUtil;
 import com.muguihai.beta1.utils.ToastUtils;
@@ -87,6 +91,20 @@ public class RosterSettingActivity extends AppCompatActivity implements View.OnC
                                     try {
                                         RosterEntry entry=XMPPService.conn.getRoster().getEntry(account);
                                         XMPPService.conn.getRoster().removeEntry(entry);
+
+                                        // 删除聊天记录
+                                        getContentResolver().delete(
+                                                SmsProvider.URI_SMS,
+                                                SmsOpenHelper.SmsTable.SESSION_ACCOUNT+"=? and "+SmsOpenHelper.SmsTable.SESSION_BELONG_TO+ "=?"
+                                                ,
+                                                new String[]{account,XMPPService.current_account});
+
+                                        // 删除会话
+                                        getContentResolver().delete(
+                                                SessionProvider.URI_SESSION,
+                                                SessionOpenHelper.SessionTable.SESSION_ACCOUNT+"=? and "+SessionOpenHelper.SessionTable.SESSION_BELONG_TO+ "=?"
+                                                ,
+                                                new String[]{account,XMPPService.current_account});
                                         finish();
                                     } catch (XMPPException e) {
                                         e.printStackTrace();

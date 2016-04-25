@@ -19,7 +19,6 @@ import com.muguihai.beta1.provider.ContactsProvider;
 import com.muguihai.beta1.service.XMPPService;
 import com.muguihai.beta1.utils.ToastUtils;
 import com.muguihai.beta1.view.spinner.MyAdapter;
-import com.muguihai.beta1.view.spinner.User;
 
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;

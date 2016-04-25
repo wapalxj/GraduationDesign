@@ -7,7 +7,11 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.muguihai.beta1.R;
 import com.muguihai.beta1.activity.LoginActivity;
 import com.muguihai.beta1.dbhelper.ContactOpenHelper;
 import com.muguihai.beta1.dbhelper.GroupOpenHelper;
@@ -129,6 +133,7 @@ public class XMPPService extends Service {
 
             }
         });
+
         return super.onStartCommand(intent, flags, startId);
 
     }

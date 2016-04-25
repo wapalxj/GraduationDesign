@@ -1,8 +1,11 @@
 package com.muguihai.beta1.utils;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.muguihai.beta1.R;
@@ -20,9 +23,13 @@ public class ToolBarUtil {
     public void initTooBar(LinearLayout container,int []icons,String []titles){
 
         for(int i=0;i<icons.length;i++){
-            TextView tv= (TextView)
-                    View.inflate(container.getContext(), R.layout.toolbar,null);
+            RelativeLayout view=
+                    (RelativeLayout) View.inflate(container.getContext(), R.layout.toolbar,null);
+            TextView tv= (TextView) view.getChildAt(0);
+            //设置tga:设置为选项卡TV的TAG
+            TextView tv2= (TextView) view.getChildAt(1);
             tv.setText(titles[i]);
+            tv.setTag(tv2);
             //图片设置在top
             tv.setCompoundDrawablesWithIntrinsicBounds(0,icons[i],0,0);
             //设置weight
@@ -30,7 +37,7 @@ public class ToolBarUtil {
             int height=LinearLayout.LayoutParams.MATCH_PARENT;
             LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(width,height);
             params.weight=1;
-            container.addView(tv, params);
+            container.addView(view, params);
             tv.setEnabled(true);
             //保存TextView到集合中
             mTextViews.add(tv);
@@ -40,9 +47,9 @@ public class ToolBarUtil {
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //不同模块之间传值需要接口回调
-                    //3.需要传值的地方，用接口对象调用方法
-                    mOnToolBarClickListener.onToolBarClick(finalI);
+                //不同模块之间传值需要接口回调
+                //3.需要传值的地方，用接口对象调用方法
+                mOnToolBarClickListener.onToolBarClick(finalI);
                 }
             });
         }
@@ -58,12 +65,18 @@ public class ToolBarUtil {
         mTextViews.get(position).setSelected(true);
         mTextViews.get(position).setTextColor(Color.GREEN);
     }
-
     //toolBar消息提示
-    public void toolBarNotification(int position){
-        //
-        
+    public void toolBarNotification(int position,int notice_count){
+        //获取tga:即提示的TV
+        TextView tv2= (TextView) mTextViews.get(position).getTag();
+        tv2.setText(String.valueOf(notice_count));
+        if (Integer.valueOf(tv2.getText().toString())>0){
+            tv2.setVisibility(View.VISIBLE);
+        }else {
+            tv2.setVisibility(View.GONE);
+        }
     }
+
 
     /**
      * 接口回调

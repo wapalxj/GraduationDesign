@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="#FFFFFF"
@@ -18,6 +17,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_weight="1"
         android:orientation="vertical">
         <TextView
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="vero"
+            android:text="xxx"
             android:textSize="20sp"/>
 
         <TextView
@@ -41,9 +41,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="vero"
+            android:text="xxx"
             android:textColor="#20201f"
-            android:textSize="17sp"/>
+            android:textSize="17sp"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            />
+
+
     </LinearLayout>
+
+    <TextView
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="20dp"
+        android:id="@+id/session_notify"
+        android:gravity="center_horizontal"
+        android:text="0"
+        android:clickable="false"
+        android:focusable="false"
+        android:textSize="12sp"
+        android:background="@drawable/notice"
+        android:layout_width="25dp"
+        android:layout_height="22dp"
+        />
 
 </LinearLayout>

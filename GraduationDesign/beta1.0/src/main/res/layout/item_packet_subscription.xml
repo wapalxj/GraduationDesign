@@ -59,10 +59,17 @@
                 android:textColor="#ff1c04"
                 android:textSize="20sp"/>
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/sub_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="好友请求"
+                android:text="账户"
+                android:textColor="#ff1c04"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/sub_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[好友请求]"
                 android:textColor="#ff1c04"
                 android:textSize="20sp"/>
             <TextView

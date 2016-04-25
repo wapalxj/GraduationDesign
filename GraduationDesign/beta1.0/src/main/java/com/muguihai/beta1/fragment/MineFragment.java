@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.muguihai.beta1.R;
 import com.muguihai.beta1.activity.LoginActivity;
+import com.muguihai.beta1.activity.SlideActivity;
 import com.muguihai.beta1.dbhelper.ContactOpenHelper;
 import com.muguihai.beta1.dbhelper.PacketOpenHelper;
 import com.muguihai.beta1.dbhelper.SmsOpenHelper;
@@ -34,6 +36,8 @@ import com.muguihai.beta1.view.newquickaction.ActionItem;
 import com.muguihai.beta1.view.newquickaction.QuickAction;
 
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterGroup;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.packet.Presence;
 
@@ -80,13 +84,13 @@ public class MineFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView view1 = (TextView) view.findViewById(R.id.name);
+                TextView tvAccount = (TextView) view.findViewById(R.id.sub_account);
                 TextView tvState = (TextView) view.findViewById(R.id.state);
-                if (view1.getTag().equals(ADD_FRIEND)) {
+                if (tvAccount.getTag().equals(ADD_FRIEND)) {
                     if (tvState.getVisibility()==View.VISIBLE){
                         return;
                     }
-                    String account=view1.getText().toString();
+                    String account=tvAccount.getText().toString();
                     showAddFriendDialog(account,view);
                 }
             }
@@ -114,7 +118,18 @@ public class MineFragment extends Fragment {
                                                 PacketOpenHelper.Packet_Table.PACKET_BELONG_TO+"=? ",
                                         new String[]{packet_id,XMPPService.current_account}
                                 );
-//                                setOrUpdateAdapter();
+
+                                // 拒绝请求
+                                TextView tvAccount=(TextView) view.findViewById(R.id.sub_account);
+                                String account=tvAccount.getText().toString();
+
+                                Presence unsubscription = new Presence(Presence.Type.unsubscribe);
+                                unsubscription.setTo(account);
+                                XMPPService.conn.sendPacket(unsubscription);
+                                updateState(account,2);
+                                setOrUpdateAdapter();
+                                //发送广播
+                                removeNotification();
                                 break;
                             default:
                                 break;
@@ -134,7 +149,8 @@ public class MineFragment extends Fragment {
      */
     private void showAddFriendDialog(final String account, final View view) {
         final TextView tvState= (TextView) view.findViewById(R.id.state);
-        final String[] acc = {account};
+        TextView tvNickname = (TextView) view.findViewById(R.id.sub_nickname);
+        final String nickname=tvNickname.getText().toString();
         new AlertDialog.Builder(getActivity())
                 .setMessage(account + "请求添加您为好友")
                 .setTitle("提示")
@@ -142,18 +158,33 @@ public class MineFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 接受请求
-                        String nickname=acc[0];
-                        acc[0] +="@"+ LoginActivity.SERVICENAME;
                         Presence subscription = new Presence(Presence.Type.subscribed);
-                        subscription.setTo(acc[0]);
+                        subscription.setTo(account);
                         XMPPService.conn.sendPacket(subscription);
+                        try {
+                            //延时等好友加上再分组
+                            while (!XMPPService.conn.getRoster().contains(account)){
+                                Thread.sleep(10);
+                            }
+                            RosterEntry entry=XMPPService.conn.getRoster().getEntry(account);
+                            //加入组
+                            RosterGroup group=XMPPService.conn.getRoster().getGroup("Friends");
+                            group.addEntry(entry);
+                        } catch (XMPPException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+
                         //插入联系人
-                        String account=acc[0];
                         insertEntry(account,nickname);
                         tvState.setVisibility(View.VISIBLE);
                         tvState.setText("已同意");
-                        updateState(acc[0],1);
+                        updateState(account,1);
                         setOrUpdateAdapter();
+                        //发送广播
+                        removeNotification();
                     }
                 })
                 .setNegativeButton("拒绝", new DialogInterface.OnClickListener() {
@@ -162,14 +193,15 @@ public class MineFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // 拒绝请求
                         Presence unsubscription = new Presence(Presence.Type.unsubscribe);
-                        acc[0] +="@"+ LoginActivity.SERVICENAME;
-                        unsubscription.setTo(acc[0]);
+                        unsubscription.setTo(account);
                         XMPPService.conn.sendPacket(unsubscription);
                         tvState.setVisibility(View.VISIBLE);
                         tvState.setText("已拒绝");
-                        updateState(acc[0],2);
+                        updateState(account,2);
                         setOrUpdateAdapter();
 
+                        //发送广播
+                        removeNotification();
                     }
                 }).show();
 
@@ -233,11 +265,12 @@ public class MineFragment extends Fragment {
                                     //数据的设置和显示
                                     @Override
                                     public void bindView(View view, Context context, Cursor cursor) {
-                                        TextView tvNickname = (TextView) view.findViewById(R.id.name);
+                                        TextView tvNickname = (TextView) view.findViewById(R.id.sub_nickname);
                                         TextView packet_id = (TextView) view.findViewById(R.id.packet_id);
+                                        TextView tvAccount = (TextView) view.findViewById(R.id.sub_account);
 
-                                        tvNickname.setTag(ADD_FRIEND);
-//                                        tvNickname.setTag(1,cursor.getString(cursor.getColumnIndex(PacketOpenHelper.Packet_Table.PACKET_ACCOUNT_FROM)));
+                                        tvAccount.setTag(ADD_FRIEND);
+                                        String account=cursor.getString(cursor.getColumnIndex(PacketOpenHelper.Packet_Table.PACKET_ACCOUNT_FROM));
                                         String nickname  = cursor.getString(cursor.getColumnIndex(PacketOpenHelper.Packet_Table.PACKET_NICKNAME_FROM));
                                         int handle_state  = cursor.getInt(cursor.getColumnIndex(PacketOpenHelper.Packet_Table.HANDLE_STATE));
                                         String _id  = cursor.getString(cursor.getColumnIndex(PacketOpenHelper.Packet_Table._ID));
@@ -252,8 +285,8 @@ public class MineFragment extends Fragment {
                                             }
                                         }
                                         packet_id.setText(_id);
-                                        tvNickname.setText(nickname);
-
+                                        tvAccount.setText(account);
+                                        tvNickname.setText("["+nickname+"]");
                                     }
                                 };
 
@@ -348,6 +381,17 @@ public class MineFragment extends Fragment {
         if (uCount>0){
             Log.i("updateState","状态更新成功");
         }
+    }
+
+    /**
+     * 发送消除广播
+     *
+     */
+    private void removeNotification(){
+        //发送广播
+        Intent session=new Intent(SlideActivity.XMPPReceiver.SESSION_ACTION);
+        session.putExtra(SlideActivity.XMPPReceiver.SESSION,0);
+        getActivity().sendBroadcast(session);
     }
 
 }

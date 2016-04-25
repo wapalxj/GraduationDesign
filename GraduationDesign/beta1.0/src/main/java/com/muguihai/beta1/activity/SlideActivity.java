@@ -2,7 +2,11 @@ package com.muguihai.beta1.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +28,6 @@ import com.muguihai.beta1.fragment.MineFragment;
 import com.muguihai.beta1.fragment.Sess2Fragment;
 import com.muguihai.beta1.fragment.SessionFragment;
 import com.muguihai.beta1.fragment.Test2Cont;
-import com.muguihai.beta1.fragment.TestContactFragment;
 import com.muguihai.beta1.service.PacketService;
 import com.muguihai.beta1.service.XMPPService;
 import com.muguihai.beta1.utils.ToastUtils;
@@ -48,11 +52,25 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
 
     //popwindow
     private PopupWindow mPopupWindow;
-
+    //receiver
+    private BroadcastReceiver mReceiver;
+    private SharedPreferences notifications_sp;
+    private SharedPreferences.Editor notifications_editor;
+    private int packet_counts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide);
+        //
+        notifications_sp=getSharedPreferences("notifications",MODE_PRIVATE);
+        packet_counts=notifications_sp.getInt("packet",0);
+        notifications_editor=notifications_sp.edit();
+        //注册广播
+        IntentFilter filter=new IntentFilter();
+        filter.addAction(XMPPReceiver.SESSION_ACTION);
+        mReceiver=new XMPPReceiver();
+        registerReceiver(mReceiver,filter);
+
         initView();
     }
 
@@ -67,7 +85,10 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
         //tooBar图标
         int[] icons = {R.drawable.selector_icon_msg, R.drawable.selector_icon_contact, R.drawable.selector_icon_mine};
         mToolBarUtil.initTooBar(mLlBottom, icons,toolbar_titles);
-
+        //显示消息数
+        mToolBarUtil.toolBarNotification(0,0);
+        mToolBarUtil.toolBarNotification(1,0);
+        mToolBarUtil.toolBarNotification(2,packet_counts);
         //设置默认选中会话
         mToolBarUtil.toolBarSelect(0);
         mToolBarUtil.setmOnToolBarClickListener(this);
@@ -127,6 +148,7 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
 
         //pop
         initPop();
+
     }
 
     //选项卡点击
@@ -164,6 +186,10 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
         Intent intent2 =new Intent(getApplicationContext(), PacketService.class);
         stopService(intent2);
 
+        //注销广播
+        unregisterReceiver(mReceiver);
+
+        mReceiver=null;
         XMPPService.current_account=null;
         XMPPService.conn=null;
         Log.i("close","XMPPService---------PacketService");
@@ -189,5 +215,38 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
 
             }
         });
+    }
+
+    /**
+     * 广播接收器
+     */
+    public class XMPPReceiver extends BroadcastReceiver {
+        public static final String SESSION="session";
+        public static final String SESSION_ACTION="ynu.mgh.session_action";
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()){
+                case SESSION_ACTION:
+                    if(intent.getExtras().getInt(SESSION)==1){
+                        packet_counts++;
+                        notifications_editor.putInt("packet",packet_counts);
+                        notifications_editor.commit();
+                        mToolBarUtil.toolBarNotification(2,packet_counts);
+                        ToastUtils.myToast(context,"session_action+1");
+                    }else {
+                        ToastUtils.myToast(context,"session_action-1");
+                        packet_counts--;
+                        if (packet_counts<0){
+                            packet_counts=0;
+                        }
+                        notifications_editor.putInt("packet",packet_counts);
+                        notifications_editor.commit();
+                        mToolBarUtil.toolBarNotification(2,packet_counts);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
