@@ -58,6 +58,7 @@
         android:id="@+id/session_notify"
         android:gravity="center_horizontal"
         android:text="0"
+        android:textColor="#FFF"
         android:clickable="false"
         android:focusable="false"
         android:textSize="12sp"

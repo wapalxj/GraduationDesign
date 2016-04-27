@@ -17,17 +17,17 @@ public class SmsProvider extends ContentProvider {
     static UriMatcher mUriMatcher;
 
     public static final int SMS=1;
-    public static final int SESSION=2;
+//    public static final int SESSION=2;
     //对应信息表的URI常量
     public static Uri URI_SMS=Uri.parse("content://"+AUTHORITIES+"/sms");
     //对应会话session表的URI常量
-    public static Uri URI_SESSION=Uri.parse("content://"+AUTHORITIES+"/session");
+//    public static Uri URI_SESSION=Uri.parse("content://"+AUTHORITIES+"/session");
 
     static {
         mUriMatcher =new UriMatcher(UriMatcher.NO_MATCH);
         //添加匹配规则
         mUriMatcher.addURI(AUTHORITIES, "/sms", SMS);//sms表
-        mUriMatcher.addURI(AUTHORITIES, "/session", SESSION);//session表
+//        mUriMatcher.addURI(AUTHORITIES, "/session", SESSION);//session表
     }
 
     public SmsProvider() {
@@ -119,18 +119,12 @@ public class SmsProvider extends ContentProvider {
                                 selectionArgs,null,null,sortOrder);
                 Log.i("sms_query","sms查询成功");
                 break;
-            case SESSION:
-                cursor= mHelper.getWritableDatabase().rawQuery(
-                        "SELECT * FROM ( " +
-                                " SELECT * FROM table_sms WHERE " +
-                                " (from_account= ? OR to_account= ?) and (session_belong_to= ?) " +
-                                " ORDER BY time ASC)" +
-                                " GROUP BY session_account"
-                        ,selectionArgs);
+//            case SESSION:
+
 //                        .query(SmsOpenHelper.TABLE_SMS, projection, selection,
 //                                selectionArgs,null,null,sortOrder);
-                Log.i("session_query","session查询成功");
-                break;
+//                Log.i("session_query","session查询成功");
+//                break;
             default:
                 break;
         }

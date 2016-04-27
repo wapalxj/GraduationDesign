@@ -83,6 +83,7 @@
         android:layout_marginLeft="20dp"
         android:id="@+id/gridview_faces"
         android:layout_width="match_parent"
+        android:layout_marginBottom="5dp"
         android:layout_height="174dp"
         android:numColumns="4" />
 

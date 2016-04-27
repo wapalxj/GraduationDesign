@@ -80,13 +80,9 @@ public class FaceUtil
             spannableString.setSpan(imageSpan, 0, faceText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             textView.append(spannableString);
-
-
         }
         //  将最后一段普通文本追加到TextView控件的结尾
         if (count == oldTextArray.length - 1)
             textView.append(oldTextArray[count]);
-
-
     }
 }

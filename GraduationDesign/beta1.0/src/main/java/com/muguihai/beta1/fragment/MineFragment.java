@@ -389,8 +389,8 @@ public class MineFragment extends Fragment {
      */
     private void removeNotification(){
         //发送广播
-        Intent session=new Intent(SlideActivity.XMPPReceiver.SESSION_ACTION);
-        session.putExtra(SlideActivity.XMPPReceiver.SESSION,0);
+        Intent session=new Intent(SlideActivity.XMPPReceiver.MINE_ACTION);
+        session.putExtra(SlideActivity.XMPPReceiver.MINE,1);
         getActivity().sendBroadcast(session);
     }
 

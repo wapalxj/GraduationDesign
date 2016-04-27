@@ -57,6 +57,7 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
     private SharedPreferences notifications_sp;
     private SharedPreferences.Editor notifications_editor;
     private int packet_counts;
+    private int session_counts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +65,11 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
         //
         notifications_sp=getSharedPreferences("notifications",MODE_PRIVATE);
         packet_counts=notifications_sp.getInt("packet",0);
+        session_counts=notifications_sp.getInt("session",0);
         notifications_editor=notifications_sp.edit();
         //注册广播
         IntentFilter filter=new IntentFilter();
+        filter.addAction(XMPPReceiver.MINE_ACTION);
         filter.addAction(XMPPReceiver.SESSION_ACTION);
         mReceiver=new XMPPReceiver();
         registerReceiver(mReceiver,filter);
@@ -86,7 +89,7 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
         int[] icons = {R.drawable.selector_icon_msg, R.drawable.selector_icon_contact, R.drawable.selector_icon_mine};
         mToolBarUtil.initTooBar(mLlBottom, icons,toolbar_titles);
         //显示消息数
-        mToolBarUtil.toolBarNotification(0,0);
+        mToolBarUtil.toolBarNotification(0,session_counts);
         mToolBarUtil.toolBarNotification(1,0);
         mToolBarUtil.toolBarNotification(2,packet_counts);
         //设置默认选中会话
@@ -221,20 +224,23 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
      * 广播接收器
      */
     public class XMPPReceiver extends BroadcastReceiver {
+        public static final String MINE="mine";
+        public static final String MINE_ACTION="ynu.mgh.mine_action";
+
         public static final String SESSION="session";
         public static final String SESSION_ACTION="ynu.mgh.session_action";
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()){
-                case SESSION_ACTION:
-                    if(intent.getExtras().getInt(SESSION)==1){
+                case MINE_ACTION:
+                    if(intent.getExtras().getInt(MINE)==0){//未处理，消息+1
                         packet_counts++;
                         notifications_editor.putInt("packet",packet_counts);
                         notifications_editor.commit();
                         mToolBarUtil.toolBarNotification(2,packet_counts);
-                        ToastUtils.myToast(context,"session_action+1");
-                    }else {
-                        ToastUtils.myToast(context,"session_action-1");
+//                        ToastUtils.myToast(context,"mine_action+1");
+                    }else {//处理，消息-1
+//                        ToastUtils.myToast(context,"mine_action-1");
                         packet_counts--;
                         if (packet_counts<0){
                             packet_counts=0;
@@ -242,6 +248,24 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
                         notifications_editor.putInt("packet",packet_counts);
                         notifications_editor.commit();
                         mToolBarUtil.toolBarNotification(2,packet_counts);
+                    }
+                    break;
+                case SESSION_ACTION:
+                    if(intent.getExtras().getInt(SESSION)==0){//未处理，消息+1
+                        session_counts++;
+                        notifications_editor.putInt("session",session_counts);
+                        notifications_editor.commit();
+                        mToolBarUtil.toolBarNotification(0,session_counts);
+//                        ToastUtils.myToast(context,"session_counts+1");
+                    }else {//处理，消息-1
+//                        ToastUtils.myToast(context,"session_counts-1");
+                        session_counts--;
+                        if (session_counts<0){
+                            session_counts=0;
+                        }
+                        notifications_editor.putInt("session",session_counts);
+                        notifications_editor.commit();
+                        mToolBarUtil.toolBarNotification(0,session_counts);
                     }
                     break;
                 default:

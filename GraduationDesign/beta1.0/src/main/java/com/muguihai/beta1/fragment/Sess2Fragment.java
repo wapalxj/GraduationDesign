@@ -26,6 +26,7 @@ import com.muguihai.beta1.activity.ChatActivity;
 import com.muguihai.beta1.dbhelper.ContactOpenHelper;
 import com.muguihai.beta1.dbhelper.SmsOpenHelper;
 import com.muguihai.beta1.provider.ContactsProvider;
+import com.muguihai.beta1.provider.SessionProvider;
 import com.muguihai.beta1.provider.SmsProvider;
 import com.muguihai.beta1.service.XMPPService;
 import com.muguihai.beta1.utils.ThreadUtils;
@@ -119,7 +120,7 @@ public class Sess2Fragment extends android.app.Fragment {
             @Override
             public void run() {
                 //对应查询记录
-                final Cursor cursor = getActivity().getContentResolver().query(SmsProvider.URI_SESSION, null, null,
+                final Cursor cursor = getActivity().getContentResolver().query(SessionProvider.URI_SESSION, null, null,
                         new String[]{XMPPService.current_account, XMPPService.current_account,XMPPService.current_account}, null);
 
                 //没有数据

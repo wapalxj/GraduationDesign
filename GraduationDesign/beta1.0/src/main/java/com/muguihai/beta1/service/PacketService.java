@@ -200,8 +200,8 @@ public class PacketService extends Service {
             //插入
             getContentResolver().insert(PacketProvider.URI_PACKET,values);
             //发送广播
-            Intent session=new Intent(SlideActivity.XMPPReceiver.SESSION_ACTION);
-            session.putExtra(SlideActivity.XMPPReceiver.SESSION,1);
+            Intent session=new Intent(SlideActivity.XMPPReceiver.MINE_ACTION);
+            session.putExtra(SlideActivity.XMPPReceiver.MINE,0);
             sendBroadcast(session);
         }
 
@@ -270,12 +270,18 @@ public class PacketService extends Service {
         values.put(SmsOpenHelper.SmsTable.STATUS,"online");
         values.put(SmsOpenHelper.SmsTable.TYPE,msg.getType().name());
         values.put(SmsOpenHelper.SmsTable.TIME,System.currentTimeMillis());
+        values.put(SmsOpenHelper.SmsTable.READ_STATUS,0);//设置未读
         values.put(SmsOpenHelper.SmsTable.SESSION_ACCOUNT, sessionAccount);
         values.put(SmsOpenHelper.SmsTable.SESSION_BELONG_TO, session_belong_to);
 
         getContentResolver().insert(
                 SmsProvider.URI_SMS, values
         );
+
+        //发送广播
+        Intent session=new Intent(SlideActivity.XMPPReceiver.SESSION_ACTION);
+        session.putExtra(SlideActivity.XMPPReceiver.SESSION,0);
+        sendBroadcast(session);
     }
 
     /**

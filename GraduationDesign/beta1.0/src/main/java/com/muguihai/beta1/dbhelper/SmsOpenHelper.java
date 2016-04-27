@@ -22,6 +22,7 @@ public class SmsOpenHelper extends SQLiteOpenHelper{
          * status:发送状态
          * type:类型
          * time:发送时间
+         * read_status:未读数
          * session_account:会话id
          * session_belong_to:会话属于谁
          */
@@ -31,6 +32,7 @@ public class SmsOpenHelper extends SQLiteOpenHelper{
         public static final String STATUS="status";
         public static final String TYPE="type";
         public static final String TIME="time";
+        public static final String READ_STATUS="read_status";
         public static final String SESSION_ACCOUNT="session_account";
         public static final String SESSION_BELONG_TO="session_belong_to";
     }
@@ -50,6 +52,7 @@ public class SmsOpenHelper extends SQLiteOpenHelper{
                     SmsTable.STATUS+" TEXT," +
                     SmsTable.TYPE+" TEXT," +
                     SmsTable.TIME+" TEXT," +
+                    SmsTable.READ_STATUS+" BOOLEAN, "+
                     SmsTable.SESSION_ACCOUNT+" TEXT," +
                     SmsTable.SESSION_BELONG_TO+" TEXT" +
                     ");";

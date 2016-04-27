@@ -209,9 +209,7 @@ public class SessionFragment extends Fragment {
                                         TextView tvaccount = (TextView) view.findViewById(R.id.account_session);
                                         TextView tvBody = (TextView) view.findViewById(R.id.body_session);
                                         TextView tvNickname = (TextView) view.findViewById(R.id.nickname_session);
-
-//                                        String body = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.BODY));
-//                                        String account = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.SESSION_ACCOUNT));
+                                        TextView session_notify= (TextView) view.findViewById(R.id.session_notify);
 
                                         String body = cursor.getString(cursor.getColumnIndex(SessionOpenHelper.SessionTable.BODY));
                                         String account = cursor.getString(cursor.getColumnIndex(SessionOpenHelper.SessionTable.SESSION_ACCOUNT));
@@ -220,6 +218,21 @@ public class SessionFragment extends Fragment {
 //                                        String nickname=getNicknameByAccount(account);
                                         tvBody.setText(body);
                                         tvNickname.setText(nickname);
+
+                                        Cursor sCursor=getActivity().getContentResolver().query(SmsProvider.URI_SMS, null,
+                                                "read_status = 0 and session_account = ? and session_belong_to= ?",
+                                                new String[]{account,XMPPService.current_account}, null);
+                                        int counts=sCursor.getCount();
+                                        session_notify.setText(String.valueOf(counts));
+                                        sCursor.close();
+
+                                        //设置消息提示的可见
+                                        if (Integer.parseInt(session_notify.getText().toString())<=0){
+                                            session_notify.setText(String.valueOf(0));
+                                            session_notify.setVisibility(View.GONE);
+                                        }else {
+                                            session_notify.setVisibility(View.VISIBLE);
+                                        }
                                     }
                                 };
 

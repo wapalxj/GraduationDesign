@@ -47,7 +47,6 @@ public class FaceListAdapter extends ParentAdapter
             return -1;
         try
         {
-
             return FaceUtil.getResourceIdFromName(R.drawable.class, Face_Const.FACE_PREFIX + position);
         }
         catch (Exception e)

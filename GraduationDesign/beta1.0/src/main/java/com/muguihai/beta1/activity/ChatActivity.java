@@ -1,6 +1,7 @@
 package com.muguihai.beta1.activity;
 
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -13,12 +14,17 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
@@ -42,10 +48,10 @@ import com.muguihai.beta1.view.newquickaction.QuickAction;
 
 import org.jivesoftware.smack.packet.Message;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Formatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChatActivity extends AppCompatActivity {
     public static final String CHAT_ACCOUNT ="chat_account";
@@ -144,7 +150,21 @@ public class ChatActivity extends AppCompatActivity {
                 }else {
                     face_btn.setSelected(true);
                     mGridViewFaces.setVisibility(View.VISIBLE);
+                    // 隐藏软键盘
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(),0);
                 }
+            }
+        });
+
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    face_btn.setSelected(false);
+                    mGridViewFaces.setVisibility(View.GONE);
+                    // 弹出软键盘
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(editText,InputMethodManager.SHOW_FORCED);
             }
         });
 
@@ -152,23 +172,48 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int faceId=position+1;
-                if (faceId != -1)
-                {
-                    String faceResName = Face_Const.FACE_PREFIX + faceId;
+                if (faceId != -1) {
+                    if (faceId == mFaceListAdapter.getCount()) {
+                        //删除内容
+                        if (!TextUtils.isEmpty(editText.getText())){
+                            int index = editText.getSelectionStart();
+                            Editable editable = editText.getText();
+                          if (editText.getText().toString().endsWith(">")){
+                              String regExp = Face_Const.FACE_TEXT_PREFIX + "\\d+" + Face_Const.FACE_TEXT_SUFFIX;
+                              Pattern pattern = Pattern.compile(regExp);
+                              int last=editText.getText().toString().lastIndexOf("<");
+                              String oldText = editText.getText().toString();
+                              String oldTextchild=oldText.substring(last);
+                              Matcher matcher = pattern.matcher(oldTextchild);
+                              if (matcher.find()){
+                                  //删除表情
+                                  ToastUtils.myToast(getApplicationContext(), "删除"+matcher.group());
+                                  editable.delete(index-oldTextchild.length(), index);
+                              }else {
+                                  //删除字符
+                                  editable.delete(index-1, index);
+                              }
+                          }else {
+                              //删除字符
+                              editable.delete(index-1, index);
+                          }
+                        }
 
-                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-                            FaceUtil.getResourceIdFromName(R.drawable.class, faceResName));
-
-                    Matrix matrix = new Matrix();
-                    matrix.postScale(0.6f, 0.6f);
-                    Bitmap smallBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
-                            matrix, true);
-                    ImageSpan imageSpan = new ImageSpan(ChatActivity.this, smallBitmap);
-                    String faceText = Face_Const.FACE_TEXT_PREFIX + faceId + Face_Const.FACE_TEXT_SUFFIX;
+                    } else {
+                        String faceResName = Face_Const.FACE_PREFIX + faceId;
+                        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                                FaceUtil.getResourceIdFromName(R.drawable.class, faceResName));
+                        Matrix matrix = new Matrix();
+                        matrix.postScale(0.6f, 0.6f);
+                        Bitmap smallBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
+                                matrix, true);
+                        ImageSpan imageSpan = new ImageSpan(ChatActivity.this, smallBitmap);
+                        String faceText = Face_Const.FACE_TEXT_PREFIX + faceId + Face_Const.FACE_TEXT_SUFFIX;
 //                    editText.setText(faceText);//插入字符
-                    SpannableString spannableString = new SpannableString(faceText);
-                    spannableString.setSpan(imageSpan, 0, faceText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    editText.getText().insert(editText.getSelectionStart(), spannableString);
+                        SpannableString spannableString = new SpannableString(faceText);
+                        spannableString.setSpan(imageSpan, 0, faceText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        editText.getText().insert(editText.getSelectionStart(), spannableString);
+                    }
                 }
             }
         });
@@ -295,16 +340,22 @@ public class ChatActivity extends AppCompatActivity {
 
                                 //数据展示
                                 cursor.moveToPosition(position);
+
+                                int sms_id=cursor.getInt(cursor.getColumnIndex(SmsOpenHelper.SmsTable._ID));
                                 String time = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.TIME));
                                 String sms_body = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.BODY));
                                 String formatTime = new SimpleDateFormat("yyyy-MM--dd HH:mm:ss").format(new Date(Long.parseLong(time)));
                                 String chat_id=cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable._ID));
+                                int read_state=cursor.getInt(cursor.getColumnIndex(SmsOpenHelper.SmsTable.READ_STATUS));
 
                                 holder.time.setText(formatTime);
                                 holder.sms_body.setText(sms_body);
                                 FaceUtil.updateFacesForTextView(getApplication(),holder.sms_body);
                                 holder.chat_id.setText(chat_id);
 
+                                if (read_state==0){
+                                    updateMessage(sms_id);
+                                }
                                 return super.getView(position, convertView, parent);
                             }
 
@@ -473,6 +524,33 @@ public class ChatActivity extends AppCompatActivity {
             Log.i("onServiceDisconnected","onServiceDisconnected");
 
         }
+    }
+
+
+    /**
+     * 更改已读状态
+     */
+    private void updateMessage(int id) {
+        ContentValues values=new ContentValues();
+        values.put(SmsOpenHelper.SmsTable.READ_STATUS,1);//设置已读
+
+
+        //先update在insert
+        int uCount=getContentResolver().update(SmsProvider.URI_SMS,
+                values, SmsOpenHelper.SmsTable._ID+ "= "+id,
+                new String[]{});
+
+        if (uCount>0){
+            //发送广播
+            Intent session=new Intent(SlideActivity.XMPPReceiver.SESSION_ACTION);
+            session.putExtra(SlideActivity.XMPPReceiver.SESSION,1);
+            sendBroadcast(session);
+        }
+//        if (uCount<=0){
+//            getContentResolver().insert(SmsProvider.URI_SMS,
+//                    values,
+//                    new String[]{});
+//        }
     }
 
 }

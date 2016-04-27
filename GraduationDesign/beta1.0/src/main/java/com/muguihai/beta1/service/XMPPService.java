@@ -12,7 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.muguihai.beta1.R;
+import com.muguihai.beta1.activity.ChatActivity;
 import com.muguihai.beta1.activity.LoginActivity;
+import com.muguihai.beta1.activity.SlideActivity;
 import com.muguihai.beta1.dbhelper.ContactOpenHelper;
 import com.muguihai.beta1.dbhelper.GroupOpenHelper;
 import com.muguihai.beta1.dbhelper.SessionOpenHelper;
@@ -376,12 +378,18 @@ public class XMPPService extends Service {
         values.put(SmsOpenHelper.SmsTable.STATUS,"online");
         values.put(SmsOpenHelper.SmsTable.TYPE,msg.getType().name());
         values.put(SmsOpenHelper.SmsTable.TIME,System.currentTimeMillis());
+        values.put(SmsOpenHelper.SmsTable.READ_STATUS,0);//设置未读
         values.put(SmsOpenHelper.SmsTable.SESSION_ACCOUNT, sessionAccount);
         values.put(SmsOpenHelper.SmsTable.SESSION_BELONG_TO, session_belong_to);
 
         getContentResolver().insert(
                 SmsProvider.URI_SMS, values
         );
+
+        //发送广播
+        Intent session=new Intent(SlideActivity.XMPPReceiver.SESSION_ACTION);
+        session.putExtra(SlideActivity.XMPPReceiver.SESSION,0);
+        sendBroadcast(session);
     }
 
     //账户名称过滤
