@@ -1,6 +1,7 @@
 package com.muguihai.beta1.fragment;
 
 import android.app.Fragment;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.muguihai.beta1.R;
 import com.muguihai.beta1.activity.ChatActivity;
+import com.muguihai.beta1.activity.SlideActivity;
 import com.muguihai.beta1.dbhelper.ContactOpenHelper;
 import com.muguihai.beta1.dbhelper.SessionOpenHelper;
 import com.muguihai.beta1.dbhelper.SmsOpenHelper;
@@ -43,6 +45,7 @@ public class SessionFragment extends Fragment {
 
     private static int OPEN=0;
     private static int DELETE=1;
+    private static int IGNORE=2;
 
     public SessionFragment() {
         // Required empty public constructor
@@ -120,11 +123,12 @@ public class SessionFragment extends Fragment {
 
                 ActionItem addItem 		= new ActionItem(OPEN, "打开", getResources().getDrawable(R.drawable.ic_open));
                 ActionItem acceptItem 	= new ActionItem(DELETE, "删除", getResources().getDrawable(R.drawable.ic_delete));
-
+                ActionItem ignoreItem 	= new ActionItem(IGNORE, "全部忽略", getResources().getDrawable(R.drawable.ic_delete));
                 final QuickAction mQuickAction 	= new QuickAction(getActivity());
 
                 mQuickAction.addActionItem(addItem);
                 mQuickAction.addActionItem(acceptItem);
+                mQuickAction.addActionItem(ignoreItem);
 
                 mQuickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
 
@@ -141,6 +145,13 @@ public class SessionFragment extends Fragment {
                                     case 1:
                                         ToastUtils.myToast(getActivity(),account);
                                         removeSession(account);
+                                        break;
+                                    case 2:
+                                        ToastUtils.myToast(getActivity(),"全部忽略");
+                                        updateMessage(account);
+                                        TextView session_notify= (TextView) view.findViewById(R.id.session_notify);
+                                        session_notify.setText(String.valueOf(0));
+                                        session_notify.setVisibility(View.GONE);
                                         break;
                                     default:
                                         break;
@@ -308,6 +319,35 @@ public class SessionFragment extends Fragment {
                 new String[]{account,XMPPService.current_account}
         );
         setOrUpdateAdapter();
+    }
+
+
+    /**
+     * 更改已读状态
+     */
+    private void updateMessage(String account) {
+        ContentValues values=new ContentValues();
+        values.put(SmsOpenHelper.SmsTable.READ_STATUS,1);//设置已读
+
+        //先update在insert
+        int uCount=getActivity().getContentResolver().update(SmsProvider.URI_SMS,
+                values, SmsOpenHelper.SmsTable.SESSION_ACCOUNT+ "= ? and "
+                        +SmsOpenHelper.SmsTable.READ_STATUS+"= 0 and "
+                        +SmsOpenHelper.SmsTable.SESSION_BELONG_TO+"= ? ",
+                new String[]{account,XMPPService.current_account});
+
+        if (uCount>0){
+            //发送广播
+            Intent session=new Intent(SlideActivity.XMPPReceiver.SESSION_ACTION);
+            session.putExtra(SlideActivity.XMPPReceiver.SESSION,2);
+            session.putExtra(SlideActivity.XMPPReceiver.SESSION_ALL,uCount);
+            getActivity().sendBroadcast(session);
+        }
+//        if (uCount<=0){
+//            getContentResolver().insert(SmsProvider.URI_SMS,
+//                    values,
+//                    new String[]{});
+//        }
     }
 
 

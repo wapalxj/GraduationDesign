@@ -56,7 +56,7 @@
             android:name=".provider.SessionProvider"
             android:authorities="com.muguihai.beta1.provider.SessionProvider"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
         <activity android:name=".activity.ChatActivity" />
 
@@ -76,8 +76,9 @@
         <activity android:name=".activity.AddFriendActivity" />
         <activity android:name=".activity.RosterSettingActivity" />
         <activity android:name=".activity.FriendGroupChangeActivity" />
-
-
+        <activity android:name=".activity.SlideSettingActivity" />
+        <activity android:name=".activity.PersonSettingsActivity" />
+        <activity android:name=".activity.PasswordChangeActivity"></activity>
     </application>
 
 </manifest>

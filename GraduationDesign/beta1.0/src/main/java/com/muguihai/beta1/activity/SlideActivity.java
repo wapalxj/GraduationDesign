@@ -1,9 +1,11 @@
 package com.muguihai.beta1.activity;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -12,20 +14,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.CycleInterpolator;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.muguihai.beta1.R;
-import com.muguihai.beta1.fragment.ContactFragment;
 import com.muguihai.beta1.fragment.MineFragment;
-import com.muguihai.beta1.fragment.Sess2Fragment;
 import com.muguihai.beta1.fragment.SessionFragment;
 import com.muguihai.beta1.fragment.Test2Cont;
 import com.muguihai.beta1.service.PacketService;
@@ -37,11 +33,17 @@ import com.muguihai.beta1.view.slidemenu.MyLinearLayout;
 import com.muguihai.beta1.view.slidemenu.SlideMenu;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.provider.ProviderManager;
+import org.jivesoftware.smackx.packet.VCard;
+
 public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnToolBarClickListener {
-    private ListView mMenu_listview;
+    private LinearLayout mMenu_LinearLayout;
     private SlideMenu slideMenu;
     private ImageView main_head;
     private MyLinearLayout myLinearLayout;
+    private TextView slide_setting;
+    private Button close_cur_account;
 
     private TextView mMtv_title;
     private String[] toolbar_titles;
@@ -58,14 +60,17 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
     private SharedPreferences.Editor notifications_editor;
     private int packet_counts;
     private int session_counts;
+    private TextView mine_account;
+    private TextView mine_nickname;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide);
         //
         notifications_sp=getSharedPreferences("notifications",MODE_PRIVATE);
-        packet_counts=notifications_sp.getInt("packet",0);
-        session_counts=notifications_sp.getInt("session",0);
+        packet_counts=notifications_sp.getInt("packet_"+XMPPService.current_account,0);
+        session_counts=notifications_sp.getInt("session"+XMPPService.current_account,0);
         notifications_editor=notifications_sp.edit();
         //注册广播
         IntentFilter filter=new IntentFilter();
@@ -100,17 +105,81 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
         mTransaction = mManager.beginTransaction();
         mTransaction.replace(R.id.frame,new SessionFragment());
         mTransaction.commit();
-        //
 
+        //设置个人资料
         main_head = (ImageView) findViewById(R.id.iv_head);
-        String [] menu={"a1111","a2222","a3333","a4444","a55","a666","a777","a8888","a55","a666","a777","a8888"};
-        mMenu_listview= (ListView) findViewById(R.id.menu_listview);
-        mMenu_listview.setAdapter(
-                new ArrayAdapter<>(
-                        getApplicationContext(),
-                        android.R.layout.simple_list_item_1,menu
-                )
-        );
+        mMenu_LinearLayout= (LinearLayout) findViewById(R.id.menu_linearLayout);
+
+        mine_account = (TextView) mMenu_LinearLayout.findViewById(R.id.mine_account);
+        mine_nickname = (TextView) mMenu_LinearLayout.findViewById(R.id.mine_nickname);
+
+        if (XMPPService.checkConnection()){
+            try {
+                VCard vCard=new VCard();
+                //防止获取不到
+                ProviderManager.getInstance().addIQProvider("vCard", "vcard-temp",
+                        new org.jivesoftware.smackx.provider.VCardProvider());
+                vCard.load(XMPPService.conn);
+                String curNickname=vCard.getNickName();
+                String curAccount=vCard.getFrom();
+                System.out.println(vCard.getNickName());
+                System.out.println(vCard.getAddressFieldHome("addr"));
+                System.out.println(vCard.getEmailHome());
+                System.out.println(vCard.getPhoneHome("tel"));
+                System.out.println(vCard.getOrganization());
+                System.out.println(vCard.getField("sign"));
+
+                ToastUtils.myToast(getApplicationContext(),"name---"+curNickname);
+                if (curNickname==null){
+                    curNickname=curAccount.substring(0,curAccount.indexOf("@"));
+                }
+                mine_account.setText(curAccount);
+                mine_nickname.setText(curNickname);
+
+            } catch (XMPPException e) {
+                e.printStackTrace();
+            }
+        }else {
+            ToastUtils.myToast(getApplicationContext(),"网络连接失败");
+        }
+
+        //退出当前账户
+        close_cur_account= (Button) findViewById(R.id.close_cur_account);
+        close_cur_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(SlideActivity.this)
+                        .setMessage("真的要退出当前账号吗？")
+                        .setTitle("退出提示")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent back=new Intent(getApplicationContext(),LoginActivity.class);
+                                startActivity(back);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
+            }
+        });
+
+        //设置
+        slide_setting= (TextView) findViewById(R.id.slide_setting);
+        slide_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent slidesetting=new Intent(getApplicationContext(),SlideSettingActivity.class);
+                startActivity(slidesetting);
+            }
+        });
+
+
+
 
         slideMenu= (SlideMenu) findViewById(R.id.slideMenu);
         slideMenu.setOnDragStateChangeListener(new SlideMenu.OnDragStateChangeListener() {
@@ -228,6 +297,7 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
         public static final String MINE_ACTION="ynu.mgh.mine_action";
 
         public static final String SESSION="session";
+        public static final String SESSION_ALL="session_all";
         public static final String SESSION_ACTION="ynu.mgh.session_action";
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -235,7 +305,7 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
                 case MINE_ACTION:
                     if(intent.getExtras().getInt(MINE)==0){//未处理，消息+1
                         packet_counts++;
-                        notifications_editor.putInt("packet",packet_counts);
+                        notifications_editor.putInt("packet_"+"session_"+XMPPService.current_account,packet_counts);
                         notifications_editor.commit();
                         mToolBarUtil.toolBarNotification(2,packet_counts);
 //                        ToastUtils.myToast(context,"mine_action+1");
@@ -245,7 +315,7 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
                         if (packet_counts<0){
                             packet_counts=0;
                         }
-                        notifications_editor.putInt("packet",packet_counts);
+                        notifications_editor.putInt("packet_"+"session_"+XMPPService.current_account,packet_counts);
                         notifications_editor.commit();
                         mToolBarUtil.toolBarNotification(2,packet_counts);
                     }
@@ -253,17 +323,26 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
                 case SESSION_ACTION:
                     if(intent.getExtras().getInt(SESSION)==0){//未处理，消息+1
                         session_counts++;
-                        notifications_editor.putInt("session",session_counts);
+                        notifications_editor.putInt("session_"+XMPPService.current_account,session_counts);
                         notifications_editor.commit();
                         mToolBarUtil.toolBarNotification(0,session_counts);
 //                        ToastUtils.myToast(context,"session_counts+1");
-                    }else {//处理，消息-1
+                    }else if (intent.getExtras().getInt(SESSION)==1){//处理，消息-1
 //                        ToastUtils.myToast(context,"session_counts-1");
                         session_counts--;
                         if (session_counts<0){
                             session_counts=0;
                         }
-                        notifications_editor.putInt("session",session_counts);
+                        notifications_editor.putInt("session_"+XMPPService.current_account,session_counts);
+                        notifications_editor.commit();
+                        mToolBarUtil.toolBarNotification(0,session_counts);
+                    }else if (intent.getExtras().getInt(SESSION)==2){//处理，全部删除
+                        int nums=intent.getExtras().getInt(SESSION_ALL);
+                        session_counts-=nums;
+                        if (session_counts<0){
+                            session_counts=0;
+                        }
+                        notifications_editor.putInt("session_"+XMPPService.current_account,session_counts);
                         notifications_editor.commit();
                         mToolBarUtil.toolBarNotification(0,session_counts);
                     }

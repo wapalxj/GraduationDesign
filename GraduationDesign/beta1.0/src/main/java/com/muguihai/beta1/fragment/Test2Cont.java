@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -28,10 +29,12 @@ import com.muguihai.beta1.utils.ThreadUtils;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
+import org.jivesoftware.smack.packet.Presence;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -134,7 +137,7 @@ public class Test2Cont extends Fragment {
                     group_list.add(group.getName());
 
                     Collection<RosterEntry> entries =group.getEntries();
-                    ArrayList<String> group_list = new ArrayList<>();
+                    LinkedList<String> group_list = new LinkedList<>();
 //                    for (RosterEntry entry : entries) {
 //                        System.out.print(entry.getName() + "----");
 //                        group_list.add(entry.getUser());
@@ -342,11 +345,28 @@ public class Test2Cont extends Fragment {
                 entry=XMPPService.conn.getRoster().getEntry(account);
                 itemHolder.account.setText(account);
                 itemHolder.nickname.setText(entry.getName()==null ? account.substring(0,account.indexOf("@")) :entry.getName());
+                itemHolder.signature.setText("我用PHP开发安卓");
 
+
+                Cursor cursor = getActivity().getContentResolver().query(ContactsProvider.URI_CONTACT, null,
+                        "account = ? and belong_to= ? ",
+                        new String[]{account,XMPPService.current_account}, null);
+                cursor.moveToFirst();
+                String presence=cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.PRESENCE));
     //        itemHolder.head.setBackgroundResource(item_list2.get(1).get(1));
                 itemHolder.head.setBackgroundResource(R.mipmap.ic_launcher);
-                itemHolder.online_state.setText("[离线]");
-                itemHolder.signature.setText("我用PHP开发安卓");
+                if (presence.equals(Presence.Type.available.toString())){
+                    itemHolder.online_state.setText("[在线]");
+                    itemHolder.online_state.setTextColor(Color.RED);
+
+//                    LinkedList l= (LinkedList) item_list.get(groupPosition);
+//                    l.addFirst(item_list.get(groupPosition).get(childPosition));
+//                    ((LinkedList)(item_list.get(groupPosition))).push(item_list.get(groupPosition).get(childPosition));
+//                    ((LinkedList)(item_list.get(groupPosition))).remove(item_list.get(groupPosition).get(childPosition));
+                }else {
+                    itemHolder.online_state.setText("[离线]");
+                    itemHolder.online_state.setTextColor(Color.GRAY);
+                }
             }
             return convertView;
         }

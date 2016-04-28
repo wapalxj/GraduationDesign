@@ -18,14 +18,14 @@ public class ContactOpenHelper extends SQLiteOpenHelper{
          * _id:主键
          * account：账号
          * nickname：昵称
-         * avatar：头像
+         * presence：头像
          * pinying：账号拼音
          * group：分组
          * blong_to:属于哪个用户的
          */
         public static final String ACCOUNT="account";
         public static final String NICKNAME="nickname";
-        public static final String AVATAR="avatar";
+        public static final String PRESENCE="presence";
         public static final String PINYIN ="pinyin";
         public static final String GROUP ="Rgroup";
         public static final String BELONG_TO ="belong_to";
@@ -44,7 +44,7 @@ public class ContactOpenHelper extends SQLiteOpenHelper{
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 ContactTable.ACCOUNT+" TEXT, " +
                 ContactTable.NICKNAME+" TEXT, "+
-                ContactTable.AVATAR+" TEXT, "+
+                ContactTable.PRESENCE+" TEXT, "+
                 ContactTable.PINYIN +" TEXT, "+
                 ContactTable.GROUP +" TEXT, "+
                 ContactTable.BELONG_TO +" TEXT"+

@@ -3,6 +3,7 @@ package com.muguihai.beta1.view.slidemenu;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.LinearLayout;
 
 /**
@@ -22,11 +23,6 @@ public class MyLinearLayout extends LinearLayout{
         super(context, attrs, defStyleAttr);
     }
 
-    public MyLinearLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
-
     private SlideMenu slideMenu;
 
     public void setSlideMenu(SlideMenu slideMenu){
@@ -35,24 +31,23 @@ public class MyLinearLayout extends LinearLayout{
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (slideMenu!=null &&slideMenu.getCurrentState()== SlideMenu.DragState.Open){
+        if (slideMenu!=null && (slideMenu.getCurrentState()!= SlideMenu.DragState.Close)){
             //如果slidemenu打开则拦截并消费掉事件
             return true;
-
         }
         return super.onInterceptTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (slideMenu!=null &&slideMenu.getCurrentState()== SlideMenu.DragState.Open) {
+        if (slideMenu!=null &&(slideMenu.getCurrentState()!= SlideMenu.DragState.Close)) {
             //如果slidemenu打开则拦截并消费掉事件
             if (event.getAction()==MotionEvent.ACTION_UP){
-                //如果slidemenu打开，点击main则关闭如果slidemenu打开
+                //如果slidemenu打开，点击main则关闭
                 slideMenu.closeMenu();
             }
-            return true;
+            return  true;
         }
-            return super.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 }

@@ -41,8 +41,10 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.OfflineMessageManager;
 import org.jivesoftware.smackx.packet.OfflineMessageRequest;
+import org.jivesoftware.smackx.packet.VCard;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -107,15 +109,27 @@ public class XMPPService extends Service {
                     roster.createGroup("Friends");
                 }else {
                     for (RosterGroup group : groups) {
-                        System.out.print("分组名称："+(group.getName()+"----"));
-                        System.out.print("分组人数："+group.getEntryCount()+"----");
+                        System.out.println("分组名称："+(group.getName()+"----"));
+                        System.out.println("分组人数："+group.getEntryCount()+"----");
                         saveOrUpdateGroup(group.getName());
 
                         Collection<RosterEntry> entries =group.getEntries();
                         for (RosterEntry entry : entries) {
-                            System.out.print(entry.getUser() + "----");
-                            System.out.print(entry.getName() + "----");
+                            System.out.println("account----:"+entry.getUser());
+                            System.out.println("nickname----:"+entry.getName() );
                             saveOrUpdateEntry(entry,group);
+                            //获取资料
+                            VCard vCard=new VCard();
+                            //防止获取不到
+                            ProviderManager.getInstance().addIQProvider("vCard", "vcard-temp",
+                                    new org.jivesoftware.smackx.provider.VCardProvider());
+                            try {
+                                vCard.load(XMPPService.conn,entry.getUser());
+                                System.out.println("nickname---"+vCard.getNickName());
+                            } catch (XMPPException e) {
+                                e.printStackTrace();
+                            }
+
                         }
                         System.out.println(" ");
                     }
@@ -230,7 +244,10 @@ public class XMPPService extends Service {
             String from  =presence.getFrom();
             String to  =presence.getTo();
             Presence.Type type=presence.getType();
-            Log.i("--presenceChanged--", "--from:"+from+"--to:"+to+"--type:"+type);
+            Log.i("--presenceChanged--", "--from:"+from+"--to:"+to+"--type:"+type.toString());
+
+            from=filterAccount(from);
+            updateEntryPresence(from,type);
         }
     }
 
@@ -298,6 +315,7 @@ public class XMPPService extends Service {
         String nickName=entry.getName();
         String pinyinName=PinyinUtil.strToPinyin(account);
         String groupName=group.getName();
+        String prensence=Presence.Type.unavailable.toString();
         String belong_to=XMPPService.current_account;
         if (nickName==null||"".equals(nickName)){
             nickName=account.substring(0,account.indexOf("@"));
@@ -305,7 +323,7 @@ public class XMPPService extends Service {
 
         values.put(ContactOpenHelper.ContactTable.ACCOUNT,account);
         values.put(ContactOpenHelper.ContactTable.NICKNAME,nickName);
-        values.put(ContactOpenHelper.ContactTable.AVATAR, "0");
+        values.put(ContactOpenHelper.ContactTable.PRESENCE, prensence);
         values.put(ContactOpenHelper.ContactTable.PINYIN, pinyinName);
         values.put(ContactOpenHelper.ContactTable.GROUP, groupName);
         values.put(ContactOpenHelper.ContactTable.BELONG_TO, belong_to);
@@ -320,6 +338,24 @@ public class XMPPService extends Service {
             Log.i("chatCreated","插入"+nickName);
             getContentResolver().insert(ContactsProvider.URI_CONTACT,values);
         }
+    }
+
+
+    /**
+     * 更新联系人状态
+     */
+    private void updateEntryPresence(String account,Presence.Type type){
+        ContentValues values=new ContentValues();
+        String belong_to=XMPPService.current_account;
+
+        values.put(ContactOpenHelper.ContactTable.ACCOUNT,account);
+        values.put(ContactOpenHelper.ContactTable.PRESENCE, type.toString());
+        values.put(ContactOpenHelper.ContactTable.BELONG_TO, belong_to);
+
+        //先update在insert
+        int uCount=getContentResolver().update(ContactsProvider.URI_CONTACT,
+                values, ContactOpenHelper.ContactTable.ACCOUNT + "=? and "+ContactOpenHelper.ContactTable.BELONG_TO+ "=?",
+                new String[]{account,XMPPService.current_account});
 
     }
 

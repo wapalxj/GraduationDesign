@@ -348,6 +348,7 @@ public class MineFragment extends Fragment {
         ContentValues values=new ContentValues();
         String pinyinName=PinyinUtil.strToPinyin(nickname);
         String groupName="Friends";
+        String presence=Presence.Type.unavailable.toString();
         String belong_to=XMPPService.current_account;
 
         if (nickname==null||"".equals(nickname)){
@@ -356,7 +357,7 @@ public class MineFragment extends Fragment {
 
         values.put(ContactOpenHelper.ContactTable.ACCOUNT,account);
         values.put(ContactOpenHelper.ContactTable.NICKNAME,nickname);
-        values.put(ContactOpenHelper.ContactTable.AVATAR, "0");
+        values.put(ContactOpenHelper.ContactTable.PRESENCE, presence);
         values.put(ContactOpenHelper.ContactTable.PINYIN, pinyinName);
         values.put(ContactOpenHelper.ContactTable.GROUP, groupName);
         values.put(ContactOpenHelper.ContactTable.BELONG_TO, belong_to);

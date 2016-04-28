@@ -225,7 +225,6 @@ public class SlideMenu extends FrameLayout{
     public void closeMenu(){
         mViewDragHelper.smoothSlideViewTo(mMainView,0,mMainView.getTop());
         ViewCompat.postInvalidateOnAnimation(SlideMenu.this);
-
     }
 
 

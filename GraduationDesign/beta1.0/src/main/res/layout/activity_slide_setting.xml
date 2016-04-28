@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.SlideSettingActivity">
+    <android.support.v7.widget.Toolbar
+        android:orientation="vertical"
+        android:background="#00aeff"
+        android:padding="0dp"
+        android:id="@+id/r"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/slide_setting_back"
+                android:text="返回"
+                android:textSize="18dp"
+                android:drawableLeft="@mipmap/back"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="设置"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/tv_change_mine"
+        android:text="个人信息"
+        android:textSize="28sp"
+        android:background="#ccc"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_change_password"
+        android:text="密码修改"
+        android:textSize="28sp"
+        android:background="#ccc"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

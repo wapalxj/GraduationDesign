@@ -51,16 +51,22 @@
     </FrameLayout>
 
     <LinearLayout
+        android:focusable="false"
+        android:clickable="false"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="57dp">
         <View
+            android:focusable="false"
+            android:clickable="false"
             android:layout_marginBottom="5dp"
             android:background="#CCC"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
         <LinearLayout
+            android:focusable="false"
             android:orientation="horizontal"
+            android:clickable="false"
             android:id="@+id/main_bottom"
             android:layout_width="match_parent"
             android:layout_height="56dp">

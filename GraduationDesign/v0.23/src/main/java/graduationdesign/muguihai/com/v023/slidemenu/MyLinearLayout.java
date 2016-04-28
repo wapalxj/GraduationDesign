@@ -38,7 +38,6 @@ public class MyLinearLayout extends LinearLayout{
         if (slideMenu!=null &&slideMenu.getCurrentState()== SlideMenu.DragState.Open){
             //如果slidemenu打开则拦截并消费掉事件
             return true;
-
         }
         return super.onInterceptTouchEvent(ev);
     }
@@ -53,6 +52,6 @@ public class MyLinearLayout extends LinearLayout{
             }
             return true;
         }
-            return super.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 }

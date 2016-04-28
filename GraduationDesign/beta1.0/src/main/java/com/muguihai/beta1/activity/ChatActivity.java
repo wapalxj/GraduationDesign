@@ -15,13 +15,11 @@ import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -178,11 +176,11 @@ public class ChatActivity extends AppCompatActivity {
                         if (!TextUtils.isEmpty(editText.getText())){
                             int index = editText.getSelectionStart();
                             Editable editable = editText.getText();
-                          if (editText.getText().toString().endsWith(">")){
+                          if (editText.getText().toString().substring(0,index).endsWith(">")){
                               String regExp = Face_Const.FACE_TEXT_PREFIX + "\\d+" + Face_Const.FACE_TEXT_SUFFIX;
                               Pattern pattern = Pattern.compile(regExp);
-                              int last=editText.getText().toString().lastIndexOf("<");
-                              String oldText = editText.getText().toString();
+                              int last=editText.getText().toString().substring(0,index).lastIndexOf("<");
+                              String oldText = editText.getText().toString().substring(0,index);
                               String oldTextchild=oldText.substring(last);
                               Matcher matcher = pattern.matcher(oldTextchild);
                               if (matcher.find()){
@@ -195,7 +193,10 @@ public class ChatActivity extends AppCompatActivity {
                               }
                           }else {
                               //删除字符
-                              editable.delete(index-1, index);
+                              //先判断光标前面的字符串是否为空
+                              if(!TextUtils.isEmpty(editText.getText().toString().substring(0,index))){
+                                  editable.delete(index-1, index);
+                              }
                           }
                         }
 
@@ -546,6 +547,7 @@ public class ChatActivity extends AppCompatActivity {
             session.putExtra(SlideActivity.XMPPReceiver.SESSION,1);
             sendBroadcast(session);
         }
+
 //        if (uCount<=0){
 //            getContentResolver().insert(SmsProvider.URI_SMS,
 //                    values,

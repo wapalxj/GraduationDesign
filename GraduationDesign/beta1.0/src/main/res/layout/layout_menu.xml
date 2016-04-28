@@ -21,17 +21,60 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <ListView
-        android:layout_weight="2.93"
-        android:id="@+id/menu_listview"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="2.5"
+        android:id="@+id/menu_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
         android:listSelector="@android:color/transparent" >
-    </ListView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="#FFF"
+                android:text="账户："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/mine_account"
+                android:textSize="24sp"
+                android:textColor="#FFF"
+                android:text="xxx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="#FFF"
+                android:text="昵称："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/mine_nickname"
+                android:text="xxx"
+                android:textSize="24sp"
+                android:textColor="#FFF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/change_nickname"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <Button
+            android:layout_marginTop="150dp"
+            android:id="@+id/close_cur_account"
+            android:text="退出当前账号"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_weight="1.06"
@@ -40,6 +83,7 @@
         android:layout_height="0dp">
 
         <TextView
+            android:id="@+id/slide_setting"
             android:textColor="#FFF"
             android:layout_gravity="bottom"
             android:text="设置"
@@ -47,24 +91,10 @@
             android:drawableLeft="@mipmap/starhalf_pressed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
-        <TextView
-            android:textColor="#FFF"
-            android:layout_gravity="bottom"
-            android:drawableLeft="@mipmap/staroff_normal"
-            android:text="设置"
-            android:textSize="12sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2"
-            android:layout_alignTop="@+id/textView"
-            android:layout_toRightOf="@+id/textView"
-            android:layout_toEndOf="@+id/textView"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp" />
+
 
         <TextView
             android:textColor="#FFF"

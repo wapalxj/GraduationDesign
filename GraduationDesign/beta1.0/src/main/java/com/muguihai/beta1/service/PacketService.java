@@ -18,6 +18,7 @@ import com.muguihai.beta1.provider.SessionProvider;
 import com.muguihai.beta1.provider.SmsProvider;
 import com.muguihai.beta1.utils.PinyinUtil;
 import com.muguihai.beta1.utils.ThreadUtils;
+import com.muguihai.beta1.utils.ToastUtils;
 
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.RosterEntry;
@@ -27,6 +28,7 @@ import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smackx.OfflineMessageManager;
+import org.jivesoftware.smackx.packet.VCard;
 
 import java.util.Iterator;
 
@@ -143,17 +145,18 @@ public class PacketService extends Service {
                         Iterator<Message> it = offManager.getMessages();
                         while (it.hasNext()) {
                             Message message = it.next();
-                            Log.i("收到离线消息", "from【" + message.getFrom() + "】 message: " + message.getBody());
-                            String sessionAccount=message.getFrom().substring(0,message.getFrom().indexOf("@"))+"@"+LoginActivity.SERVICENAME;
-                            Log.i("offffffffffff",sessionAccount);
-                            saveMessage(sessionAccount,message);
-                            saveOrUpdateSession(sessionAccount,message);
+//                            Log.i("收到离线消息", "from【" + message.getFrom() + "】 message: " + message.getBody());
+                           if (message.getFrom().contains("@")){
+                               String sessionAccount=message.getFrom().substring(0,message.getFrom().indexOf("@"))+"@"+LoginActivity.SERVICENAME;
+                               Log.i("offffffffffff",sessionAccount);
+                               saveMessage(sessionAccount,message);
+                               saveOrUpdateSession(sessionAccount,message);
+                           }
                         }
                         offManager.deleteMessages();//最后进行删除处理
                     } catch (XMPPException e) {
                         e.printStackTrace();
                     }
-
                     //设置上线
                     Presence presence = new Presence(Presence.Type.available);
                     XMPPService.conn.sendPacket(presence);
@@ -223,6 +226,7 @@ public class PacketService extends Service {
         String nickName=entry.getName();
         String pinyinName=PinyinUtil.strToPinyin(account);
         String groupName="Friends";
+        String presence=Presence.Type.unavailable.toString();
         String belong_to=XMPPService.current_account;
         if (nickName==null||"".equals(nickName)){
             nickName=account.substring(0,account.indexOf("@"));
@@ -230,7 +234,7 @@ public class PacketService extends Service {
 
         values.put(ContactOpenHelper.ContactTable.ACCOUNT,account);
         values.put(ContactOpenHelper.ContactTable.NICKNAME,nickName);
-        values.put(ContactOpenHelper.ContactTable.AVATAR, "0");
+        values.put(ContactOpenHelper.ContactTable.PRESENCE, presence);
         values.put(ContactOpenHelper.ContactTable.PINYIN, pinyinName);
         values.put(ContactOpenHelper.ContactTable.GROUP, groupName);
         values.put(ContactOpenHelper.ContactTable.BELONG_TO, belong_to);
