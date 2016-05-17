@@ -53,10 +53,7 @@ public class MineFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         init();
         super.onCreate(savedInstanceState);
-
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

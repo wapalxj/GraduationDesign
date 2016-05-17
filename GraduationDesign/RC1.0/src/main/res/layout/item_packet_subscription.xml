@@ -72,14 +72,16 @@
                 android:text="[好友请求]"
                 android:textColor="#ff1c04"
                 android:textSize="20sp"/>
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="请求加你为好友"
-                android:textSize="20sp"/>
+
 
         </LinearLayout>
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请求加你为好友"
+            android:textSize="20sp"/>
 
     </LinearLayout>
 

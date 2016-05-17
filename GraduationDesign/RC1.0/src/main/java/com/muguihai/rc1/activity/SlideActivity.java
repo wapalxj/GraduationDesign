@@ -151,7 +151,7 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
                 System.out.println(addr);
                 System.out.println(email);
 
-                ToastUtils.myToast(getApplicationContext(),"name---"+curNickname);
+//                ToastUtils.myToast(getApplicationContext(),"name---"+curNickname);
                 if (curNickname==null){
                     curNickname=curAccount.substring(0,curAccount.indexOf("@"));
                 }
@@ -219,11 +219,11 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
             public void onClose() {
                 Log.i("slideMenu","onClose");
                 //头像抖动
-                ViewPropertyAnimator.animate(main_head)
-                        .translationXBy(15)
-                        .setInterpolator(new CycleInterpolator(4))
-                        .setDuration(500)
-                        .start();
+//                ViewPropertyAnimator.animate(main_head)
+//                        .translationXBy(15)
+//                        .setInterpolator(new CycleInterpolator(4))
+//                        .setDuration(500)
+//                        .start();
             }
 
             @Override
@@ -341,9 +341,9 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
                         notifications_editor.putInt("packet_" + "session_" + XMPPService.current_account, packet_counts);
                         notifications_editor.commit();
                         mToolBarUtil.toolBarNotification(2, packet_counts);
-                        ToastUtils.myToast(context, "mine_action+1");
+//                        ToastUtils.myToast(context, "mine_action+1");
                     } else {//处理，消息-1
-                        ToastUtils.myToast(context, "mine_action-1");
+//                        ToastUtils.myToast(context, "mine_action-1");
                         packet_counts--;
                         if (packet_counts < 0) {
                             packet_counts = 0;
@@ -370,7 +370,7 @@ public class SlideActivity extends AppCompatActivity implements ToolBarUtil.OnTo
                         notifications_editor.commit();
                         mToolBarUtil.toolBarNotification(0, session_counts);
                     } else if (intent.getExtras().getInt(SESSION) == 2) {//处理，全部删除
-                        ToastUtils.myToast(context, "mine_action-all");
+//                        ToastUtils.myToast(context, "mine_action-all");
                         int nums = intent.getExtras().getInt(SESSION_ALL);
                         session_counts -= nums;
                         if (session_counts < 0) {

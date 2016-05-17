@@ -89,7 +89,7 @@ public class RosterSettingActivity extends AppCompatActivity implements View.OnC
         tv_chat_setting_nickname.setText(nickname==null?"保密":nickname);
         tv_chat_setting_signature.setText(signature==null?"保密":signature);
         tv_chat_setting_gender.setText(gender==null?"保密":gender);
-        tv_chat_setting_tel.setText(tel==null?"保密":gender);
+        tv_chat_setting_tel.setText(tel==null?"保密":tel);
         tv_chat_setting_addr.setText(addr==null?"保密":addr);
         tv_chat_setting_email.setText(email==null?"保密":email);
     }
@@ -113,6 +113,11 @@ public class RosterSettingActivity extends AppCompatActivity implements View.OnC
                                         if (XMPPService.checkConnection()){
                                             RosterEntry entry=XMPPService.conn.getRoster().getEntry(account);
                                             XMPPService.conn.getRoster().removeEntry(entry);
+
+                                            //删除联系人
+                                            getContentResolver().delete(ContactsProvider.URI_CONTACT,
+                                                    ContactOpenHelper.ContactTable.ACCOUNT + "=? and "+ContactOpenHelper.ContactTable.BELONG_TO+ "=?"
+                                                    , new String[]{account,XMPPService.current_account});
 
                                             // 删除聊天记录
                                             getContentResolver().delete(

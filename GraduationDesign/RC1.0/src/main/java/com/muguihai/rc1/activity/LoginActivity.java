@@ -21,7 +21,7 @@ import com.muguihai.rc1.utils.LoginTask;
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String SERVER ="113.55.50.43";//IP
+    public static final String SERVER ="113.55.52.73";//IP
     public static final int PORT=5222;//port
     public static final String SERVICENAME	= "vero";
     private EditText mEtUsername;

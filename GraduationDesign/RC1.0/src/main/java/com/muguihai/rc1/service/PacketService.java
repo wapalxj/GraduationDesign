@@ -80,7 +80,6 @@ public class PacketService extends Service {
                                 subscribed.setTo(from);
                                 XMPPService.conn.sendPacket(subscribed);
                             }
-
                         }else if (type.equals(Presence.Type.subscribed)){
                             //对方同意加我为好友
                             RosterEntry entry=XMPPService.conn.getRoster().getEntry(from);
@@ -110,29 +109,30 @@ public class PacketService extends Service {
                                 XMPPService.conn.sendPacket(unsubscribe);
                                 RosterEntry entry =XMPPService.conn.getRoster().getEntry(from);
                                 XMPPService.conn.getRoster().removeEntry(entry);
+                                //删除联系人
+                                getContentResolver().delete(ContactsProvider.URI_CONTACT,
+                                        ContactOpenHelper.ContactTable.ACCOUNT + "=? and "+ContactOpenHelper.ContactTable.BELONG_TO+ "=?"
+                                        , new String[]{from,XMPPService.current_account});
+
+                                // 删除聊天记录
+                                getContentResolver().delete(
+                                        SmsProvider.URI_SMS,
+                                        SmsOpenHelper.SmsTable.SESSION_ACCOUNT+"=? and "+SmsOpenHelper.SmsTable.SESSION_BELONG_TO+ "=?"
+                                        ,
+                                        new String[]{from,XMPPService.current_account});
+
+                                // 删除会话
+                                getContentResolver().delete(
+                                        SessionProvider.URI_SESSION,
+                                        SessionOpenHelper.SessionTable.SESSION_ACCOUNT+"=? and "+SessionOpenHelper.SessionTable.SESSION_BELONG_TO+ "=?"
+                                        ,
+                                        new String[]{from,XMPPService.current_account});
                             } catch (XMPPException e) {
                                 e.printStackTrace();
                             }
 
 
-                            //删除联系人
-                            getContentResolver().delete(ContactsProvider.URI_CONTACT,
-                                    ContactOpenHelper.ContactTable.ACCOUNT + "=? and "+ContactOpenHelper.ContactTable.BELONG_TO+ "=?"
-                                    , new String[]{from,XMPPService.current_account});
 
-                            // 删除聊天记录
-                            getContentResolver().delete(
-                                    SmsProvider.URI_SMS,
-                                    SmsOpenHelper.SmsTable.SESSION_ACCOUNT+"=? and "+SmsOpenHelper.SmsTable.SESSION_BELONG_TO+ "=?"
-                                    ,
-                                    new String[]{from,XMPPService.current_account});
-
-                            // 删除会话
-                            getContentResolver().delete(
-                                    SessionProvider.URI_SESSION,
-                                    SessionOpenHelper.SessionTable.SESSION_ACCOUNT+"=? and "+SessionOpenHelper.SessionTable.SESSION_BELONG_TO+ "=?"
-                                    ,
-                                    new String[]{from,XMPPService.current_account});
                         }
                     }
 

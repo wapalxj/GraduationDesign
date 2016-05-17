@@ -185,7 +185,7 @@ public class ChatActivity extends AppCompatActivity {
                               Matcher matcher = pattern.matcher(oldTextchild);
                               if (matcher.find()){
                                   //删除表情
-                                  ToastUtils.myToast(getApplicationContext(), "删除"+matcher.group());
+//                                  ToastUtils.myToast(getApplicationContext(), "删除"+matcher.group());
                                   editable.delete(index-oldTextchild.length(), index);
                               }else {
                                   //删除字符
@@ -413,7 +413,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void run() {
                 final String text=editText.getText().toString();
-                ToastUtils.myToast(getApplicationContext(), text);
+//                ToastUtils.myToast(getApplicationContext(), text);
                 //3.初始化消息
                 Message msg = new Message();
                 msg.setFrom(XMPPService.current_account);//从当前登录的用户

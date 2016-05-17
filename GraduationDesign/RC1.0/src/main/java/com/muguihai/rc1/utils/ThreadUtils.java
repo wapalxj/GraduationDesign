@@ -8,7 +8,6 @@ import android.os.Handler;
 public class ThreadUtils {
     public static Handler mHandler=new Handler();
 
-
     //子线程
     public static  void runInThread(Runnable task){
         new Thread(task).start();

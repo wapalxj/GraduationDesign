@@ -24,8 +24,6 @@ public class AddFriendActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
         initView();
-
-
     }
 
     private void initView(){
