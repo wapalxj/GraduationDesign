@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="graduationdesign.muguihai.com.v022.ChatActivity">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:textSize="24sp"
+        android:background="#1abbdd"
+        android:text="@string/hello_world"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+    <ListView
+        android:id="@+id/listview"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:divider="#d12f2f2f"
+        android:dividerHeight="0dp"
+        android:layout_height="0dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edittext"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_send"
+            android:text="send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>
